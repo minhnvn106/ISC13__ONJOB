@@ -17,18 +17,15 @@ import com.example.iscmanagement.service.MajorService;
 public class MajorController {
 	@Autowired
 	private MajorService majorService;
-
 	@RequestMapping(value = { "listMajors" }, method = RequestMethod.GET)
 	public List<Major> getAllMajor() {
 
 		return majorService.getAllMajor();
 	}
-
 	@RequestMapping(value = { "deleteMajor" }, method = RequestMethod.GET)
 	public void deleteMajor(@RequestParam Long id) {
 		majorService.deleteMajor(id);
 	}
-
 	@RequestMapping(path = { "updateMajor", "addMajor" }, method = RequestMethod.POST)
 	public void updateStudent(@RequestBody Major major) {
 		System.out.println(major);
