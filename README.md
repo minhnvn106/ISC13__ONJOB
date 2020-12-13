@@ -10,7 +10,7 @@ THÀNH VIÊN NHÓM
 5.	NGUYỄN QUỐC THỊNH  - 0348948537 - quocthinhadc102@gmail.com
 
 
-Task 1 (4/12/2020-18/12/2020)
+Sprint 1 (4/12/2020-18/12/2020)
 Create CRUD function of:
 - Instructor Table
 - Major Table
