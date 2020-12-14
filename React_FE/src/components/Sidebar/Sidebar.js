@@ -24,7 +24,7 @@ export default function Sidebar() {
             className="md:block text-left md:pb-2 text-gray-700 mr-0 inline-block whitespace-no-wrap text-sm uppercase font-bold p-4 px-0"
             to="/"
           >
-            Notus React
+            ISC Quang Trung
           </Link>
           {/* User */}
           <ul className="md:hidden items-center flex flex-wrap list-none">
@@ -50,7 +50,7 @@ export default function Sidebar() {
                     className="md:block text-left md:pb-2 text-gray-700 mr-0 inline-block whitespace-no-wrap text-sm uppercase font-bold p-4 px-0"
                     to="/"
                   >
-                    Notus React
+                    ISC Quang Trung
                   </Link>
                 </div>
                 <div className="w-6/12 flex justify-end">
@@ -79,12 +79,12 @@ export default function Sidebar() {
             <hr className="my-4 md:min-w-full" />
             {/* Heading */}
             <h6 className="md:min-w-full text-gray-600 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
-              Admin Layout Pages
+              Chương trình
             </h6>
             {/* Navigation */}
 
             <ul className="md:flex-col md:min-w-full flex flex-col list-none">
-              <li className="items-center">
+              {/* <li className="items-center">
                 <Link
                   className={
                     "text-xs uppercase py-3 font-bold block " +
@@ -154,28 +154,6 @@ export default function Sidebar() {
                 <Link
                   className={
                     "text-xs uppercase py-3 font-bold block " +
-                    (window.location.href.indexOf("/admin/rooms") !== -1
-                      ? "text-blue-500 hover:text-blue-600"
-                      : "text-gray-800 hover:text-gray-600")
-                  }
-                  to="/admin/tables"
-                >
-                  <i
-                    className={
-                      "fas fa-table mr-2 text-sm " +
-                      (window.location.href.indexOf("/admin/rooms") !== -1
-                        ? "opacity-75"
-                        : "text-gray-400")
-                    }
-                  ></i>{" "}
-                  Phòng học
-                </Link>
-              </li>
-
-              <li className="items-center">
-                <Link
-                  className={
-                    "text-xs uppercase py-3 font-bold block " +
                     (window.location.href.indexOf("/admin/maps") !== -1
                       ? "text-blue-500 hover:text-blue-600"
                       : "text-gray-800 hover:text-gray-600")
@@ -193,17 +171,202 @@ export default function Sidebar() {
                   Maps
                 </Link>
               </li>
+               */}
+              
+              {/* EDIT */}
+              <li className="items-center">
+                <Link
+                  className={
+                    "text-xs uppercase py-3 font-bold block " +
+                    (window.location.href.indexOf("/admin/intakes") !== -1
+                      ? "text-blue-500 hover:text-blue-600"
+                      : "text-gray-800 hover:text-gray-600")
+                  }
+                  to="/admin/intakes"
+                >
+                  <i
+                    className={
+                      "fas fa-table mr-2 text-sm " +
+                      (window.location.href.indexOf("/admin/intakes") !== -1
+                        ? "opacity-75"
+                        : "text-gray-400")
+                    }
+                  ></i>{" "}
+                  Khóa học+
+                </Link>
+              </li>
+
+              <li className="items-center">
+                <Link
+                  className={
+                    "text-xs uppercase py-3 font-bold block " +
+                    (window.location.href.indexOf("/admin/majors") !== -1
+                      ? "text-blue-500 hover:text-blue-600"
+                      : "text-gray-800 hover:text-gray-600")
+                  }
+                  to="/admin/majors"
+                >
+                  <i
+                    className={
+                      "fas fa-table mr-2 text-sm " +
+                      (window.location.href.indexOf("/admin/majors") !== -1
+                        ? "opacity-75"
+                        : "text-gray-400")
+                    }
+                  ></i>{" "}
+                  Ngành học
+                </Link>
+              </li>
+
+              <li className="items-center">
+                <Link
+                  className={
+                    "text-xs uppercase py-3 font-bold block " +
+                    (window.location.href.indexOf("/admin/subjects") !== -1
+                      ? "text-blue-500 hover:text-blue-600"
+                      : "text-gray-800 hover:text-gray-600")
+                  }
+                  to="/admin/subjects"
+                >
+                  <i
+                    className={
+                      "fas fa-table mr-2 text-sm " +
+                      (window.location.href.indexOf("/admin/subjects") !== -1
+                        ? "opacity-75"
+                        : "text-gray-400")
+                    }
+                  ></i>{" "}
+                  Môn học
+                </Link>
+              </li>
+              
+              <li className="items-center">
+                <Link
+                  className={
+                    "text-xs uppercase py-3 font-bold block " +
+                    (window.location.href.indexOf("/admin/rooms") !== -1
+                      ? "text-blue-500 hover:text-blue-600"
+                      : "text-gray-800 hover:text-gray-600")
+                  }
+                  to="/admin/rooms"
+                >
+                  <i
+                    className={
+                      "fas fa-table mr-2 text-sm " +
+                      (window.location.href.indexOf("/admin/rooms") !== -1
+                        ? "opacity-75"
+                        : "text-gray-400")
+                    }
+                  ></i>{" "}
+                  Phòng học
+                </Link>
+              </li>              
             </ul>
 
             {/* Divider */}
             <hr className="my-4 md:min-w-full" />
             {/* Heading */}
             <h6 className="md:min-w-full text-gray-600 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
-              Auth Layout Pages
+              Thành viên
             </h6>
-            {/* Navigation */}
+            <ul className="md:flex-col md:min-w-full flex flex-col list-none">
+              <li className="items-center">
+                <Link
+                  className={
+                    "text-xs uppercase py-3 font-bold block " +
+                    (window.location.href.indexOf("/admin/students") !== -1
+                      ? "text-blue-500 hover:text-blue-600"
+                      : "text-gray-800 hover:text-gray-600")
+                  }
+                  to="/admin/students"
+                >
+                  <i
+                    className={
+                      "fas fa-table mr-2 text-sm " +
+                      (window.location.href.indexOf("/admin/students") !== -1
+                        ? "opacity-75"
+                        : "text-gray-400")
+                    }
+                  ></i>{" "}
+                  Sinh viên
+                </Link>
+              </li>
+              <li className="items-center">
+                <Link
+                  className={
+                    "text-xs uppercase py-3 font-bold block " +
+                    (window.location.href.indexOf("/admin/instructors") !== -1
+                      ? "text-blue-500 hover:text-blue-600"
+                      : "text-gray-800 hover:text-gray-600")
+                  }
+                  to="/admin/instructors"
+                >
+                  <i
+                    className={
+                      "fas fa-table mr-2 text-sm " +
+                      (window.location.href.indexOf("/admin/instructors") !== -1
+                        ? "opacity-75"
+                        : "text-gray-400")
+                    }
+                  ></i>{" "}
+                  Giảng viên
+                </Link>
+              </li>
+            </ul>
 
-            <ul className="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
+            <hr className="my-4 md:min-w-full" />
+            {/* Heading */}
+            <h6 className="md:min-w-full text-gray-600 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
+              Liên hệ
+            </h6>
+            <ul className="md:flex-col md:min-w-full flex flex-col list-none">
+              <li className="items-center">
+                <Link
+                  className={
+                    "text-xs uppercase py-3 font-bold block " +
+                    (window.location.href.indexOf("/admin/universities") !== -1
+                      ? "text-blue-500 hover:text-blue-600"
+                      : "text-gray-800 hover:text-gray-600")
+                  }
+                  to="/admin/universities"
+                >
+                  <i
+                    className={
+                      "fas fa-table mr-2 text-sm " +
+                      (window.location.href.indexOf("/admin/universities") !== -1
+                        ? "opacity-75"
+                        : "text-gray-400")
+                    }
+                  ></i>{" "}
+                  Đại học
+                </Link>
+              </li>
+              <li className="items-center">
+                <Link
+                  className={
+                    "text-xs uppercase py-3 font-bold block " +
+                    (window.location.href.indexOf("/admin/companies") !== -1
+                      ? "text-blue-500 hover:text-blue-600"
+                      : "text-gray-800 hover:text-gray-600")
+                  }
+                  to="/admin/companies"
+                >
+                  <i
+                    className={
+                      "fas fa-table mr-2 text-sm " +
+                      (window.location.href.indexOf("/admin/companies") !== -1
+                        ? "opacity-75"
+                        : "text-gray-400")
+                    }
+                  ></i>{" "}
+                  Công ty
+                </Link>
+              </li>
+            </ul>
+
+            
+            {/* Navigation */}
+            {/* <ul className="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
               <li className="items-center">
                 <Link
                   className="text-gray-800 hover:text-gray-600 text-xs uppercase py-3 font-bold block"
@@ -223,18 +386,60 @@ export default function Sidebar() {
                   Register
                 </Link>
               </li>
-            </ul>
+            </ul> */}
 
             {/* Divider */}
             <hr className="my-4 md:min-w-full" />
             {/* Heading */}
             <h6 className="md:min-w-full text-gray-600 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
-              No Layout Pages
+              Tài khoản
             </h6>
             {/* Navigation */}
 
             <ul className="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
               <li className="items-center">
+                <Link
+                  className="text-gray-800 hover:text-gray-600 text-xs uppercase py-3 font-bold block"
+                  to="/profile"
+                >
+                  <i className="fas fa-user-circle text-gray-500 mr-2 text-sm"></i>{" "}
+                  Admin
+                </Link>
+              </li>
+
+              <li className="items-center">
+                <Link
+                  className={
+                    "text-xs uppercase py-3 font-bold block " +
+                    (window.location.href.indexOf("/admin/settings") !== -1
+                      ? "text-blue-500 hover:text-blue-600"
+                      : "text-gray-800 hover:text-gray-600")
+                  }
+                  to="/admin/settings"
+                >
+                  <i
+                    className={
+                      "fas fa-tools mr-2 text-sm " +
+                      (window.location.href.indexOf("/admin/settings") !== -1
+                        ? "opacity-75"
+                        : "text-gray-400")
+                    }
+                  ></i>{" "}
+                  Cài đặt
+                </Link>
+              </li>
+
+              <li className="items-center">
+                <Link
+                  className="text-gray-800 hover:text-gray-600 text-xs uppercase py-3 font-bold block"
+                  to="/auth/login"
+                >
+                  <i className="fas fa-fingerprint text-gray-500 mr-2 text-sm"></i>{" "}
+                  Đăng xuất
+                </Link>
+              </li>
+
+              {/* <li className="items-center">
                 <Link
                   className="text-gray-800 hover:text-gray-600 text-xs uppercase py-3 font-bold block"
                   to="/landing"
@@ -242,27 +447,17 @@ export default function Sidebar() {
                   <i className="fas fa-newspaper text-gray-500 mr-2 text-sm"></i>{" "}
                   Landing Page
                 </Link>
-              </li>
-
-              <li className="items-center">
-                <Link
-                  className="text-gray-800 hover:text-gray-600 text-xs uppercase py-3 font-bold block"
-                  to="/profile"
-                >
-                  <i className="fas fa-user-circle text-gray-500 mr-2 text-sm"></i>{" "}
-                  Profile Page
-                </Link>
-              </li>
+              </li> */}
             </ul>
 
             {/* Divider */}
             <hr className="my-4 md:min-w-full" />
             {/* Heading */}
-            <h6 className="md:min-w-full text-gray-600 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
+            {/* <h6 className="md:min-w-full text-gray-600 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
               Documentation
             </h6>
             {/* Navigation */}
-            <ul className="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
+            {/* <ul className="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
               <li className="inline-flex">
                 <a
                   href="https://www.creative-tim.com/learning-lab/tailwind/react/colors/notus"
@@ -350,8 +545,8 @@ export default function Sidebar() {
                   VueJS
                 </a>
               </li>
-            </ul>
-          </div>
+            </ul>*/}
+          </div> 
         </div>
       </nav>
     </>

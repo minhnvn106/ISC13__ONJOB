@@ -5,7 +5,7 @@ import React from "react";
 import RoomTable from "components/CardTables/RoomTable.js";
 // import CardTable from "components/Cards/CardTable.js";
 
-export default function Tables() {
+export default function Rooms() {
   return (
     <>
     {/* Màu sáng */}

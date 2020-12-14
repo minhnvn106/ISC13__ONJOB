@@ -17,7 +17,10 @@ import Dashboard from "views/admin/Dashboard.js";
 import Maps from "views/admin/Maps.js";
 import Settings from "views/admin/Settings.js";
 import Tables from "views/admin/Tables.js";
-import Rooms from "views/admin/Rooms.js"
+import Rooms from "views/admin/Rooms.js";
+import Instructors from "views/admin/Instructors.js";
+import Intakes from "views/admin/Intakes.js";
+import Majors from "views/admin/Majors.js";
 
 export default function Admin() {
   return (
@@ -33,7 +36,11 @@ export default function Admin() {
             <Route path="/admin/maps" exact component={Maps} />
             <Route path="/admin/settings" exact component={Settings} />
             <Route path="/admin/tables" exact component={Tables} />
+            
             <Route path="/admin/rooms" exact component={Rooms} />
+            <Route path="/admin/intakes" exact component={Intakes} />
+            <Route path="/admin/instructors" exact component={Instructors} />
+            <Route path="/admin/majors" exact component={Majors} />
             <Redirect from="/admin" to="/admin/rooms" />
           </Switch>
           <FooterAdmin />
