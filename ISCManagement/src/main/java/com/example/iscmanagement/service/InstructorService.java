@@ -43,5 +43,6 @@ public class InstructorService {
 	//delete
 	public void deleteById(Long id) {
 		instructorRepository.deleteById(id);
+
 	}
 }
