@@ -5,34 +5,33 @@ import { Button, Modal } from 'react-bootstrap';
 
 
 // components
-
 import { getList } from './../../assets/services/majorService';
 
 export default function MajorTable({ color }) {
-  //Button
-  const [show, setShow] = useState(false);
+   //Button
+   const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  
-  //calling API
-    const [list, setList] = useState([]);
-
-    // Mount Success
-    useEffect(() => {
-    let mounted = true;
-    getList()
-        .then(items => {
-        if(mounted) {
-            setList(items)
-        }
-        })
-
-    // Mount Fail
-    return () => mounted = false;
-    }, [])
-    
-    // Template
+   const handleClose = () => setShow(false);
+   const handleShow = () => setShow(true);
+   
+   //calling API
+     const [list, setList] = useState([]);
+ 
+     // Mount Success
+     useEffect(() => {
+     let mounted = true;
+     getList()
+         .then(items => {
+         if(mounted) {
+             setList(items)
+         }
+         })
+ 
+     // Mount Fail
+     return () => mounted = false;
+     }, [])
+     
+     // Template
     return (
       <>
         {/* Colors */}
@@ -55,91 +54,83 @@ export default function MajorTable({ color }) {
                   DANH SÁCH NGÀNH HỌC
                 </h3>
               </div>
+                
+                <div className="col-auto">
+                 <Button variant="primary" onClick={handleShow}>
+                 <i i className="fas fa-plus"></i> Thêm
+                 </Button>
+                 <Modal
+                    show={show}
+                    onHide={handleClose}
+                    backdrop="static"
+                    keyboard={false}
+                  >
+                  <Modal.Header closeButton>
+                  <Modal.Title>
+                    <h5 className="modal-title" id="exampleModalLabel">
+                      Ngành mới
+                    </h5>
+                 </Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+               <form>
+                 <div className="form-group row ">
+                   <label
+                     for="txtCode"
+                     className="col-sm-3 col-form-label "
+                   >
+                     Mã ngành
+                   </label>
+                   <div className="col-sm-9 ">
+                     <input
+                       type="text"
+                       className="form-control"
+                       id="txtCode"
+                   />
+                   </div>
+                 </div>
+ 
+                 <div className="form-group row ">
+                     <label
+                       for="txtName"
+                       className="col-sm-3 col-form-label "
+                     >
+                           Tên ngành
+                     </label>
+                     <div className="col-sm-9 ">
+                       <input
+                         type="text"
+                         className="form-control"
+                         id="txtName"
+                     />
+                     </div>
+                   </div>              
+                 </form>
+               </Modal.Body>
+               <Modal.Footer>
+                 <button
+                 type="button"
+                 className="btn btn-secondary"
+                 data-dismiss="modal"
+                 onClick={handleClose}
+               >
+                 Thoát
+             </button>
+             <button 
+                 variant ="primary"
+                 type="submit"
+                 className="btn btn-primary"
+               >
+                 Lưu
+             </button>
+           </Modal.Footer>
+         </Modal>
+         
+        </div>
+         
 
-              <div className="col-auto">
-                <Button variant="primary" onClick={handleShow}>
-                <i i className="fas fa-plus"></i> Thêm
-                </Button>
-                <Modal
-              show={show}
-              onHide={handleClose}
-              backdrop="static"
-              keyboard={false}
-            >
-              <Modal.Header closeButton>
-                <Modal.Title>
-                  <h5 className="modal-title" id="exampleModalLabel">
-                    Ngành mới
-                  </h5>
-                </Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-              <form>
-                <div className="form-group row ">
-                  <label
-                    for="txtCode"
-                    className="col-sm-3 col-form-label "
-                  >
-                    Mã ngành
-                  </label>
-                  <div className="col-sm-9 ">
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="txtCode"
-                  />
-                  </div>
-                </div>
-
-                <div className="form-group row ">
-                    <label
-                      for="txtName"
-                      className="col-sm-3 col-form-label "
-                    >
-                          Tên ngành
-                    </label>
-                    <div className="col-sm-9 ">
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="txtName"
-                    />
-                    </div>
-                  </div>              
-                </form>
-              </Modal.Body>
-              <Modal.Footer>
-                <button
-                    type="button"
-                    className="btn btn-secondary"
-                    data-dismiss="modal"
-                    onClick={handleClose}
-                  >
-                    Thoát
-                </button>
-                <button 
-                    variant ="primary"
-                    type="submit"
-                    className="btn btn-primary"
-                  >
-                    Lưu
-                </button>
-              </Modal.Footer>
-            </Modal>
-            
-              </div>
-              {/* <div className="col-auto">
-              <button
-                    type="button"
-                    className="btn btn-primary"
-                    data-toggle="modal"
-                    data-target="#editModal"
-                  >
-                <i className="fas fa-plus"></i> Thêm
-              </button> */}
-
-            </div>
-          </div>
+         </div>
+       </div>
           <div className="block w-full overflow-x-auto">
             <table className="items-center w-full bg-transparent border-collapse">
               <thead>
@@ -177,10 +168,8 @@ export default function MajorTable({ color }) {
               <tbody>
                 {/* CÁCH 1: Một chức năng là một function kèm API và trang trí bảng */}
                     {/* <MajorGet/> */}
-
               
-
-                  {/* CÁCH 2: Tạo một File service chứa các funtion, sang trang View gọi ra list*/}
+                {/* CÁCH 2: Tạo một File service chứa các funtion, sang trang View gọi ra list*/}
                   {list.map(item => 
                   <tr key={item.majorID}>
                       <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 text-left flex items-center">
@@ -198,162 +187,11 @@ export default function MajorTable({ color }) {
                   </tr>)}
                 </tbody>
             </table>
-            {/* <div
-              className="modal fade"
-              id="editModal"
-              tabindex="-1"
-              aria-labelledby="exampleModalLabel"
-              aria-hidden="true"
-            >
-              <div className="modal-dialog">
-                <div className="modal-content">
-                  <div className="modal-header">
-                    <h5 className="modal-title" id="exampleModalLabel">
-                      Phòng mới
-                    </h5>
-                    <button
-                      type="button"
-                      className="close"
-                      data-dismiss="modal"
-                      aria-label="Close"
-                    >
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div className="modal-body">
-                    <form>
-                      <div className="form-group row ">
-                        <label
-                          for="txtCode"
-                          className="col-sm-3 col-form-label "
-                        >
-                          Mã Phòng
-                        </label>
-                        <div className="col-sm-9 ">
-                          <input
-                            type="text"
-                            className="form-control"
-                            id="txtCode"
-                          />
-                        </div>
-                      </div>
-
-                      <div className="form-group row ">
-                        <label
-                          for="txtName"
-                          className="col-sm-3 col-form-label "
-                        >
-                          Tên phòng
-                        </label>
-                        <div className="col-sm-9 ">
-                          <input
-                            type="text"
-                            className="form-control"
-                            id="txtName"
-                          />
-                        </div>
-                      </div>
-
-                      <div className="form-group row ">
-                        <label
-                          for="txtName"
-                          className="col-sm-3 col-form-label "
-                        >
-                          Loại phòng
-                        </label>
-                        <div className="col-sm-9 ">
-                          <div class="form-check">
-                            <div class="row py-2">
-                              <div class="col-sm-6">
-                                <input
-                                  class="form-check-input"
-                                  type="radio"
-                                  name="Gender"
-                                  id="rdGender"
-                                  value="1"
-                                />
-                                <label class="form-check-label" for="Radios1">
-                                  Lý thuyết
-                                </label>
-                              </div>
-                              <div class="col-sm-6">
-                                <input
-                                  class="form-check-input"
-                                  type="radio"
-                                  name="Gender"
-                                  id="rdGender"
-                                  value="2"
-                                />
-                                <label class="form-check-label" for="Radios1">
-                                  Thực hành
-                                </label>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="form-group row ">
-                        <label
-                          for="txtName"
-                          className="col-sm-3 col-form-label "
-                        >
-                          Tình trạng
-                        </label>
-                        <div className="col-sm-9 ">
-                          <div class="form-check">
-                            <div class="row py-2">
-                              <div class="col-sm-6">
-                                <input
-                                  class="form-check-input"
-                                  type="radio"
-                                  name="Status"
-                                  id="rdStatus"
-                                  value="1"
-                                />
-                                <label class="form-check-label" for="Radios2">
-                                  Còn hoạt động
-                                </label>
-                              </div>
-                              <div class="col-sm-6">
-                                <input
-                                  class="form-check-input"
-                                  type="radio"
-                                  name="Status"
-                                  id="rdStatus"
-                                  value="2"
-                                />
-                                <label class="form-check-label" for="Radios2">
-                                  Ngưng hoạt động
-                                </label>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                  <div className="modal-footer">
-                    <button
-                      type="button"
-                      className="btn btn-secondary"
-                      data-dismiss="modal"
-                    >
-                      Thoát
-                    </button>
-                    <button type="button" className="btn btn-primary">
-                      Lưu
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>*/}
-          </div> 
+            </div>
         </div>
       </>
-    );
-  
-}
+    ); 
+  }
 
 MajorTable.defaultProps = {
   color: "light",
