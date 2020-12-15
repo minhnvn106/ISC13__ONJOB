@@ -1,11 +1,38 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useEffect, useState } from 'react';
 import PropTypes from "prop-types";
+// import axios from 'axios';
+import { Button, Modal } from 'react-bootstrap';
+
 
 // components
 
-import majorService from "assets/services/majorService";
+import { getList } from './../../assets/services/majorService';
+
 export default function MajorTable({ color }) {
-    //calling API
+  //Button
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  
+  //calling API
+    const [list, setList] = useState([]);
+
+    // Mount Success
+    useEffect(() => {
+    let mounted = true;
+    getList()
+        .then(items => {
+        if(mounted) {
+            setList(items)
+        }
+        })
+
+    // Mount Fail
+    return () => mounted = false;
+    }, [])
+    
+    // Template
     return (
       <>
         {/* Colors */}
@@ -30,15 +57,87 @@ export default function MajorTable({ color }) {
               </div>
 
               <div className="col-auto">
+                <Button variant="primary" onClick={handleShow}>
+                <i i className="fas fa-plus"></i> Thêm
+                </Button>
+                <Modal
+              show={show}
+              onHide={handleClose}
+              backdrop="static"
+              keyboard={false}
+            >
+              <Modal.Header closeButton>
+                <Modal.Title>
+                  <h5 className="modal-title" id="exampleModalLabel">
+                    Ngành mới
+                  </h5>
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+              <form>
+                <div className="form-group row ">
+                  <label
+                    for="txtCode"
+                    className="col-sm-3 col-form-label "
+                  >
+                    Mã ngành
+                  </label>
+                  <div className="col-sm-9 ">
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="txtCode"
+                  />
+                  </div>
+                </div>
+
+                <div className="form-group row ">
+                    <label
+                      for="txtName"
+                      className="col-sm-3 col-form-label "
+                    >
+                          Tên ngành
+                    </label>
+                    <div className="col-sm-9 ">
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="txtName"
+                    />
+                    </div>
+                  </div>              
+                </form>
+              </Modal.Body>
+              <Modal.Footer>
                 <button
-                  type="button"
-                  className="btn btn-primary"
-                  data-toggle="modal"
-                  data-target="#editModal"
-                >
-                  <i className="fas fa-plus"></i> Thêm
+                    type="button"
+                    className="btn btn-secondary"
+                    data-dismiss="modal"
+                    onClick={handleClose}
+                  >
+                    Thoát
                 </button>
+                <button 
+                    variant ="primary"
+                    type="submit"
+                    className="btn btn-primary"
+                  >
+                    Lưu
+                </button>
+              </Modal.Footer>
+            </Modal>
+            
               </div>
+              {/* <div className="col-auto">
+              <button
+                    type="button"
+                    className="btn btn-primary"
+                    data-toggle="modal"
+                    data-target="#editModal"
+                  >
+                <i className="fas fa-plus"></i> Thêm
+              </button> */}
+
             </div>
           </div>
           <div className="block w-full overflow-x-auto">
@@ -76,67 +175,30 @@ export default function MajorTable({ color }) {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 text-left flex items-center">
-                    <img
-                      src={require("assets/img/angular.jpg")}
-                      className="h-12 w-12 bg-white rounded-full border"
-                      alt="..."
-                    ></img>{" "}
-                    <span
-                      className={
-                        "ml-3 font-bold " +
-                        +(color === "light" ? "text-gray-700" : "text-white")
-                      }
-                    >
-                      Lập trình Angular
-                    </span>
-                  </th>
-                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
-                    AN609
-                  </td>
+                {/* CÁCH 1: Một chức năng là một function kèm API và trang trí bảng */}
+                    {/* <MajorGet/> */}
 
-                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 text-right">
-                    <a href="/">
-                      <i className="fas fa-edit text-primary"></i>
-                    </a>
-                    <a href="/">
-                      <i className="fas fa-trash-alt text-danger"></i>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 text-left flex items-center">
-                    <img
-                      src={require("assets/img/react.jpg")}
-                      className="h-12 w-12 bg-white rounded-full border"
-                      alt="..."
-                    ></img>{" "}
-                    <span
-                      className={
-                        "ml-3 font-bold " +
-                        +(color === "light" ? "text-gray-700" : "text-white")
-                      }
-                    >
-                      Lập trình React
-                    </span>
-                  </th>
-                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
-                    RE603
-                  </td>
+              
 
-                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 text-right">
-                    <a href="/">
-                      <i className="fas fa-edit text-primary"></i>
-                    </a>
-                    <a href="/">
-                      <i className="fas fa-trash-alt text-danger"></i>
-                    </a>
-                  </td>
-                </tr>
-              </tbody>
+                  {/* CÁCH 2: Tạo một File service chứa các funtion, sang trang View gọi ra list*/}
+                  {list.map(item => 
+                  <tr key={item.majorID}>
+                      <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 text-left flex items-center">
+                        {item.majorName}
+                      </th>
+                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">{item.majorCode}</td>
+                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 text-right">
+                        <a href="/">
+                        <i className="fas fa-edit text-primary"></i>
+                        </a>
+                        <a href="/">
+                        <i className="fas fa-trash-alt text-danger"></i>
+                        </a>
+                      </td>
+                  </tr>)}
+                </tbody>
             </table>
-            <div
+            {/* <div
               className="modal fade"
               id="editModal"
               tabindex="-1"
@@ -285,8 +347,8 @@ export default function MajorTable({ color }) {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </div>*/}
+          </div> 
         </div>
       </>
     );

@@ -3,7 +3,8 @@ import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import "assets/styles/tailwind.css";
+// import "assets/styles/tailwind.css";
+import "assets/styles/minhvp.css";
 
 // layouts
 
@@ -17,10 +18,11 @@ import Profile from "views/Profile.js";
 import Index from "views/Index.js";
 
 // dependancys
+
 // import 'bootstrap/dist/js/bootstrap.bundle.min';
-import 'bootstrap/dist/css/bootstrap2.css';
-import $ from 'jquery';
-import Popper from 'popper.js';
+// import 'bootstrap/dist/css/bootstrap.css';
+// import $ from 'jquery';
+// import Popper from 'popper.js';
 
 ReactDOM.render(
   <BrowserRouter>
