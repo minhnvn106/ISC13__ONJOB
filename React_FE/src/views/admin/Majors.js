@@ -2,9 +2,6 @@ import React from "react";
 
 
 // components
-
-// import MajorTable from "components/CardTables/MajorTable.js";
-
 // import CardTable from "components/Cards/CardTable.js";
 import MajorTable from './../../components/CardTables/MajorTable';
 

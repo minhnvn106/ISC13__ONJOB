@@ -18,6 +18,8 @@
 // CÁCH 1
 // import React, { useEffect, useState } from 'react';
 // import axios from 'axios';
+// import { majorService } from 'assets/services/majorService';
+// import { majorService } from 'assets/services/majorService';
 
 // function MajorGet(){
 //     const [posts, setPosts] = useState([])
@@ -62,3 +64,15 @@ export function getList() {
     return fetch('http://localhost:8888/listMajors')
       .then(data => data.json())
   }
+
+// CÁCH 3
+
+// const getAll = ()=> api.get(api.url.majors).then(res=> res.data);
+// const get = ()=> api.get(`$api.url.majors/${majorID}`).then(res=> res.data);
+// const add = (data)=> api.get(api.url.majors,data).then(res=> res.data);
+// const update = (id, data)=> api.put(`$api.url.majors/${majorID}`, data).then(res => res.data);
+// const remove = (id, data)=> api.delete(`$api.url.majors/${majorID}`).then(res => res.data);
+
+// const majorService = {getAll, get, add, update, delete: remove};
+
+// export default majorService;

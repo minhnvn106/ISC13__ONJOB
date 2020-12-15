@@ -1,21 +1,63 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from "prop-types";
-// import axios from 'axios';
+import axios from 'axios';
 import { Button, Modal } from 'react-bootstrap';
-
+// import {useFormik} from "formik";
+// import * as Yup from "yup";
 
 // components
 
 import { getList } from './../../assets/services/majorService';
+// import { majorService } from 'assets/services/majorService';
+
+// import {getAll, get, add, update, remove} from 'assets/services/majorService';
 
 export default function MajorTable({ color }) {
   //Button
-  const [show, setShow] = useState(false);
+  const [show, setModalShow] = useState(false);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleModalClose = () => setModalShow(false);
+  const handleModalShow = () => setModalShow(true);
+  // const handleFormSubmit = (data) => {
+  //   //TODO: check for ADDING or UPDATING
+  //   majorService.add(data).then((res) => {
+  //     if (res.errorCode === 0) {
+  //       //TODO: Show success message
+  //       loadData();
+  //       handleModalClose();
+  //     } else {
+  //       //TODO: Show error message
+  //     };
+  //   })
+  // };
+
+  // Load Function
+  // const loadData = () => {
+  //   majorService.getAll.then((res) => {
+  //     if (res.errorCode ===0){
+  //       setMajors(res.data);
+  //     }
+  //   });
+  // };
   
-  //calling API
+  //   useEffect(()=>{
+  //     loadData();
+  //   },[]);
+  // //calling API
+  //   const [majors, setMajors] = useState([]);
+
+  //   const formik = useFormik({
+  //     initialValues: {
+  //       majorName:"",
+  //     },
+  //     validationSchema: Yup.object({
+  //       majorName: Yup.string().required("Required").min(2, "Phải có từ 2 kí tự trở lên"),
+  //     }),
+  //     onSubmit: (values) => {
+  //       handleFormSubmit.log(values);
+  //     },
+  //   });
+
     const [list, setList] = useState([]);
 
     // Mount Success
@@ -57,14 +99,18 @@ export default function MajorTable({ color }) {
               </div>
 
               <div className="col-auto">
-                <Button variant="primary" onClick={handleShow}>
-                <i i className="fas fa-plus"></i> Thêm
+                <Button 
+                variant="primary" 
+                onClick={handleModalShow(null,0)}
+                type="submit"
+                >
+                  <i i className="fas fa-plus"></i> Thêm
                 </Button>
                 <Modal
               show={show}
-              onHide={handleClose}
-              backdrop="static"
-              keyboard={false}
+              onHide={handleModalClose}
+              // backdrop="static"
+              // keyboard={false}
             >
               <Modal.Header closeButton>
                 <Modal.Title>
@@ -73,8 +119,9 @@ export default function MajorTable({ color }) {
                   </h5>
                 </Modal.Title>
               </Modal.Header>
+              {/* <form > */}
               <Modal.Body>
-              <form>
+                <form>
                 <div className="form-group row ">
                   <label
                     for="txtCode"
@@ -103,6 +150,10 @@ export default function MajorTable({ color }) {
                         type="text"
                         className="form-control"
                         id="txtName"
+                        // maxLength="100"
+                        // frmfield={formik.getFieldProps("majorName")}
+                        // err={formik.touch.majorName && formik.errors.majorName}
+                        // errMessage={formik.errors.majorName}
                     />
                     </div>
                   </div>              
@@ -113,7 +164,7 @@ export default function MajorTable({ color }) {
                     type="button"
                     className="btn btn-secondary"
                     data-dismiss="modal"
-                    onClick={handleClose}
+                    onClick={handleModalClose}
                   >
                     Thoát
                 </button>
@@ -125,6 +176,7 @@ export default function MajorTable({ color }) {
                     Lưu
                 </button>
               </Modal.Footer>
+              {/* </form> */}
             </Modal>
             
               </div>

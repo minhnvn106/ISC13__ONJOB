@@ -19,15 +19,9 @@ import Index from "views/Index.js";
 
 // dependancys
 
-// import 'bootstrap/dist/js/bootstrap.bundle.min';
-// import 'bootstrap/dist/css/bootstrap.css';
-// import $ from 'jquery';
-// import Popper from 'popper.js';
-
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
-      {/* add routes with layouts */}
       <Route path="/admin" component={Admin} />
       <Route path="/auth" component={Auth} />
       {/* add routes without layouts */}
