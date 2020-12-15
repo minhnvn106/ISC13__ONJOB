@@ -17,8 +17,8 @@ import Profile from "views/Profile.js";
 import Index from "views/Index.js";
 
 // dependancys
-import 'bootstrap/dist/js/bootstrap.bundle.min';
-import 'bootstrap/dist/css/bootstrap.css';
+// import 'bootstrap/dist/js/bootstrap.bundle.min';
+import 'bootstrap/dist/css/bootstrap2.css';
 import $ from 'jquery';
 import Popper from 'popper.js';
 

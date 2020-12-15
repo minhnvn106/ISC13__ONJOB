@@ -8,6 +8,7 @@
     "@fortawesome/fontawesome-free": "5.14.0",
     "@popperjs/core": "2.5.1",
     "@tailwindcss/custom-forms": "0.2.1",
+    "axios": "^0.21.0",
     "bootstrap": "^4.5.3",
     "chart.js": "2.9.3",
     "gulp": "4.0.2",
@@ -23,6 +24,7 @@
     "tailwindcss": "1.8.10"
   },
   "scripts": {
+    "api": "json-server db.json -p 3333 --delay 1500",
     "start": "react-scripts start",
     "build": "react-scripts build && gulp licenses",
     "test": "react-scripts test",
@@ -50,5 +52,8 @@
     "@types/markerclustererplus": "2.1.33",
     "@types/react": "16.9.49",
     "typescript": "4.0.3"
+  },
+  "devDependencies": {
+    "json-server": "^0.16.3"
   }
 }

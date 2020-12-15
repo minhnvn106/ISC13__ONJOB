@@ -1,11 +1,46 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useEffect, useState } from 'react';
 import PropTypes from "prop-types";
+import axios from 'axios';
+
 
 // components
 
-import majorService from "assets/services/majorService";
-export default function MajorTable({ color }) {
+import { getList } from './../../assets/services/api2';
+import MajorGet from './../../assets/services/api3';
+// import majorCode from './../../assets/services/api3';
+
+export default function MajorTable3({ color }) {
     //calling API
+    // const [posts, setPosts] = useState([])
+
+    // useEffect(()=>{
+    //     axios.get('http://localhost:8888/listMajors')
+    //     .then(res => {
+    //         console.log(res)
+    //         setPosts(res.data)
+    //     })
+    //     .catch(err => {
+    //         console.log(err)
+    //     })
+    // })
+
+    const [list, setList] = useState([]);
+
+    // Mount Success
+    useEffect(() => {
+    let mounted = true;
+    getList()
+        .then(items => {
+        if(mounted) {
+            setList(items)
+        }
+        })
+
+    // Mount Fail
+    return () => mounted = false;
+    }, [])
+    
+    // Template
     return (
       <>
         {/* Colors */}
@@ -76,65 +111,26 @@ export default function MajorTable({ color }) {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 text-left flex items-center">
-                    <img
-                      src={require("assets/img/angular.jpg")}
-                      className="h-12 w-12 bg-white rounded-full border"
-                      alt="..."
-                    ></img>{" "}
-                    <span
-                      className={
-                        "ml-3 font-bold " +
-                        +(color === "light" ? "text-gray-700" : "text-white")
-                      }
-                    >
-                      Lập trình Angular
-                    </span>
-                  </th>
-                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
-                    AN609
-                  </td>
+                {/* CÁCH 1: Một chức năng là một function kèm API và trang trí bảng */}
+                    {/* <MajorGet/> */}
 
-                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 text-right">
-                    <a href="/">
-                      <i className="fas fa-edit text-primary"></i>
-                    </a>
-                    <a href="/">
-                      <i className="fas fa-trash-alt text-danger"></i>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 text-left flex items-center">
-                    <img
-                      src={require("assets/img/react.jpg")}
-                      className="h-12 w-12 bg-white rounded-full border"
-                      alt="..."
-                    ></img>{" "}
-                    <span
-                      className={
-                        "ml-3 font-bold " +
-                        +(color === "light" ? "text-gray-700" : "text-white")
-                      }
-                    >
-                      Lập trình React
-                    </span>
-                  </th>
-                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
-                    RE603
-                  </td>
+              
 
-                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 text-right">
-                    <a href="/">
-                      <i className="fas fa-edit text-primary"></i>
-                    </a>
-                    <a href="/">
-                      <i className="fas fa-trash-alt text-danger"></i>
-                    </a>
-                  </td>
-                </tr>
-              </tbody>
+                  {/* CÁCH 2: Tạo một File service chứa các funtion, sang trang View gọi ra list*/}
+                  {list.map(item => 
+                  <tr key={item.majorID}>
+                      <td>{item.majorName}</td>
+                      <td>{item.majorCode}</td>
+                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 text-right">
+                        <a href="/">
+                        <i className="fas fa-edit text-primary"></i>
+                        </a>
+                        <a href="/">
+                        <i className="fas fa-trash-alt text-danger"></i>
+                        </a>
+                      </td>
+                  </tr>)}
+                </tbody>
             </table>
             <div
               className="modal fade"
@@ -293,10 +289,10 @@ export default function MajorTable({ color }) {
   
 }
 
-MajorTable.defaultProps = {
+MajorTable3.defaultProps = {
   color: "light",
 };
 
-MajorTable.propTypes = {
+MajorTable3.propTypes = {
   color: PropTypes.oneOf(["light", "dark"]),
 };

@@ -20,7 +20,7 @@ export default function CardTable({ color }) {
               <h3
                 className={
                   "font-semibold text-lg " +
-                  (color === "light" ? "text-gray-800" : "text-white")
+                  (color === "dark" ? "text-gray-800" : "text-white")
                 }
               >
                 Card Tables

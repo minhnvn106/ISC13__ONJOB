@@ -2,16 +2,16 @@ import axios from 'axios';
 
                             // Các biến API để thao tác
 const url = {
-    baseurl: "https://www.localhost:3000",
+    baseurl: "http://localhost:8888",
     login: './admin/login',
-    major: './major'
+    major: '/listMajors'
 }
 
 //Instance
 const instance = axios.create({
     baseURL: url.baseurl,
     headers: {
-        "Content-Type": "applicatipn/json",
+        "Content-Type": "application/json",
         "Accept": "application/json"
     }
 });
