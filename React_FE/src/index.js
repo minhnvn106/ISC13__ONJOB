@@ -19,12 +19,15 @@ import Index from "views/Index.js";
 
 // dependancys
 
+<<<<<<< HEAD
 
 // import 'bootstrap/dist/js/bootstrap.bundle.min';
 // import 'bootstrap/dist/css/bootstrap.css';
 // import $ from 'jquery';
 // import Popper from 'popper.js';
 
+=======
+>>>>>>> ff2462561d6c0dddc251e1ba1d5eb0970cfd84db
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
