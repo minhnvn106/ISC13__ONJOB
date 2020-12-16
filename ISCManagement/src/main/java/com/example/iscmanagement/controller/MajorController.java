@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,21 +16,20 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.example.iscmanagement.exception.ResourceNotFoundException;
 import com.example.iscmanagement.model.Major;
 import com.example.iscmanagement.service.MajorService;
 @Controller
 @RestController
-@RequestMapping("majors")
+@RequestMapping("/api/majors")
 public class MajorController {
 	@Autowired
 	private MajorService majorService;
 	
 	//get all major
 	@GetMapping("")
-	public List<Major> getAllMajors() {
-		return majorService.getAllMajor();
+	public ResponseEntity<List<Major>> getAllMajors() {
+		return new ResponseEntity<List<Major>>(majorService.getAllMajor(),HttpStatus.OK);
 	}
 
 	
@@ -42,25 +42,30 @@ public class MajorController {
 	
 	//insert major
 	@PostMapping("")
-	public Major createMajor( @RequestBody Major major) {
-		return majorService.insertMajor(major);
+	public ResponseEntity<Major> createMajor( @RequestBody Major major) {
+		List<Major> majors = majorService.findByMajorCode(major.getMajorCode());
+		if(majors.size()!=0) {
+			return new ResponseEntity<Major>(HttpStatus.CONFLICT);
+		}
+		return new ResponseEntity<Major>(majorService.insertMajor(major),HttpStatus.OK);
+		
 	}
 	
 	//update major
 	@PutMapping("/{id}")
-	public ResponseEntity updateMajor(@PathVariable(value = "id") Long majorId,@RequestBody Major majorDetails) throws ResourceNotFoundException{
+	public ResponseEntity<Major> updateMajor(@PathVariable(value = "id") Long majorId,@RequestBody Major majorDetails) throws ResourceNotFoundException{
 		Major major = majorService.getMajor(majorId);
 		String oldMajorCode = major.getMajorCode();
 		String newMajorCode = majorDetails.getMajorCode();
 
-		if(oldMajorCode.equalsIgnoreCase(newMajorCode) || majorService.checkMajorCodeUpdate(oldMajorCode, newMajorCode)) {
+		if(majorService.checkMajorCodeUpdate(oldMajorCode, newMajorCode)) {
 			major.setMajorCode(majorDetails.getMajorCode());
 			major.setMajorName(majorDetails.getMajorName());
 			majorService.insertMajor(major);
 			return ResponseEntity.ok(major);
 		}
 		
-		return ResponseEntity.badRequest().body("duplicated major code");
+		return new ResponseEntity<Major>(HttpStatus.CONFLICT);
 	}
 	
 	
