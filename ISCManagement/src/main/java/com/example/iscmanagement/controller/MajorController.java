@@ -53,7 +53,7 @@ public class MajorController {
 		String oldMajorCode = major.getMajorCode();
 		String newMajorCode = majorDetails.getMajorCode();
 
-		if(oldMajorCode.equalsIgnoreCase(newMajorCode) || majorService.checkMajorCodeUpdate(oldMajorCode, newMajorCode)) {
+		if(majorService.checkMajorCodeUpdate(oldMajorCode, newMajorCode)) {
 			major.setMajorCode(majorDetails.getMajorCode());
 			major.setMajorName(majorDetails.getMajorName());
 			majorService.insertMajor(major);

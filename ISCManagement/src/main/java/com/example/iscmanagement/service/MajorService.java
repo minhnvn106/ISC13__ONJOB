@@ -21,9 +21,8 @@ public class MajorService {
 	}
 	//get major by id
 	public Major getMajor(long id) throws ResourceNotFoundException {
-		Major major = repo.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Nhân viên này không tồn tại: " + id));
-		return major;
+		 return repo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Nhân viên này không tồn tại: " + id));
+		
 	}
 	// insert major
 	public Major insertMajor(Major major) {
