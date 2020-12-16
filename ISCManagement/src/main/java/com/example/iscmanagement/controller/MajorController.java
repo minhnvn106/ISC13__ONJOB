@@ -47,15 +47,17 @@ public class MajorController {
 	}
 	
 	//update major
-	@PutMapping("")
-	public ResponseEntity updateMajor(@RequestBody Major majorDetails) throws ResourceNotFoundException{
-		Major major = majorService.getMajor(majorDetails.getMajorID());
+	@PutMapping("/{id}")
+	public ResponseEntity updateMajor(@PathVariable(value = "id") Long majorId,@RequestBody Major majorDetails) throws ResourceNotFoundException{
+		Major major = majorService.getMajor(majorId);
 		String oldMajorCode = major.getMajorCode();
 		String newMajorCode = majorDetails.getMajorCode();
 
 		if(oldMajorCode.equalsIgnoreCase(newMajorCode) || majorService.checkMajorCodeUpdate(oldMajorCode, newMajorCode)) {
-			majorService.insertMajor(majorDetails);
-			return ResponseEntity.ok(majorDetails);
+			major.setMajorCode(majorDetails.getMajorCode());
+			major.setMajorName(majorDetails.getMajorName());
+			majorService.insertMajor(major);
+			return ResponseEntity.ok(major);
 		}
 		
 		return ResponseEntity.badRequest().body("duplicated major code");
