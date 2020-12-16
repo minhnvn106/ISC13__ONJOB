@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,8 +27,8 @@ public class SubjectController {
 	
 	//get all subject
 		@GetMapping("")
-		public List<Subject> getAllSubjects() {
-			return subjectService.getAllSubject();
+		public ResponseEntity<List<Subject>> getAllSubjects() {
+			return ResponseEntity.ok(subjectService.getAllSubject());
 		}
 
 		
@@ -40,13 +41,17 @@ public class SubjectController {
 		
 		//insert subject
 		@PostMapping("")
-		public Subject createSubject( @RequestBody Subject subject) {
-			return subjectService.insertSubject(subject);
+		public ResponseEntity<Subject> createSubject( @RequestBody Subject subject) {
+			List<Subject> subjects = subjectService.findBySubCode(subject.getSubCode());
+			if(subjects.size()!=0) {
+				return new ResponseEntity<Subject>(HttpStatus.CONFLICT);
+			}
+			return ResponseEntity.ok().body(subjectService.insertSubject(subject));
 		}
 		
 		//update subject
 		@PutMapping("/{id}")
-		public ResponseEntity updateSubject(@PathVariable(value = "id") Long subjectId,@RequestBody Subject subjectDetails) throws ResourceNotFoundException{
+		public ResponseEntity<Subject> updateSubject(@PathVariable(value = "id") Long subjectId,@RequestBody Subject subjectDetails) throws ResourceNotFoundException{
 			Subject subject = subjectService.getSubject(subjectId);
 			String oldSubCode = subject.getSubCode();
 			String newSubCode = subjectDetails.getSubCode();
@@ -60,9 +65,8 @@ public class SubjectController {
 				subjectService.insertSubject(subject);
 				return ResponseEntity.ok(subject);
 			}
-			Map<String, Boolean> response = new HashMap<>();
-			response.put("updated", Boolean.FALSE);
-			return ResponseEntity.badRequest().body(response);
+			
+			return new ResponseEntity<Subject>(HttpStatus.CONFLICT);
 		}
 		
 		
