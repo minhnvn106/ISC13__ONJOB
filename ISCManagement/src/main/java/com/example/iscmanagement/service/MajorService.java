@@ -23,8 +23,9 @@ public class MajorService {
 		return repo.findById(id).get();
 	}
 	// insert major
-	public void insertMajor(Major major) {
-		repo.save(major);
+	public Major insertMajor(Major major) {
+		return repo.save(major);
+
 	}
 	//delete major by id
 	public void deleteMajor(long id) {
