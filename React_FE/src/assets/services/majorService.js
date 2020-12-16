@@ -40,8 +40,4 @@ export function getList() {
 
 // const majorService = {getAll, get, add, update, delete: remove};
 
-<<<<<<< HEAD
 // export default majorService;
-=======
-// export default majorService;
->>>>>>> ff2462561d6c0dddc251e1ba1d5eb0970cfd84db
