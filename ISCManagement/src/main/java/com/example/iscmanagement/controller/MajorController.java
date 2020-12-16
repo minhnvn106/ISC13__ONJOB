@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.iscmanagement.exception.ResourceNotFoundException;
 import com.example.iscmanagement.model.Major;
 import com.example.iscmanagement.service.MajorService;
-
 @Controller
 @RestController
 @RequestMapping("majors")
@@ -35,31 +35,36 @@ public class MajorController {
 	
 	//get major by id
 	@GetMapping("/{id}")
-	public ResponseEntity<Major> getEmployeeById(@PathVariable(value = "id") Long majorId){
+	public ResponseEntity<Major> getMajorById(@PathVariable(value = "id") Long majorId) throws ResourceNotFoundException{
 		Major major = majorService.getMajor(majorId);
 				return ResponseEntity.ok().body(major);
 	}
 	
 	//insert major
 	@PostMapping("")
-	public Major createEmployee( @RequestBody Major major) {
+	public Major createMajor( @RequestBody Major major) {
 		return majorService.insertMajor(major);
 	}
 	
 	//update major
 	@PutMapping("")
-	public ResponseEntity<Major> updateEmployee(@RequestBody Major majorDetails){
-//		Major major = majorService.getMajor(majorId);
+	public ResponseEntity updateMajor(@RequestBody Major majorDetails) throws ResourceNotFoundException{
+		Major major = majorService.getMajor(majorDetails.getMajorID());
+		String oldMajorCode = major.getMajorCode();
+		String newMajorCode = majorDetails.getMajorCode();
+
+		if(oldMajorCode.equalsIgnoreCase(newMajorCode) || majorService.checkMajorCodeUpdate(oldMajorCode, newMajorCode)) {
+			majorService.insertMajor(majorDetails);
+			return ResponseEntity.ok(majorDetails);
+		}
 		
-		
-		majorService.insertMajor(majorDetails);
-		return ResponseEntity.ok(majorDetails);
+		return ResponseEntity.badRequest().body("duplicated major code");
 	}
 	
 	
 	//delete major
 	@DeleteMapping("/{id}")
-	public Map<String, Boolean> deleteEmployee(@PathVariable(value = "id") Long majorId) {
+	public Map<String, Boolean> deleteMajor(@PathVariable(value = "id") Long majorId) throws ResourceNotFoundException {
 		Major major = majorService.getMajor(majorId);
 		majorService.deleteMajor(majorId);
 		Map<String, Boolean> response = new HashMap<>();

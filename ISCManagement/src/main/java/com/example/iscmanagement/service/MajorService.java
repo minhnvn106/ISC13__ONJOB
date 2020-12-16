@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.iscmanagement.dao.MajorRepo;
+import com.example.iscmanagement.exception.ResourceNotFoundException;
 import com.example.iscmanagement.model.Major;
 
 @Service
@@ -19,8 +20,10 @@ public class MajorService {
 		return repo.findAll();
 	}
 	//get major by id
-	public Major getMajor(long id) {
-		return repo.findById(id).get();
+	public Major getMajor(long id) throws ResourceNotFoundException {
+		Major major = repo.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Nhân viên này không tồn tại: " + id));
+		return major;
 	}
 	// insert major
 	public Major insertMajor(Major major) {
@@ -31,4 +34,12 @@ public class MajorService {
 	public void deleteMajor(long id) {
 		repo.deleteById(id);
 	}
+	
+	// check major code update, true is OK we can update
+	public boolean checkMajorCodeUpdate(String oldMajorCode,String newMajorCode) {
+		if(repo.checkMajorCodeUpdate(oldMajorCode, newMajorCode).size()!=0) return false;
+		
+		return true;
+	}
+	
 }
