@@ -19,7 +19,7 @@ import com.example.iscmanagement.model.Subject;
 import com.example.iscmanagement.service.SubjectService;
 
 @RestController
-@RequestMapping("subjects")
+@RequestMapping("/api/subjects")
 public class SubjectController {
 	@Autowired
 	private SubjectService subjectService;
