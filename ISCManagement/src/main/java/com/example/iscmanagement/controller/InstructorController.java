@@ -3,10 +3,10 @@ package com.example.iscmanagement.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,22 +14,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.iscmanagement.model.Instructor;
 import com.example.iscmanagement.service.InstructorService;
 
 
-//@CrossOrigin(origins = "http://localhost:3000")
-//@RequestMapping(value = "api/instructor")
+@CrossOrigin
 @RestController
-@RequestMapping(value="instructor")
+@RequestMapping(value="/api/instructors")
 public class InstructorController {
 	@Autowired
 	private InstructorService instructorService;
 	
-
 	//load InstructorList
 	@GetMapping(path = "")
 	public ResponseEntity<List<Instructor>>  getAllList(){
@@ -41,7 +38,7 @@ public class InstructorController {
 	}
 	
 	//tìm một Instructor theo Id
-	@GetMapping(path="/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(path="/{id}")
 	public ResponseEntity<Instructor> getInstructor(@PathVariable("id") Long id){
 		Instructor instructor = instructorService.getOneInstructorById(id);
 		
@@ -55,7 +52,7 @@ public class InstructorController {
 	
 	
 	//create a new Instructor
-	@PostMapping(path = "/add")
+	@PostMapping(path = "")
 	public  ResponseEntity<Instructor> insertIns(@RequestBody Instructor instructorForm){
 		Instructor InsList = instructorService.findInstructorByInsCode(instructorForm.getInsCode());
 		//Nếu bằng null nghĩa là mã đó chưa tồn tại, cho thêm đối tượng, ngược lại thì báo conflict
@@ -71,10 +68,9 @@ public class InstructorController {
 
 	}
 	
-
 	
 	//update a Instructor
-	@PutMapping(path = "/{id}") //, consumes = "application/json", produces = "application/json"
+	@PutMapping(path = "/{id}") 
 	public ResponseEntity<Instructor> updateIns(@PathVariable("id") Long id,@RequestBody Instructor instructorForm){
 		Instructor instructor = instructorService.getOneInstructorById(id);
 //			List<String> insCodeOld = instructorService.findInstructorByInsCodeUpdate(instructor.getInsCode());
@@ -110,11 +106,11 @@ public class InstructorController {
 	}
 	
 	//delete
-	@DeleteMapping(path = "/{id}")
-	public ResponseEntity<Instructor> deleteIns(@PathVariable("id") Long id){
+	@DeleteMapping(path="/{id}")
+	public void deleteIns(@PathVariable("id") Long id){
 		instructorService.deleteById(id);
 		
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
 	//Hàm check xem insCode có bị trùng hay không, nếu trùng thì không cho thêm.
