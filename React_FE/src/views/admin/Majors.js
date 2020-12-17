@@ -1,7 +1,7 @@
 import React from "react";
 
 // components
-// import CardTable from "components/Cards/CardTable.js";
+
 import MajorTable from './../../components/CardTables/MajorTable';
 
 export default function Majors() {

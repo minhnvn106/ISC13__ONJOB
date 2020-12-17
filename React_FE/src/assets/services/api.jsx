@@ -1,20 +1,22 @@
 import axios from 'axios';
 
-                            // Các biến API để thao tác
 const url = {
+    //có thể thay thế bằng url bên backend
     baseUrl:'http://localhost:8888/api',
-    login: './admin/login',
-    major: '/majors',
-    instructor: '/instructors',
-    student: '/students'
+    login:'/login', //đường dẫn sẽ gọi đến controller api backend
+    majors: '/majors',
+    intakes: '/intakes',
+    companies: '/companies',
+    instructors: '/instructors',
+    students: '/students'
 }
 
-//Instance
 const instance = axios.create({
-    baseURL: url.baseurl,
-    headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json"
+    baseURL:url.baseUrl,
+    headers:{
+        // Content-Type  - chỉ truyền và nhận dữ liệu bằng json
+        "Content-Type":"application/json",
+        "Accept":"application/json"
     }
 });
 

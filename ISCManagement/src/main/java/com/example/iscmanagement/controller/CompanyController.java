@@ -23,7 +23,7 @@ import com.example.iscmanagement.model.Room;
 import com.example.iscmanagement.service.CompanyService;
 
 @RestController
-@RequestMapping("/api/company")
+@RequestMapping("/api/companies")
 public class CompanyController {
 	@Autowired
 	private CompanyService companyService;

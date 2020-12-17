@@ -1,11 +1,10 @@
+import api from './api';
 
-import api2 from './api2';
-
-const getAll = ()=> api2.get(api2.url.instructors).then(res => res.data);
-const get=(id)=> api2.get(`${api2.url.instructors}/${id}`).then(res=>res.data);
-const add = (data)=> api2.post(api2.url.instructors,data).then(res=>res.data);
-const update = (id,data)=>api2.put(`${api2.url.instructors}/${id}`,data).then(res=>res.data);
-const remove = (id) => api2.delete(`${api2.url.instructors}/${id}`).then(res=>res.data);
+const getAll = ()=> api.get(api.url.instructors).then(res => res.data);
+const get=(id)=> api.get(`${api.url.instructors}/${id}`).then(res=>res.data);
+const add = (data)=> api.post(api.url.instructors,data).then(res=>res.data);
+const update = (id,data)=>api.put(`${api.url.instructors}/${id}`,data).then(res=>res.data);
+const remove = (id) => api.delete(`${api.url.instructors}/${id}`).then(res=>res.data);
 
 
 const instructorService = {

@@ -15,7 +15,7 @@ import Auth from "layouts/Auth.js";
 
 import Landing from "views/Landing.js";
 import Profile from "views/Profile.js";
-import Index from "views/Index.js";
+// import Index from "views/Index.js";
 
 // dependancys
 

@@ -3,7 +3,6 @@ import React from "react";
 // components
 
 import StudentTable from "components/CardTables/StudentTable.js";
-// import CardTable from "components/Cards/CardTable.js";
 
 export default function Students() {
   return (

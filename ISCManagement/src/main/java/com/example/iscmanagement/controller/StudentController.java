@@ -23,7 +23,7 @@ import com.example.iscmanagement.model.Student;
 import com.example.iscmanagement.service.StudentService;
 
 @RestController
-@RequestMapping("/api/student")
+@RequestMapping("/api/students")
 
 public class StudentController {
 	@Autowired
