@@ -26,7 +26,7 @@ export default majorService;
 
 // CÁCH 2
 export function getList() {
-    return fetch('http://localhost:8888/listMajors')
+    return fetch('http://localhost:8888/api/majors')
       .then(data => data.json())
   }
 
