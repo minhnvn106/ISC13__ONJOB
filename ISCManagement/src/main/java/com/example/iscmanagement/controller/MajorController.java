@@ -72,7 +72,7 @@ public class MajorController {
 	//delete major
 	@DeleteMapping("/{id}")
 	public Map<String, Boolean> deleteMajor(@PathVariable(value = "id") Long majorId) throws ResourceNotFoundException {
-		majorService.getMajor(majorId);
+		Major major = majorService.getMajor(majorId);
 		majorService.deleteMajor(majorId);
 		Map<String, Boolean> response = new HashMap<>();
 		response.put("deleted", Boolean.TRUE);

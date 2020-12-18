@@ -26,20 +26,12 @@ public class StudentService {
 	}
 
 	// insert Student
-	public Student insertStudent(Student Student) {
-		return repo.save(Student);
+	public void insertStudent(Student Student) {
+		repo.save(Student);
 	}
 
 	// delete Student by id
 	public void deleteStudent(long id) {
 		repo.deleteById(id);
-	}
-	// check student code update, true is OK we can update
-	public boolean checkStdCodeUpdate(String oldStdCode, String newStdCode) {
-		if(repo.checkStdCodeUpdate(oldStdCode, newStdCode).size()!= 0) {
-			return false;
-		}
-		return true;
-		
 	}
 }
