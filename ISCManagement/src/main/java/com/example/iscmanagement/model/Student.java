@@ -3,6 +3,9 @@ package com.example.iscmanagement.model;
 import java.util.Date;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Student {
 	@Id
@@ -24,9 +27,11 @@ public class Student {
 	@Column(length = 2000)
 	private String stdNote;
 	@ManyToOne
+	@JsonManagedReference
 	@JoinColumn(name = "company_fk")
 	private Company company;
 	@ManyToOne
+	@JsonManagedReference
 	@JoinColumn(name = "university_fk")
 	private University university;
 	public Student() {
@@ -142,6 +147,4 @@ public class Student {
 				+ ", stdNote=" + stdNote + ", company=" + company + ", university=" + university + "]";
 	}
 
-	
-	
 }

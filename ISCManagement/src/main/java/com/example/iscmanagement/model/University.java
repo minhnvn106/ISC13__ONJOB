@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 @Entity
 public class University {
@@ -17,6 +20,7 @@ public class University {
 	private String universityPhone;
 	private String universityUrl;
 	@OneToMany(mappedBy = "university")
+	@JsonBackReference	
 	private List<Student> students;
 	public University() {
 		super();

@@ -61,7 +61,7 @@ public class UniversiryController {
 		return ResponseEntity.ok(university);
 	}
 
-	@DeleteMapping(value = "/{id}")
+	@DeleteMapping(path="/{id}")
 	public Map<String, Boolean> deleteUniversity(@PathVariable(value = "id") Long id) throws ResourceNotFoundException {
 		universityService.getUniversity(id);
 		universityService.deleteUniversity(id);

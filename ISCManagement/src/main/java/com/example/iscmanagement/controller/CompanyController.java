@@ -23,7 +23,7 @@ import com.example.iscmanagement.model.Room;
 import com.example.iscmanagement.service.CompanyService;
 
 @RestController
-@RequestMapping("/api/company")
+@RequestMapping("/api/companies")
 public class CompanyController {
 	@Autowired
 	private CompanyService companyService;
@@ -35,7 +35,7 @@ public class CompanyController {
 	}
 
 	// get company by id
-	@GetMapping(value = "/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<Company> getCompanyById(@PathVariable(value = "id") Long companyId)
 			throws ResourceNotFoundException {
 		Company company = companyService.getCompany(companyId);
@@ -62,7 +62,7 @@ public class CompanyController {
 		return ResponseEntity.ok(company);
 	}
 
-	@DeleteMapping(value = "/{id}")
+	@DeleteMapping("/{id}")
 	public Map<String, Boolean> deleteRoom(@PathVariable(value = "id") Long id) throws ResourceNotFoundException {
 		companyService.getCompany(id);
 		companyService.deleteCompany(id);
