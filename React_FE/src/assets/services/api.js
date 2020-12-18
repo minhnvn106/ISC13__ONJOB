@@ -2,10 +2,13 @@ import axios from 'axios';
 
 const url = {
     //có thể thay thế bằng url bên backend
-    baseUrl:'http://localhost:8888/api',
+    baseUrl:'http://localhost:8080/api',
     login:'/login', //đường dẫn sẽ gọi đến controller api backend
     majors:'/majors',
-    instructors:'/instructors'
+    instructors:'/instructors',
+    rooms:'/rooms',
+    subjects:'subjects',
+    universities:'universities'
 }
 
 const instance = axios.create({
@@ -17,7 +20,7 @@ const instance = axios.create({
     }
 });
 
-const api2 = {
+const api = {
     url,
     instance,
     // url : url,
@@ -27,4 +30,4 @@ const api2 = {
     put:instance.put,
     delete:instance.delete
 }
-export default api2;
+export default api;

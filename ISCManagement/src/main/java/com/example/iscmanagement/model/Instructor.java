@@ -74,6 +74,7 @@ public class Instructor {
 		this.insGender = insGender;
 	}
 
+	
 	public Date getInsBirthday() {
 		return insBirthday;
 	}
