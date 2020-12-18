@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class Company {
 	@Id
@@ -18,7 +20,9 @@ public class Company {
 	@Column(length = 500)
 	private String companyUrl;
 	private EnumStatus companyStatus;
+	
 	@OneToMany(mappedBy = "company")
+	@JsonBackReference	
 	private List<Student> students;
 	public Company() {
 		super();

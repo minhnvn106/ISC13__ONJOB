@@ -37,7 +37,6 @@ public class MajorService {
 	// check major code update, true is OK we can update
 	public boolean checkMajorCodeUpdate(String oldMajorCode,String newMajorCode) {
 		if(repo.checkMajorCodeUpdate(oldMajorCode, newMajorCode).size()!=0) return false;
-		
 		return true;
 	}
 	public List<Major> findByMajorCode(String majorCode) {

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.iscmanagement.dao.CompanyRepo;
+import com.example.iscmanagement.exception.ResourceNotFoundException;
 import com.example.iscmanagement.model.Company;
 
 @Service
@@ -21,13 +22,15 @@ public class CompanyService {
 	}
 
 //get Company by id
-	public Company getCompany(long id) {
-		return repo.findById(id).get();
+	public Company getCompany(long id) throws ResourceNotFoundException {
+		Company company = repo.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Mã công này không tồn tại" + id));
+		return company;
 	}
 
 // insert Company
-	public void insertCompany(Company company) {
-		repo.save(company);
+	public Company insertCompany(Company company) {
+		return repo.save(company);
 	}
 
 //delete Company by id
