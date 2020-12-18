@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.iscmanagement.dao.SubjectRepo;
+import com.example.iscmanagement.exception.ResourceNotFoundException;
 import com.example.iscmanagement.model.Subject;
 
 @Service
@@ -21,17 +22,27 @@ public class SubjectService {
 		}
 
 		// get Subject by id
-		public Subject getSubject(long id) {
-			return repo.findById(id).get();
+		public Subject getSubject(long id) throws ResourceNotFoundException {
+			return repo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Subject isn't exist: " + id));
 		}
 
 		// insert Subject
-		public void insertSubject(Subject Subject) {
-			repo.save(Subject);
+		public Subject insertSubject(Subject Subject) {
+			return repo.save(Subject);
 		}
 
 		// delete Subject by id
 		public void deleteSubject(long id) {
 			repo.deleteById(id);
+		}
+		
+		// check subject code update, true is OK, we can update
+		public boolean checkSubjectCodeUpdate(String oldSubCode,String newSubCode) {
+			if(repo.checkSubjectCodeUpdate(oldSubCode, newSubCode).size()!=0) return false;
+			
+			return true;
+		}
+		public List<Subject> findBySubCode(String subCode) {
+			return repo.findBySubCode(subCode);
 		}
 }
