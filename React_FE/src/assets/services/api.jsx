@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const url = {
     //có thể thay thế bằng url bên backend
-    baseUrl:'http://localhost:8081/api',
+    baseUrl:'http://localhost:8080/api',
     login:'/login', //đường dẫn sẽ gọi đến controller api backend
     majors: '/majors',
     intakes: '/intakes',

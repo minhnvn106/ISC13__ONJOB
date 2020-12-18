@@ -23,7 +23,7 @@ import com.example.iscmanagement.model.Room;
 import com.example.iscmanagement.service.RoomService;
 @CrossOrigin
 @RestController
-@RequestMapping("/api/room")
+@RequestMapping("/api/rooms")
 public class RoomController {
 	@Autowired
 	private RoomService roomService;

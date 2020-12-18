@@ -24,7 +24,7 @@ export default function InstructorTable({ color }) {
         
         loadData();
        
-    }, [instructors]); //[] Bắt buộc phải có nếu không nó sẽ load lại nhiều lần
+    }, [instructorId]); //[] Bắt buộc phải có nếu không nó sẽ load lại nhiều lần
     //Set instructors vào để khi thay đổi update or delete thì nó sẽ set lại giá trị của instructors để nó gọi function loadData()
 
 
@@ -101,13 +101,13 @@ export default function InstructorTable({ color }) {
     const deleteRow = (e, dataId) => {
         e.preventDefault();
         instructorService.delete(dataId).then(res => {
-            if (res.errorCode === 0) {
-                loadData();
-                console.log(res);
+          loadData();
+          console.log(res);
+            // if (res.errorCode === 0) {
 
-            } else {
+            // } else {
 
-            }
+            // }
         });
         console.log(dataId);
     }
