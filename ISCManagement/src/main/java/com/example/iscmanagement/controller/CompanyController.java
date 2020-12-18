@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ import com.example.iscmanagement.model.Company;
 import com.example.iscmanagement.model.Room;
 import com.example.iscmanagement.service.CompanyService;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/companies")
 public class CompanyController {
@@ -62,7 +64,7 @@ public class CompanyController {
 		return ResponseEntity.ok(company);
 	}
 
-	@DeleteMapping(value = "/{id}")
+	@DeleteMapping(path="/{id}")
 	public Map<String, Boolean> deleteRoom(@PathVariable(value = "id") Long id) throws ResourceNotFoundException {
 		companyService.getCompany(id);
 		companyService.deleteCompany(id);

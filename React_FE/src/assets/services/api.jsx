@@ -2,13 +2,17 @@ import axios from 'axios';
 
 const url = {
     //có thể thay thế bằng url bên backend
-    baseUrl:'http://localhost:8888/api',
+    baseUrl:'http://localhost:8081/api',
     login:'/login', //đường dẫn sẽ gọi đến controller api backend
     majors: '/majors',
     intakes: '/intakes',
     companies: '/companies',
+    students: '/students',
+
     instructors: '/instructors',
-    students: '/students'
+    rooms: '/rooms',
+    subjects: '/subjects',
+    universities: '/universities'
 }
 
 const instance = axios.create({

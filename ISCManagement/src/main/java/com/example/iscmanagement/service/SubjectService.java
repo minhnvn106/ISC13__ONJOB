@@ -23,7 +23,7 @@ public class SubjectService {
 
 		// get Subject by id
 		public Subject getSubject(long id) throws ResourceNotFoundException {
-			return repo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Subject isn't exist: " + id));
+			return repo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Nhân viên này không tồn tại: " + id));
 		}
 
 		// insert Subject
@@ -41,8 +41,5 @@ public class SubjectService {
 			if(repo.checkSubjectCodeUpdate(oldSubCode, newSubCode).size()!=0) return false;
 			
 			return true;
-		}
-		public List<Subject> findBySubCode(String subCode) {
-			return repo.findBySubCode(subCode);
 		}
 }

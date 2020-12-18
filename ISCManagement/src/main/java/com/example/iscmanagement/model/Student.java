@@ -3,6 +3,8 @@ package com.example.iscmanagement.model;
 import java.util.Date;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Student {
 	@Id

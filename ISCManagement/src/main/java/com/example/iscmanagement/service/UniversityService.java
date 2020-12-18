@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.iscmanagement.dao.UniversityRepo;
-import com.example.iscmanagement.exception.ResourceNotFoundException;
 import com.example.iscmanagement.model.University;
 
 @Service
@@ -22,10 +21,8 @@ public class UniversityService {
 	}
 
 	// get university by id
-	public University getUniversity(long id) throws ResourceNotFoundException {
-		University university = repo.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Mã trường đại học này không tồn tại" + id));
-		return university;
+	public University getUniversity(long id) {
+		return repo.findById(id).get();
 	}
 
 	// insert university

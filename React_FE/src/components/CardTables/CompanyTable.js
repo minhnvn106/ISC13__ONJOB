@@ -54,7 +54,6 @@ export default function CompanyTable({ color }) {
         companyStatus:"",
     },
     validationSchema: Yup.object({
-        companyCode: Yup.string().required("Required").min(4, "Must be 4 characters or more"),
         companyName: Yup.string().required("Required"),
     }),
     onSubmit: (values) => {
@@ -140,7 +139,7 @@ export default function CompanyTable({ color }) {
             <form autoComplete="on" onSubmit={formik.handleSubmit}>
                 <Modal.Body>        
                 
-                <Input id="txtcompanyName" type="text" className="inputClass form-control" label="Name" labelSize="4" maxLength="100"
+                <Input id="txtcompanyName" type="text" className="inputClass form-control" label="Công ty" labelSize="4" maxLength="100"
                 frmField={formik.getFieldProps("companyName")}
                 err={formik.touched.companyName && formik.errors.companyName}
                 errMessage={formik.errors.companyName}
@@ -170,7 +169,7 @@ export default function CompanyTable({ color }) {
                 errMessage={formik.errors.companyUrl}
                 />
 
-                <Input id="txtcompanyStatus" type="text" className="inputClass form-control" label="Status" labelSize="4" maxLength="100"
+                <Input id="txtcompanyStatus" type="text" className="inputClass form-control" label="Tình trạng" labelSize="4" maxLength="100"
                 frmField={formik.getFieldProps("companyStatus")}
                 err={formik.touched.companyStatus && formik.errors.companyStatus}
                 errMessage={formik.errors.companyStatus}
@@ -271,14 +270,14 @@ export default function CompanyTable({ color }) {
             </thead>
             <tbody>
             {
-              companies.map((company) => {
+              companies.map((company, idx) => {
                 return (
                 <tr key={company.companyId}>
                   <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 text-left flex items-center">
                   <span>
                     {company.companyName}
                   </span>
-                  {/* {idx + 1} */}
+                  {idx + 1}
                   </th>
                   <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
                   {company.companyAddress}

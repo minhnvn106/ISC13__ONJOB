@@ -186,10 +186,10 @@ export default function Sidebar() {
                 >
                   <i
                     className={
-                      "fas fa-table mr-2 text-sm " +
+                      "far fa-calendar-alt mr-2 text-sm " +
                       (window.location.href.indexOf("/admin/intakes") !== -1
                         ? "opacity-75"
-                        : "text-gray-400")
+                        : "text-gray-500")
                     }
                   ></i>{" "}
                   Khóa học+
@@ -211,7 +211,7 @@ export default function Sidebar() {
                       "fas fa-table mr-2 text-sm " +
                       (window.location.href.indexOf("/admin/majors") !== -1
                         ? "opacity-75"
-                        : "text-gray-400")
+                        : "text-gray-500")
                     }
                   ></i>{" "}
                   Ngành học
@@ -230,10 +230,10 @@ export default function Sidebar() {
                 >
                   <i
                     className={
-                      "fas fa-table mr-2 text-sm " +
+                      "fas fa-graduation-cap mr-2 text-sm " +
                       (window.location.href.indexOf("/admin/subjects") !== -1
                         ? "opacity-75"
-                        : "text-gray-400")
+                        : "text-gray-500")
                     }
                   ></i>{" "}
                   Môn học
@@ -252,10 +252,10 @@ export default function Sidebar() {
                 >
                   <i
                     className={
-                      "fas fa-table mr-2 text-sm " +
+                      "fab fa-joomla mr-2 text-sm " +
                       (window.location.href.indexOf("/admin/rooms") !== -1
                         ? "opacity-75"
-                        : "text-gray-400")
+                        : "text-gray-500")
                     }
                   ></i>{" "}
                   Phòng học
@@ -282,10 +282,10 @@ export default function Sidebar() {
                 >
                   <i
                     className={
-                      "fas fa-table mr-2 text-sm " +
+                      "fas fa-user-graduate mr-2 text-sm " +
                       (window.location.href.indexOf("/admin/students") !== -1
                         ? "opacity-75"
-                        : "text-gray-400")
+                        : "text-gray-500")
                     }
                   ></i>{" "}
                   Sinh viên
@@ -303,10 +303,10 @@ export default function Sidebar() {
                 >
                   <i
                     className={
-                      "fas fa-table mr-2 text-sm " +
+                      "fas fa-chalkboard-teacher mr-2 text-sm " +
                       (window.location.href.indexOf("/admin/instructors") !== -1
                         ? "opacity-75"
-                        : "text-gray-400")
+                        : "text-gray-500")
                     }
                   ></i>{" "}
                   Giảng viên
@@ -332,10 +332,10 @@ export default function Sidebar() {
                 >
                   <i
                     className={
-                      "fas fa-table mr-2 text-sm " +
+                      "fas fa-school mr-2 text-sm " +
                       (window.location.href.indexOf("/admin/universities") !== -1
                         ? "opacity-75"
-                        : "text-gray-400")
+                        : "text-gray-500")
                     }
                   ></i>{" "}
                   Đại học
@@ -353,10 +353,10 @@ export default function Sidebar() {
                 >
                   <i
                     className={
-                      "fas fa-table mr-2 text-sm " +
+                      "fas fa-building mr-2 text-sm " +
                       (window.location.href.indexOf("/admin/companies") !== -1
                         ? "opacity-75"
-                        : "text-gray-400")
+                        : "text-gray-500")
                     }
                   ></i>{" "}
                   Công ty
@@ -422,7 +422,7 @@ export default function Sidebar() {
                       "fas fa-tools mr-2 text-sm " +
                       (window.location.href.indexOf("/admin/settings") !== -1
                         ? "opacity-75"
-                        : "text-gray-400")
+                        : "text-gray-500")
                     }
                   ></i>{" "}
                   Cài đặt
@@ -434,7 +434,7 @@ export default function Sidebar() {
                   className="text-gray-800 hover:text-gray-600 text-xs uppercase py-3 font-bold block"
                   to="/auth/login"
                 >
-                  <i className="fas fa-fingerprint text-gray-500 mr-2 text-sm"></i>{" "}
+                  <i className="fas fa-sign-out-alt text-gray-500 mr-2 text-sm"></i>{" "}
                   Đăng xuất
                 </Link>
               </li>
