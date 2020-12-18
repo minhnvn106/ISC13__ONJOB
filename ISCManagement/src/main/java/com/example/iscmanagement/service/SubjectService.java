@@ -42,4 +42,7 @@ public class SubjectService {
 			
 			return true;
 		}
+		public List<Subject> findBySubCode(String subCode) {
+			return repo.findBySubCode(subCode);
+		}
 }

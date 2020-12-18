@@ -30,4 +30,10 @@ public class RoomService {
 		public void deleteRoom(long id) {
 			repo.deleteById(id);
 		}
+		public boolean checkRoomCodeUpdate(String oldRoomCode, String newRoomCode) {
+			if(repo.checkRoomCodeUpdate(oldRoomCode, newRoomCode).size()!=0) {
+				return false;
+			}
+			return true;
+		}
 }
