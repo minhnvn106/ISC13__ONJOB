@@ -1,0 +1,28 @@
+{
+  "listMajors":[],
+  
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  },
+
+  "list": [
+    { "id": 1, "item": "bread", "code":"P001" },
+    { "id": 2, "item": "Wine", "code":"P002" },
+    { "id": 3, "item": "Juice", "code":"P003" },
+    { "id": 4, "item": "grapes", "code":"P004" }
+  ]
+}

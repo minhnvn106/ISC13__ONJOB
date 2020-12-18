@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +22,7 @@ import com.example.iscmanagement.exception.ResourceNotFoundException;
 import com.example.iscmanagement.model.Room;
 import com.example.iscmanagement.model.Student;
 import com.example.iscmanagement.service.StudentService;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/api/student")
 
@@ -36,7 +37,7 @@ public class StudentController {
 	}
 
 	// get student by id
-	@GetMapping(value = "/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<Student> getUniversityById(@PathVariable(value = "id") Long studentId)
 			throws ResourceNotFoundException {
 		Student student = studentService.getStudent(studentId);
@@ -75,7 +76,7 @@ public class StudentController {
 		return ResponseEntity.badRequest().body("duplicated student code");
 	}
 
-	@DeleteMapping(value = "/{id}")
+	@DeleteMapping("/{id}")
 	public Map<String, Boolean> deleteStudent(@PathVariable(value = "id") Long id) throws ResourceNotFoundException {
 		studentService.getStudent(id);
 		studentService.deleteStudent(id);

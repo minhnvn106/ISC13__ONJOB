@@ -1,14 +1,20 @@
 package com.example.iscmanagement;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
-public class IscManagementApplication {
 
+@SpringBootApplication
+public class IscManagementApplication implements CommandLineRunner{
 	public static void main(String[] args) {
 		SpringApplication.run(IscManagementApplication.class, args);
 		System.out.println("Done");
+	}
+
+	@Override
+	public void run(String... args) throws Exception {
 	}
 
 }
