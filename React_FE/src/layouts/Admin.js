@@ -23,6 +23,8 @@ import Instructors from "views/admin/Instructors.js";
 import Intakes from "views/admin/Intakes.js";
 import Majors from "views/admin/Majors.js";
 import Companies from "views/admin/Companies";
+import Subjects from "views/admin/Subjects";
+import Universities from "views/admin/Universities";
 
 
 export default function Admin() {
@@ -46,7 +48,10 @@ export default function Admin() {
             <Route path="/admin/students" exact component={Students} />
             <Route path="/admin/instructors" exact component={Instructors} />
             <Route path="/admin/majors" exact component={Majors} />
-            <Redirect from="/admin" to="/admin/rooms" />
+
+            <Route path="/admin/subjects" exact component={Subjects} />
+            <Route path="/admin/universities" exact component={Universities} />
+            <Redirect from="/admin" to="/admin/students" />
           </Switch>
           <FooterAdmin />
         </div>

@@ -173,7 +173,7 @@ export default function IntakeTable({ color }) {
                     />
 
                     <Input id="txtIntakeStatus" type="text" className="inputClass form-control" label="Trạng thái" labelSize="4" maxLength="100"
-                      frmField={formik.getFieldProps("intakeName")}
+                      frmField={formik.getFieldProps("intakeStatus")}
                       err={formik.touched.intakeStatus && formik.errors.intakeStatus}
                       errMessage={formik.errors.intakeStatus}
                     />
