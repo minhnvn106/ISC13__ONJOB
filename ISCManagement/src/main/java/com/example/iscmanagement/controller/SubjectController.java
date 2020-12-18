@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.iscmanagement.exception.ResourceNotFoundException;
 import com.example.iscmanagement.model.Subject;
 import com.example.iscmanagement.service.SubjectService;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/api/subjects")
 public class SubjectController {

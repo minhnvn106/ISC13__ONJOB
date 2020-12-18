@@ -36,7 +36,7 @@ public class StudentController {
 	}
 
 	// get student by id
-	@GetMapping(value = "/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<Student> getUniversityById(@PathVariable(value = "id") Long studentId)
 			throws ResourceNotFoundException {
 		Student student = studentService.getStudent(studentId);
@@ -75,7 +75,7 @@ public class StudentController {
 		return ResponseEntity.badRequest().body("duplicated student code");
 	}
 
-	@DeleteMapping(value = "/{id}")
+	@DeleteMapping("/{id}")
 	public Map<String, Boolean> deleteStudent(@PathVariable(value = "id") Long id) throws ResourceNotFoundException {
 		studentService.getStudent(id);
 		studentService.deleteStudent(id);
