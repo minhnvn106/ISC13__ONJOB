@@ -17,17 +17,4 @@ public class SubjectController {
 	@Autowired
 	private SubjectService subjectService;
 	
-	@RequestMapping(value = { "listSubject" }, method = RequestMethod.GET)
-	public List<Subject> getAllSubject() {
-		return subjectService.getAllSubject();
-	}
-	@RequestMapping(value = { "deleteSubject" }, method = RequestMethod.GET)
-	public void deleteSubject(@RequestParam Long id) {
-		subjectService.deleteSubject(id);
-	}
-	@RequestMapping(path = { "updateSubject", "addSubject" }, method = RequestMethod.POST)
-	public void updateSubject(@RequestBody Subject subject) {
-		subjectService.insertSubject(subject);
-
-	}
 }
