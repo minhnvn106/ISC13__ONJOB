@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.iscmanagement.exception.ResourceNotFoundException;
 import com.example.iscmanagement.model.Major;
 import com.example.iscmanagement.service.MajorService;
-@Controller
+@CrossOrigin
 @RestController
 @RequestMapping("/api/majors")
 public class MajorController {
@@ -70,7 +71,7 @@ public class MajorController {
 	
 	
 	//delete major
-	@DeleteMapping("/{id}")
+	@DeleteMapping(path= "/{id}")
 	public Map<String, Boolean> deleteMajor(@PathVariable(value = "id") Long majorId) throws ResourceNotFoundException {
 		majorService.getMajor(majorId);
 		majorService.deleteMajor(majorId);

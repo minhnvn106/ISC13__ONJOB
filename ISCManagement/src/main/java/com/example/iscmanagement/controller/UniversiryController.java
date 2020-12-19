@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,9 +22,9 @@ import com.example.iscmanagement.exception.ResourceNotFoundException;
 import com.example.iscmanagement.model.Company;
 import com.example.iscmanagement.model.University;
 import com.example.iscmanagement.service.UniversityService;
-
+@CrossOrigin
 @RestController
-@RequestMapping("/api/university")
+@RequestMapping("/api/universities")
 public class UniversiryController {
 	@Autowired
 	private UniversityService universityService;
@@ -35,7 +36,7 @@ public class UniversiryController {
 	}
 
 	// get university by id
-	@GetMapping(value = "/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<University> getUniversityById(@PathVariable(value = "id") Long universityId)
 			throws ResourceNotFoundException {
 		University univerysity = universityService.getUniversity(universityId);
