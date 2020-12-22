@@ -10,15 +10,25 @@ import Input from './../../assets/services/input';
 // components
 import { useFormik } from 'formik';
 import * as Yup from "yup";
-
-//Toast
-import Alert from './../../utils/toaster'
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 // import TableDropdown from "components/Dropdowns/TableDropdown.js";
 import roomService from './../../assets/services/roomService';
 
+// Pnotify
+import { success, notice, alert, error, defaultModules } from '@pnotify/core';
+import '@pnotify/core/dist/PNotify.css';
+// import * as PNotifyMobile from '@pnotify/mobile';
+// import '@pnotify/mobile/dist/PNotifyMobile.css';
+import '@pnotify/font-awesome4';
+import '@pnotify/core/dist/BrightTheme.css';
+import '@pnotify/core/dist/Material.css';
+import { defaults } from '@pnotify/core';
+import * as PNotifyBootstrap4 from '@pnotify/bootstrap4';
+defaults.styling = 'material';
+defaults.icons = 'material';
+defaultModules.set(PNotifyBootstrap4, {});
 export default function RoomTable({ color }) {
   // state = { }
   const[rooms,setRooms] = useState([]);
@@ -84,11 +94,22 @@ export default function RoomTable({ color }) {
                 // handleModalClose();
                 if (res.errorCode !== 0) {
                   // Thông báo kết quả 
-                  Alert('success', 'Tạo thành công')   
+                  success({
+                    type :'success',
+                    title:'Thành công',
+                    text: 'Đã tạo mới thành công!',
+                    delay:2000,
+                    styling: 'brighttheme',
+                    icons: 'brighttheme',
+                    icon: true,
+                    animation: 'fade',       
+                  });   
                   loadData();
                   console.log(res);
                 } else {
-                  toast.error("Không tạo được");
+                  error({
+                    text: 'Tạo chưa thành công'
+                  });
                 }
             })
         } else {//update

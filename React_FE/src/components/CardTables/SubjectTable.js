@@ -133,31 +133,31 @@ export default function SubjectTable({ color }){
                     {/* Start Modal */}
                     <Modal show={modalShow} onHide={handleModalClose} backdrop="static" keyboard={false}>
                             <Modal.Header closeButton>
-                                <Modal.Title>Room</Modal.Title>
+                                <Modal.Title>Môn học mới</Modal.Title>
                             </Modal.Header>
                             <form autoComplete="on" onSubmit={formik.handleSubmit}>
                                 <Modal.Body>        
-                                    <Input id="txtSubCode" type="text" className="inputClass form-control" label="Code" labelSize="4" maxLength="100"
+                                    <Input id="txtSubCode" type="text" className="inputClass form-control" label="Mã phòng" labelSize="4" maxLength="100"
                                         frmField={formik.getFieldProps("subCode")}
                                         err={formik.touched.subCode && formik.errors.subCode}
                                         errMessage={formik.errors.subCode}
                                     />
-                                    <Input id="txtSubName" type="text" className="inputClass form-control" label="Name" labelSize="4" maxLength="100"
+                                    <Input id="txtSubName" type="text" className="inputClass form-control" label="Tên phòng" labelSize="4" maxLength="100"
                                         frmField={formik.getFieldProps("subName")}
                                         err={formik.touched.subName && formik.errors.subName}
                                         errMessage={formik.errors.subName}
                                     />
-                                    <Input id="txtSubCredit" type="text" className="inputClass form-control" label="Subject Credit" labelSize="4" maxLength="100"
+                                    <Input id="txtSubCredit" type="text" className="inputClass form-control" label="Số tín chỉ" labelSize="4" maxLength="100"
                                         frmField={formik.getFieldProps("subCredit")}
                                         err={formik.touched.subCredit && formik.errors.subCredit}
                                         errMessage={formik.errors.subCredit}
                                     />
-                                    <Input id="txtSubPassScore" type="text" className="inputClass form-control" label="Pass Score" labelSize="4" maxLength="100"
+                                    <Input id="txtSubPassScore" type="text" className="inputClass form-control" label="Điểm qua môn" labelSize="4" maxLength="100"
                                         frmField={formik.getFieldProps("subPassScore")}
                                         err={formik.touched.subPassScore && formik.errors.subPassScore}
                                         errMessage={formik.errors.subPassScore}
                                     />
-                                    <Input id="txtSubStatus" type="text" className="inputClass form-control" label="Status" labelSize="4" maxLength="100"
+                                    <Input id="txtSubStatus" type="text" className="inputClass form-control" label="Tình trạng" labelSize="4" maxLength="100"
                                         frmField={formik.getFieldProps("subStatus")}
                                         err={formik.touched.subStatus && formik.errors.subStatus}
                                         errMessage={formik.errors.subStatus}

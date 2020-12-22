@@ -6,8 +6,12 @@
   "license": "MIT",
   "dependencies": {
     "@fortawesome/fontawesome-free": "5.14.0",
+    "@material-ui/core": "^4.11.2",
+    "@material-ui/icons": "^4.11.2",
     "@popperjs/core": "2.5.1",
+    "@react-google-maps/api": "^2.0.2",
     "@tailwindcss/custom-forms": "0.2.1",
+    "animate.css": "^4.1.1",
     "axios": "^0.21.0",
     "bootstrap": "^4.5.3",
     "chart.js": "2.9.3",
@@ -19,11 +23,16 @@
     "react": "16.13.1",
     "react-bootstrap": "^1.4.0",
     "react-dom": "16.13.1",
-    "react-google-maps": "9.4.5",
+    "react-google-maps": "^9.4.5",
+    "react-pnotify": "0.0.6",
+    "react-redux": "^7.2.2",
     "react-router": "5.2.0",
     "react-router-dom": "5.2.0",
     "react-scripts": "3.4.3",
+    "react-toastify": "^6.2.0",
+    "redux": "^4.0.5",
     "tailwindcss": "1.8.10",
+    "web-vitals": "^1.0.1",
     "yup": "^0.32.8"
   },
   "scripts": {
@@ -57,6 +66,12 @@
     "typescript": "4.0.3"
   },
   "devDependencies": {
-    "json-server": "^0.16.3"
+    "@pnotify/animate": "^5.2.0",
+    "@pnotify/bootstrap4": "^5.2.0",
+    "@pnotify/confirm": "^5.2.0",
+    "@pnotify/core": "^5.2.0",
+    "@pnotify/font-awesome4": "^5.2.0",
+    "json-server": "^0.16.3",
+    "pnotify": "^5.2.0"
   }
 }
