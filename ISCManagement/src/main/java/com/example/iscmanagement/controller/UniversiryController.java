@@ -24,7 +24,7 @@ import com.example.iscmanagement.model.University;
 import com.example.iscmanagement.service.UniversityService;
 @CrossOrigin
 @RestController
-@RequestMapping("/api/university")
+@RequestMapping("/api/universities")
 public class UniversiryController {
 	@Autowired
 	private UniversityService universityService;

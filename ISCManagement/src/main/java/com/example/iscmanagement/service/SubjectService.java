@@ -23,7 +23,7 @@ public class SubjectService {
 
 		// get Subject by id
 		public Subject getSubject(long id) throws ResourceNotFoundException {
-			return repo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Subject isn't exist: " + id));
+			return repo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Nhân viên này không tồn tại: " + id));
 		}
 
 		// insert Subject

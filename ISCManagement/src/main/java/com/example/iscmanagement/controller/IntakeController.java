@@ -73,7 +73,7 @@ public class IntakeController {
 		
 		
 		//delete intake
-		@DeleteMapping("/{id}")
+		@DeleteMapping(path = "/{id}")
 		public Map<String, Boolean> deleteIntake(@PathVariable(value = "id") Long intakeId) throws ResourceNotFoundException {
 			intakeService.getIntake(intakeId);
 			intakeService.deleteIntake(intakeId);

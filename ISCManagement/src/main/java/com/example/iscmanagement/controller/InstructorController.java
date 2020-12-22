@@ -30,9 +30,6 @@ public class InstructorController {
 	@GetMapping(path = "")
 	public ResponseEntity<List<Instructor>>  getAllList(){
 		List<Instructor> insList = instructorService.getAllList();
-		if (insList.isEmpty()) {
-            return new ResponseEntity<List<Instructor>>(insList,HttpStatus.NO_CONTENT);
-        }
 		return new ResponseEntity<List<Instructor>>(insList,HttpStatus.OK);
 	}
 	

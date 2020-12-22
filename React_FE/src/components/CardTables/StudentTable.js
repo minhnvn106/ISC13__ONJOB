@@ -13,18 +13,20 @@ export default function StudentTable({ color }) {
 
   const [studentId, setStudentId] = useState(0);
 
+  
     /* ************************* */
-  const loadData = () => {
-          studentService.getAll().then(res => {
-            setStudents(res);
-        })
-    }
-    //B9 Remove Thay componentDidMount thành useEffect mngu
-    useEffect(() => {
-        
-        loadData();
-       
-    }, [students]);
+    const loadData = () => {
+      studentService.getAll().then(res => {
+          setStudents(res);
+      })
+  }
+  //B9 Remove Thay componentDidMount thành useEffect mngu
+  useEffect(() => {
+      
+      loadData();
+     
+  }, [studentId]); //[] Bắt buộc phải có nếu không nó sẽ load lại nhiều lần
+  //Set instructors vào để khi thay đổi update or delete thì nó sẽ set lại giá trị của instructors để nó gọi function loadData()
 
 
     const [modalShow, setModalShow] = useState(false);
@@ -101,13 +103,13 @@ export default function StudentTable({ color }) {
     const deleteRow = (e, dataId) => {
         e.preventDefault();
         studentService.delete(dataId).then(res => {
-            if (res.errorCode === 0) {
-                loadData();
-                console.log(res);
+          loadData();
+          console.log(res);
+            // if (res.errorCode === 0) {
 
-            } else {
+            // } else {
 
-            }
+            // }
         });
         console.log(dataId);
     }
@@ -156,17 +158,51 @@ export default function StudentTable({ color }) {
                                 err={formik.touched.stdCode && formik.errors.stdCode}
                                 errMessage={formik.errors.stdCode}
                             />
-                            <Input id="txtstdName" type="text" className="inputClass form-control" label="Họ tên" labelSize="4" maxLength="100"
+                            <Input id="txtStdName" type="text" className="inputClass form-control" label="Họ tên" labelSize="4" maxLength="100"
                                 frmField={formik.getFieldProps("stdName")}
                                 err={formik.touched.stdName && formik.errors.stdName}
                                 errMessage={formik.errors.stdName}
                             />
-                            <Input id="txtstdGender" type="text" className="inputClass form-control" label="Giới tính" labelSize="4" maxLength="100"
-                                frmField={formik.getFieldProps("stdGender")}
-                                err={formik.touched.stdGender && formik.errors.stdGender}
-                                errMessage={formik.errors.stdGender}
-                            />
-                            
+                            {/* <label>Giới tính</label> */}
+                            {/* <div class="form-check">
+                              <div class="row">
+                                <div class="col-sm-6">
+                                <FormControlLabel value="1" control={<StyledRadio />} label="Nữ" />
+                                <FormControlLabel value="0" control={<StyledRadio />} label="Nam" />
+                                
+                                <FormControlLabel
+                                  value={formik.getFieldProps("stdGender")}
+                                  err={formik.touched.stdGender && formik.errors.stdGender}
+                                  errMessage={formik.errors.stdGender}
+                                />
+                                </div>
+                              </div> 
+                            </div> */}
+                            {/* <div class="form-check">
+                              <div class="row">
+                                
+                                <div class="col-sm-3">
+                                  <Input id="rdStdGender" type="radio" name="stdGender" value="0" className="inputClass form-control" label="Nam" 
+                                  frmField={formik.getFieldProps("stdGender")}
+                                  err={formik.touched.stdGender && formik.errors.stdGender}
+                                  errMessage={formik.errors.stdGender}
+                                  />      
+                                </div>
+                                <div class="col-sm-3">
+                                  <Input id="rdStdGender" type="radio" name="stdGender" value="1" className="inputClass form-control" label="Nữ" 
+                                  frmField={formik.getFieldProps("stdGender")}
+                                  err={formik.touched.stdGender && formik.errors.stdGender}
+                                  errMessage={formik.errors.stdGender}
+                                  />    
+                                </div>
+                              </div> 
+                            </div> */}
+                            <Input id="txtStdGender" type="text" name="stdGender"  label="Giới tính"   className="inputClass form-control" 
+                                  frmField={formik.getFieldProps("stdGender")}
+                                  err={formik.touched.stdGender && formik.errors.stdGender}
+                                  errMessage={formik.errors.stdGender}
+                                  />
+                        
                             <Input id="txtstdBirthday" type="date" className="inputClass form-control" label="Ngày sinh" labelSize="4" maxLength="100"
                                 
                                 data-format="DD-MM-YYYY"
@@ -345,8 +381,8 @@ export default function StudentTable({ color }) {
                   }
                 >
                   Ghi chú
-                </th>                
-
+                </th>         
+                       
                 <th
                   className={
                     "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left " +
@@ -359,7 +395,7 @@ export default function StudentTable({ color }) {
             </thead>
             <tbody>
             {
-              students.map((student, idx) => {
+              students.map((student) => {
                 return (
                 <tr key={student.stdId}>
                   <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 text-right flex items-center">
@@ -371,7 +407,7 @@ export default function StudentTable({ color }) {
                   <span>
                     {student.stdName}
                   </span>
-                    {idx + 1}
+                    {/* {idx + 1} */}
                   </th>
 
                   <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
@@ -392,10 +428,11 @@ export default function StudentTable({ color }) {
 
                   <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
                   {student.stdType}
+              
                   </td>
 
                   <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
-                  {student.stdWorkStatus}
+                  {student.stdGPA}
                   </td>
 
                   <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
