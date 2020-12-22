@@ -21,7 +21,7 @@ import Profile from "views/Profile.js";
 
 //Bootstrap
 // import 'bootstrap/dist/css/bootstrap.css';
-// import 'bootstrap/dist/js/bootstrap.bundle.min';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 ReactDOM.render(
   <BrowserRouter>

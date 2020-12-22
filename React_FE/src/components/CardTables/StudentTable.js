@@ -103,8 +103,8 @@ export default function StudentTable({ color }) {
     const deleteRow = (e, dataId) => {
         e.preventDefault();
         studentService.delete(dataId).then(res => {
-          loadData();
-          console.log(res);
+        loadData();
+        console.log(res);
             // if (res.errorCode === 0) {
 
             // } else {
@@ -145,11 +145,11 @@ export default function StudentTable({ color }) {
                 variant="primary" onClick={() => 
                 handleModalShow(null, 0)}>
                   <i className="fas fa-plus"></i> 
-                  Thêm
+                  &nbsp; Thêm
                 </button>
                 <Modal show={modalShow} onHide={handleModalClose} backdrop="static" keyboard={false}>
                     <Modal.Header closeButton>
-                    <Modal.Title><h3> Học viên mới </h3></Modal.Title>
+                    <Modal.Title> Học viên mới </Modal.Title>
                     </Modal.Header>
                     <form autoComplete="on" onSubmit={formik.handleSubmit}>
                         <Modal.Body>        
@@ -163,40 +163,7 @@ export default function StudentTable({ color }) {
                                 err={formik.touched.stdName && formik.errors.stdName}
                                 errMessage={formik.errors.stdName}
                             />
-                            {/* <label>Giới tính</label> */}
-                            {/* <div class="form-check">
-                              <div class="row">
-                                <div class="col-sm-6">
-                                <FormControlLabel value="1" control={<StyledRadio />} label="Nữ" />
-                                <FormControlLabel value="0" control={<StyledRadio />} label="Nam" />
-                                
-                                <FormControlLabel
-                                  value={formik.getFieldProps("stdGender")}
-                                  err={formik.touched.stdGender && formik.errors.stdGender}
-                                  errMessage={formik.errors.stdGender}
-                                />
-                                </div>
-                              </div> 
-                            </div> */}
-                            {/* <div class="form-check">
-                              <div class="row">
-                                
-                                <div class="col-sm-3">
-                                  <Input id="rdStdGender" type="radio" name="stdGender" value="0" className="inputClass form-control" label="Nam" 
-                                  frmField={formik.getFieldProps("stdGender")}
-                                  err={formik.touched.stdGender && formik.errors.stdGender}
-                                  errMessage={formik.errors.stdGender}
-                                  />      
-                                </div>
-                                <div class="col-sm-3">
-                                  <Input id="rdStdGender" type="radio" name="stdGender" value="1" className="inputClass form-control" label="Nữ" 
-                                  frmField={formik.getFieldProps("stdGender")}
-                                  err={formik.touched.stdGender && formik.errors.stdGender}
-                                  errMessage={formik.errors.stdGender}
-                                  />    
-                                </div>
-                              </div> 
-                            </div> */}
+                            
                             <Input id="txtStdGender" type="text" name="stdGender"  label="Giới tính"   className="inputClass form-control" 
                                   frmField={formik.getFieldProps("stdGender")}
                                   err={formik.touched.stdGender && formik.errors.stdGender}
@@ -262,7 +229,7 @@ export default function StudentTable({ color }) {
                             </Button>
                             {/*  */}
                             <Button variant="primary" type="submit" onClick={handleModalClose} disabled={(!formik.isValid && formik.dirty)}>
-                                Tạo
+                                Lưu
                             </Button>
                         </Modal.Footer>
                     </form>
@@ -275,6 +242,22 @@ export default function StudentTable({ color }) {
           <table className="items-center w-full bg-transparent border-collapse">
             <thead>
               <tr>
+                <th className={
+                  "px-3 w-5 text-center align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold " + (color === "light"? "bg-gray-100 text-gray-600 border-gray-200": "bg-blue-800 text-blue-300 border-blue-700")}>
+                  STT
+                </th>
+                
+                <th
+                  className={
+                    "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left " +
+                    (color === "light"
+                      ? "bg-gray-100 text-gray-600 border-gray-200"
+                      : "bg-blue-800 text-blue-300 border-blue-700")
+                  }
+                >
+                  Mã số
+                </th>
+
                 <th
                   className={
                     "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left " +
@@ -285,6 +268,7 @@ export default function StudentTable({ color }) {
                 >
                   Họ Tên
                 </th>
+
                 <th
                   className={
                     "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left " +
@@ -293,7 +277,7 @@ export default function StudentTable({ color }) {
                       : "bg-blue-800 text-blue-300 border-blue-700")
                   }
                 >
-                  Mã số
+                  Hình ảnh
                 </th>
                 
                 <th
@@ -305,6 +289,17 @@ export default function StudentTable({ color }) {
                   }
                 >
                   Ngày sinh
+                </th>
+
+                <th
+                  className={
+                    "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left " +
+                    (color === "light"
+                      ? "bg-gray-100 text-gray-600 border-gray-200"
+                      : "bg-blue-800 text-blue-300 border-blue-700")
+                  }
+                >
+                  Giới tính
                 </th>
                 
                 <th
@@ -370,16 +365,6 @@ export default function StudentTable({ color }) {
                       : "bg-blue-800 text-blue-300 border-blue-700")
                   }
                 >
-                  Giới tính
-                </th>
-                <th
-                  className={
-                    "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left " +
-                    (color === "light"
-                      ? "bg-gray-100 text-gray-600 border-gray-200"
-                      : "bg-blue-800 text-blue-300 border-blue-700")
-                  }
-                >
                   Ghi chú
                 </th>         
                        
@@ -395,27 +380,33 @@ export default function StudentTable({ color }) {
             </thead>
             <tbody>
             {
-              students.map((student) => {
+              students.map((student,idx) => {
                 return (
                 <tr key={student.stdId}>
-                  <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 text-right flex items-center">
-                  <img 
-                    src={student.stdImg}
-                    className="h-12 w-12 bg-white rounded-full border"
-                    alt="..."
-                  ></img>{" "}
-                  <span>
-                    {student.stdName}
-                  </span>
-                    {/* {idx + 1} */}
-                  </th>
+                  <th className="text-center " >{idx + 1}</th>
 
                   <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
                   {student.stdCode}
                   </td>
 
                   <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
+                    {student.stdName}
+                  </td>
+
+                  <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 text-left flex items-center">
+                  <img 
+                    src={student.stdImg}
+                    className="h-12 w-12 bg-white rounded-full border"
+                    alt="..."
+                  ></img>
+                  </th>
+
+                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
                   {student.stdBirthday}
+                  </td>
+
+                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
+                  {student.stdGender}
                   </td>
 
                   <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
@@ -437,10 +428,6 @@ export default function StudentTable({ color }) {
 
                   <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
                   {student.stdWorkStatus}
-                  </td>
-
-                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
-                  {student.stdGender}
                   </td>
 
                   <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">

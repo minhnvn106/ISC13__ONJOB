@@ -97,14 +97,16 @@ export default function RoomTable({ color }) {
     const deleteRow = (e, dataId) => {
         e.preventDefault();
         roomService.delete(dataId).then(res => {
-            if (res.errorCode === 0) {
-                loadData();
-                console.log(res);
+        loadData();
+        console.log(res);   
+          // if (res.errorCode === 0) {
+                
 
-            } else {
+          //   } else {
 
-            }
+          //   }
         });
+        console.log(dataId);
     }
 
   
@@ -138,27 +140,27 @@ export default function RoomTable({ color }) {
                 variant="primary" onClick={() => 
                 handleModalShow(null, 0)}>
                 <i className="fas fa-plus"></i> 
-                Thêm
+                &nbsp; Thêm
               </button>
 
               {/* Start Modal */}
               <Modal show={modalShow} onHide={handleModalClose} backdrop="static" keyboard={false}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Room</Modal.Title>
+                        <Modal.Title>Phòng mới</Modal.Title>
                     </Modal.Header>
                     <form autoComplete="on" onSubmit={formik.handleSubmit}>
                         <Modal.Body>        
-                            <Input id="txtRoomCode" type="text" className="inputClass form-control" label="Code" labelSize="4" maxLength="100"
+                            <Input id="txtRoomCode" type="text" className="inputClass form-control" label="Mã Phòng" labelSize="4" maxLength="100"
                                 frmField={formik.getFieldProps("roomCode")}
                                 err={formik.touched.roomCode && formik.errors.roomCode}
                                 errMessage={formik.errors.roomCode}
                             />
-                            <Input id="txtRoomName" type="text" className="inputClass form-control" label="Name" labelSize="4" maxLength="100"
+                            <Input id="txtRoomName" type="text" className="inputClass form-control" label="Tên phòng" labelSize="4" maxLength="100"
                                 frmField={formik.getFieldProps("roomName")}
                                 err={formik.touched.roomName && formik.errors.roomName}
                                 errMessage={formik.errors.roomName}
                             />
-                            <Input id="txtRoomType" type="text" className="inputClass form-control" label="Room Type" labelSize="4" maxLength="100"
+                            <Input id="txtRoomType" type="text" className="inputClass form-control" label="Loại" labelSize="4" maxLength="100"
                                 frmField={formik.getFieldProps("roomType")}
                                 err={formik.touched.roomType && formik.errors.roomType}
                                 errMessage={formik.errors.roomType}
@@ -172,11 +174,11 @@ export default function RoomTable({ color }) {
 
                         <Modal.Footer>
                             <Button variant="secondary" onClick={handleModalClose}>
-                                Close
+                                Thoát
                             </Button>
                             {/*  */}
                             <Button variant="primary" type="submit" onClick={handleModalClose} disabled={(!formik.isValid && formik.dirty)}>
-                                Save Changes
+                                Lưu
                             </Button>
                         </Modal.Footer>
                     </form>
@@ -220,12 +222,16 @@ export default function RoomTable({ color }) {
                 rooms.map((room,idx)=>{
                   return(
                     <tr key={room.roomId}>
-                      <th>{idx+1}</th>
-                      <td>{room.roomCode}</td>
-                      <td>{room.roomName}</td>
-                      <td>{room.roomType}</td>
-                      <td>{room.roomStatus}</td>
-                      <td>
+                      <th className="text-center " >{idx + 1}</th>
+                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
+                      {room.roomCode}</td>
+                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
+                      {room.roomName}</td>
+                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
+                      {room.roomType}</td>
+                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
+                      {room.roomStatus}</td>
+                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
                         <a href="/#" onClick={(e) => handleModalShow(e, room.roomId)}>
                           <i className="fas fa-edit text-primary"></i>
                         </a>

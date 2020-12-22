@@ -87,15 +87,15 @@ export default function UniversityTable({ color }){
     const deleteRow = (e, dataId) => {
         e.preventDefault();
         universityService.delete(dataId).then(res => {
-            if (res.errorCode === 0) {
-                loadData();
-                console.log(res);
+        loadData();
+        console.log(res);
+            // if (res.errorCode === 0) {
 
-            } else {
+            // } else {
 
-            }
+            // }
         });
-        
+        console.log(dataId);
     }
     return(
         <Fragment>
@@ -127,13 +127,13 @@ export default function UniversityTable({ color }){
                         variant="primary" onClick={() => 
                         handleModalShow(null, 0)}>
                         <i className="fas fa-plus"></i> 
-                        Thêm
+                        &nbsp; Thêm
                     </button>
 
                     {/* Start Modal */}
                     <Modal show={modalShow} onHide={handleModalClose} backdrop="static" keyboard={false}>
                             <Modal.Header closeButton>
-                                <Modal.Title>Room</Modal.Title>
+                                <Modal.Title>Đại học mới</Modal.Title>
                             </Modal.Header>
                             <form autoComplete="on" onSubmit={formik.handleSubmit}>
                                 <Modal.Body>        
@@ -157,7 +157,7 @@ export default function UniversityTable({ color }){
                                         err={formik.touched.universityPhone && formik.errors.universityPhone}
                                         errMessage={formik.errors.universityPhone}
                                     />
-                                    <Input id="txtUniversityUrl" type="text" className="inputClass form-control" label="URL" labelSize="4" maxLength="100"
+                                    <Input id="txtUniversityUrl" type="text" className="inputClass form-control" label="Trang Web" labelSize="4" maxLength="100"
                                         frmField={formik.getFieldProps("universityUrl")}
                                         err={formik.touched.universityUrl && formik.errors.universityUrl}
                                         errMessage={formik.errors.universityUrl}
@@ -166,11 +166,11 @@ export default function UniversityTable({ color }){
 
                                 <Modal.Footer>
                                     <Button variant="secondary" onClick={handleModalClose}>
-                                        Close
+                                        Thoát
                                     </Button>
                                     {/*  */}
                                     <Button variant="primary" type="submit" onClick={handleModalClose} disabled={(!formik.isValid && formik.dirty)}>
-                                        Save Changes
+                                        Lưu
                                     </Button>
                                 </Modal.Footer>
                             </form>
@@ -217,19 +217,29 @@ export default function UniversityTable({ color }){
                         universities.map((university,idx)=>{
                         return(
                             <tr key={university.universityId}>
-                            <th>{idx+1}</th>
-                            <td>{university.universityName}</td>
-                            <td>{university.universityAddress}</td>
-                            <td>{university.universityContactPerson}</td>
-                            <td>{university.universityPhone}</td>
-                            <td>{university.universityUrl}</td>
-                            <td>
-                                <a href="/#" onClick={(e) => handleModalShow(e, university.universityId)}>
-                                <i className="fas fa-edit text-primary"></i>
-                                </a>
-                                <a href="/#" onClick={(e) => deleteRow(e, university.universityId)}>
-                                <i className="fas fa-trash-alt text-danger"></i>
-                                </a>
+                            <th className="text-center " >{idx + 1}</th>
+                            <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 text-left flex items-center">
+                            {university.universityName}
+                            </td>
+                            <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
+                            {university.universityAddress}
+                            </td>
+                            <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
+                            {university.universityContactPerson}
+                            </td>
+                            <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
+                            {university.universityPhone}
+                            </td>
+                            <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
+                                {university.universityUrl}
+                            </td>
+                            <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
+                            <a href="/#" onClick={(e) => handleModalShow(e, university.universityId)}>
+                            <i className="fas fa-edit text-primary"></i>
+                            </a>
+                            <a href="/#" onClick={(e) => deleteRow(e, university.universityId)}>
+                            <i className="fas fa-trash-alt text-danger"></i>
+                            </a>
                             </td>
                             </tr>
                         )

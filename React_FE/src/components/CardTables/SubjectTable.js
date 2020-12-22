@@ -19,7 +19,7 @@ export default function SubjectTable({ color }){
     }
     useEffect(()=>{
         loadData();
-    },[subjects]);
+    },[subjectId]);
 
     const [modalShow, setModalShow] = useState(false);
 
@@ -87,15 +87,15 @@ export default function SubjectTable({ color }){
     const deleteRow = (e, dataId) => {
         e.preventDefault();
         subjectService.delete(dataId).then(res => {
-            if (res.errorCode === 0) {
-                loadData();
-                console.log(res);
+        loadData();
+        console.log(res);
+            // if (res.errorCode === 0) {
 
-            } else {
+            // } else {
 
-            }
+            // }
         });
-        
+        console.log(dataId);
     }
     return(
         <Fragment>
@@ -127,7 +127,7 @@ export default function SubjectTable({ color }){
                         variant="primary" onClick={() => 
                         handleModalShow(null, 0)}>
                         <i className="fas fa-plus"></i> 
-                        Thêm
+                        &nbsp; Thêm
                     </button>
 
                     {/* Start Modal */}
@@ -194,7 +194,6 @@ export default function SubjectTable({ color }){
                         Tên môn học
                         </th>
                         
-                        
                         <th className={"px-3 w-5 text-center align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold " + (color === "light"? "bg-gray-100 text-gray-600 border-gray-200": "bg-blue-800 text-blue-300 border-blue-700")}>
                         Số tín chỉ
                         </th>
@@ -217,19 +216,28 @@ export default function SubjectTable({ color }){
                         subjects.map((subject,idx)=>{
                         return(
                             <tr key={subject.subID}>
-                            <th>{idx+1}</th>
-                            <td>{subject.subCode}</td>
-                            <td>{subject.subName}</td>
-                            <td>{subject.subCredit}</td>
-                            <td>{subject.subPassScore}</td>
-                            <td>{subject.subStatus}</td>
-                            <td>
-                                <a href="/#" onClick={(e) => handleModalShow(e, subject.subID)}>
-                                <i className="fas fa-edit text-primary"></i>
-                                </a>
-                                <a href="/#" onClick={(e) => deleteRow(e, subject.subID)}>
-                                <i className="fas fa-trash-alt text-danger"></i>
-                                </a>
+                            <th className="text-center " >{idx + 1}</th>
+                            <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
+                            {subject.subCode}</td>
+                            <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
+                            {subject.subName}
+                            </td>
+                            <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
+                            {subject.subCredit}
+                            </td>
+                            <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
+                            {subject.subPassScore}
+                            </td>
+                            <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
+                            {subject.subStatus}
+                            </td>
+                            <td className="border-t-0 px-6 align-middle text-center border-l-0 border-r-0 whitespace-no-wrap p-4">
+                            <a href="/#" onClick={(e) => handleModalShow(e, subject.subID)}>
+                            <i className="fas fa-edit text-primary mr-4"></i>
+                            </a>
+                            <a href="/#" onClick={(e) => deleteRow(e, subject.subID)}>
+                            <i className="fas fa-trash-alt text-danger"></i>
+                            </a>
                             </td>
                             </tr>
                         )

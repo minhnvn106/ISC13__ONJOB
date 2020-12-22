@@ -21,7 +21,7 @@ export default function CompanyTable({ color }) {
     //B9 Remove Thay componentDidMount thành useEffect mngu
     useEffect(() => {        
         loadData();
-    }, [companies]); 
+    }, [companyId]); 
 
   const [modalShow, setModalShow] = useState(false);
 
@@ -87,13 +87,13 @@ export default function CompanyTable({ color }) {
     const deleteRow = (e, dataId) => {
         e.preventDefault();
         companyService.delete(dataId).then(res => {
-            if (res.errorCode === 0) {
-                loadData();
-                console.log(res);
+        loadData();
+        console.log(res);
+            // if (res.errorCode === 0) {
 
-            } else {
+            // } else {
 
-            }
+            // }
         });
         console.log(dataId);
     }  
@@ -128,12 +128,12 @@ export default function CompanyTable({ color }) {
                 variant="primary" onClick={() => 
                 handleModalShow(null, 0)}>
                 <i className="fas fa-plus"></i> 
-                Thêm
+                &nbsp; Thêm
             </button>
             <Modal show={modalShow} onHide={handleModalClose} backdrop="static" keyboard={false}>
             <Modal.Header closeButton>
                 <Modal.Title>
-                <h3> Công ty mới </h3>
+                Công ty mới 
                 </Modal.Title>
             </Modal.Header>
             <form autoComplete="on" onSubmit={formik.handleSubmit}>
@@ -163,7 +163,7 @@ export default function CompanyTable({ color }) {
                 errMessage={formik.errors.companyPhone}
                 />
 
-                <Input id="txtcompanyUrl" type="text" className="inputClass form-control" label="Website" labelSize="4" maxLength="100"
+                <Input id="txtcompanyUrl" type="text" className="inputClass form-control" label="Trang Web" labelSize="4" maxLength="100"
                 frmField={formik.getFieldProps("companyUrl")}
                 err={formik.touched.companyUrl && formik.errors.companyUrl}
                 errMessage={formik.errors.companyUrl}
@@ -183,7 +183,7 @@ export default function CompanyTable({ color }) {
                 </Button>
             {/*  */}
                 <Button variant="primary" type="submit" onClick={handleModalClose} disabled={(!formik.isValid && formik.dirty)}>
-                Tạo
+                Lưu
                 </Button>
             </Modal.Footer>
           </form>
@@ -195,6 +195,9 @@ export default function CompanyTable({ color }) {
           <table className="items-center w-full bg-transparent border-collapse">
             <thead>
               <tr>
+                <th className={"px-3 w-5 text-center align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold " + (color === "light"? "bg-gray-100 text-gray-600 border-gray-200": "bg-blue-800 text-blue-300 border-blue-700")}>
+                  STT
+                </th>
                 <th
                   className={
                     "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left " +
@@ -273,12 +276,13 @@ export default function CompanyTable({ color }) {
               companies.map((company, idx) => {
                 return (
                 <tr key={company.companyId}>
-                  <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 text-left flex items-center">
+                  <th className="text-center " >{idx + 1}</th>
+                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 text-left flex items-center">
                   <span>
                     {company.companyName}
                   </span>
-                  {idx + 1}
-                  </th>
+                  
+                  </td>
                   <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
                   {company.companyAddress}
                   </td>

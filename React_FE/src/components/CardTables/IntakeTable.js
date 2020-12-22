@@ -23,7 +23,7 @@ export default function IntakeTable({ color }) {
         
         loadData();
        
-    }, [intakes]); 
+    }, [intakeId]); 
 
     const [modalShow, setModalShow] = useState(false);
 
@@ -93,15 +93,15 @@ export default function IntakeTable({ color }) {
     const deleteRow = (e, dataId) => {
         e.preventDefault();
         intakeService.delete(dataId).then(res => {
-            if (res.errorCode === 0) {
-                loadData();
-                console.log(res);
-
-            } else {
-
-            }
-        });
-        console.log(dataId);
+          loadData();
+          console.log(res);
+              // if (res.errorCode === 0) {
+  
+              // } else {
+  
+              // }
+          });
+          console.log(dataId);
     }
   
   return (
@@ -135,11 +135,11 @@ export default function IntakeTable({ color }) {
             variant="primary" onClick={() => 
             handleModalShow(null, 0)}>
               <i className="fas fa-plus"></i> 
-              Thêm
+              &nbsp; Thêm
             </button>
             <Modal show={modalShow} onHide={handleModalClose} backdrop="static" keyboard={false}>
               <Modal.Header closeButton>
-              <Modal.Title><h3> Khóa mới </h3></Modal.Title>
+              <Modal.Title> Khóa mới </Modal.Title>
               </Modal.Header>
               <form autoComplete="on" onSubmit={formik.handleSubmit}>
                   <Modal.Body>        
@@ -191,7 +191,7 @@ export default function IntakeTable({ color }) {
                     </Button>
                     {/*  */}
                     <Button variant="primary" type="submit" onClick={handleModalClose} disabled={(!formik.isValid && formik.dirty)}>
-                      Tạo
+                      Lưu
                     </Button>
                   </Modal.Footer>
                 </form>
@@ -204,15 +204,9 @@ export default function IntakeTable({ color }) {
           <table className="items-center w-full bg-transparent border-collapse">
             <thead>
               <tr>
-                <th
-                  className={
-                    "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left " +
-                    (color === "light"
-                      ? "bg-gray-100 text-gray-600 border-gray-200"
-                      : "bg-blue-800 text-blue-300 border-blue-700")
-                  }
-                >
-                  Khóa học
+                <th className={
+                  "px-3 w-5 text-center align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold " + (color === "light"? "bg-gray-100 text-gray-600 border-gray-200": "bg-blue-800 text-blue-300 border-blue-700")}>
+                  STT
                 </th>
                 <th
                   className={
@@ -224,6 +218,18 @@ export default function IntakeTable({ color }) {
                 >
                   Mã khóa
                 </th>
+                
+                <th
+                  className={
+                    "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left " +
+                    (color === "light"
+                      ? "bg-gray-100 text-gray-600 border-gray-200"
+                      : "bg-blue-800 text-blue-300 border-blue-700")
+                  }
+                >
+                  Khóa học
+                </th>
+                
                 <th
                   className={
                     "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left " +
@@ -276,17 +282,18 @@ export default function IntakeTable({ color }) {
             </thead>
             <tbody>
             {
-              intakes.map((intake) => {
+              intakes.map((intake, idx) => {
                 return (
                 <tr key={intake.intakeId}>
-                  <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 text-left flex items-center">
+                  <th className="text-center " >{idx + 1}</th>
+                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 text-left flex items-center">
                   <span>
-                    {intake.intakeName}
+                    {intake.intakeCode}
                   </span>
                   {/* {idx + 1} */}
-                  </th>
+                  </td>
                   <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
-                  {intake.intakeCode}
+                  {intake.intakeName}
                   </td>
                   <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
                   {intake.intakeBeginDay}
