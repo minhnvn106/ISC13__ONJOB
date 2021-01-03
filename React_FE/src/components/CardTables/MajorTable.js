@@ -7,6 +7,14 @@ import { useFormik } from 'formik';
 import * as Yup from "yup";
 
 import Input from './../../assets/services/input';
+
+//Toast
+import Alert from './../../utils/toaster'
+import 'react-toastify/dist/ReactToastify.css';
+
+// Confirmation
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 export default function MajorTable({ color }) {
   const [majors, setMajors] = useState([]);
 
@@ -54,8 +62,8 @@ export default function MajorTable({ color }) {
             //Nếu có thêm nhiều trường khác
         },
         validationSchema: Yup.object({
-            majorCode: Yup.string().required("Required").min(4, "Must be 4 characters or more"),
-            majorName: Yup.string().required("Required"),
+            majorCode: Yup.string().required("Phải nhập").min(2, "Phải 2 kí tự trở lên"),
+            majorName: Yup.string().required("Phải nhập")
         }),
         onSubmit: (values) => {
             // console.log(values);

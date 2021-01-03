@@ -7,7 +7,7 @@ const url = {
     majors: '/majors',
     intakes: '/intakes',
     companies: '/companies',
-    students: '/students',
+    students: './students',
 
     instructors: '/instructors',
     rooms: '/rooms',

@@ -7,6 +7,15 @@ import { useFormik } from 'formik';
 import * as Yup from "yup";
 
 import Input from './../../assets/services/input';
+
+//Toast
+import Alert from './../../utils/toaster'
+import 'react-toastify/dist/ReactToastify.css';
+
+// Confirmation
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+
 export default function CompanyTable({ color }) {
   const [companies, setCompanies] = useState([]);
 
@@ -68,35 +77,75 @@ export default function CompanyTable({ color }) {
 
         if (companyId === 0) {//add
             companyService.add(data).then((res) => {
+              // loadData();
+              // handleModalClose();
+              if (res.errorCode !== 0) {
+                // Thông báo kết quả 
+                Alert('success', 'Đã tạo thành công')   
                 loadData();
-                handleModalClose();
-            })
+                console.log(res);
+              } else {
+                // Alert('error', 'Không tạo được')   
+                // loadData();
+              }
+          })
         } else {//update
             companyService.update(companyId, data).then(res => {
-                loadData()
-                handleModalClose();
-                // if(res.errorCode===0){
+              // loadData()
+              // handleModalClose();
+              if (res.errorCode !== 0) {
+                // Thông báo kết quả 
+                Alert('success', 'Đã chỉnh thành công')   
+                loadData();
+                console.log(res);
+              } else {
+                // Alert('success', 'Chỉnh không được')   
+                // loadData();
+              }
+              // if(res.errorCode===0){
 
-                // }else{
+              // }else{
 
-                // }
-            })
+              // }
+          })
         }
     }
-    //Delete 1 dòng dữ liệu
+    //Hiện Confirm Delete 1 dòng dữ liệu
     const deleteRow = (e, dataId) => {
-        e.preventDefault();
-        companyService.delete(dataId).then(res => {
-        loadData();
-        console.log(res);
-            // if (res.errorCode === 0) {
-
-            // } else {
-
-            // }
-        });
-        console.log(dataId);
-    }  
+      e.preventDefault();
+      confirmAlert({
+        title: 'Thông báo',
+        message: 'Bạn có chắc muốn xóa không?',
+        buttons: [
+          {
+            label: 'Xóa',
+            onClick: () => 
+            {
+                
+                //TODO: Hiện notification
+                //TODO: Xóa dữ liệu
+                companyService.delete(dataId).then((res) => {
+                // loadData();
+                // console.log(res);   
+                  if (res.errorCode !== 0) {
+                    // Thông báo kết quả
+                    Alert('success', 'Đã xóa thành công')   
+                    loadData();
+                    console.log(res);
+                  } else {
+                    
+                  }
+                });
+                // console.log(dataId);
+              }
+            },
+          {
+            label: 'Không',
+          }
+        ]
+      });
+    };
+  
   return (
     <Fragment>
         {/* Colors */}
@@ -296,14 +345,14 @@ export default function CompanyTable({ color }) {
                   {company.companyUrl}
                   </td>
                   <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
-                  {company.companyStatus}
+                  {company.companyStatus==="KHONGHOATDONG"?"Phá sản":"Còn kinh doanh"}
                   </td>
-                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 text-right">
+                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xm whitespace-no-wrap p-4 text-center">
                     <a href="/#" onClick={(e) => handleModalShow(e, company.companyId)}>
-                      <i className="fas fa-edit text-primary"></i>
+                      <i className="fas fa-edit text-primary px-2"></i>
                     </a>
                     <a href="/#" onClick={(e) => deleteRow(e, company.companyId)}>
-                      <i className="fas fa-trash-alt text-danger"></i>
+                      <i className="fas fa-trash-alt text-danger px-2"></i>
                     </a>
                     {/* <TableDropdown /> */}
                   </td>

@@ -1,37 +1,42 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import PropTypes from "prop-types";
-import studentService from './../../assets/services/studentService';
 import { Button, Modal } from 'react-bootstrap';
 
-import { useFormik } from 'formik';
-import * as Yup from "yup";
+// import { Pnotify } from '../../utils/pnotify';
 // import Input from './../controls/input';
 
 import Input from './../../assets/services/input';
+
+// components
+import { useFormik } from 'formik';
+import * as Yup from "yup";
+
+//Toast
+import Alert from './../../utils/toaster'
+import {toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+// import TableDropdown from "components/Dropdowns/TableDropdown.js";
+import studentService from './../../assets/services/studentService';
+
 export default function StudentTable({ color }) {
-  const [students, setStudents] = useState([]);
-
-  const [studentId, setStudentId] = useState(0);
-
+  // state = { }
+  const[students,setStudents] = useState([]);
+  const[studentId,setStudentId] = useState(0);
   
-    /* ************************* */
-    const loadData = () => {
-      studentService.getAll().then(res => {
-          setStudents(res);
-      })
+  const loadData = ()=>{
+    studentService.getAll().then(res=>{
+      setStudents(res);
+    })
   }
-  //B9 Remove Thay componentDidMount thành useEffect mngu
-  useEffect(() => {
-      
-      loadData();
-     
-  }, [studentId]); //[] Bắt buộc phải có nếu không nó sẽ load lại nhiều lần
-  //Set instructors vào để khi thay đổi update or delete thì nó sẽ set lại giá trị của instructors để nó gọi function loadData()
 
+  useEffect(()=>{
+    loadData();
+  },[studentId]);
 
-    const [modalShow, setModalShow] = useState(false);
+  const [modalShow, setModalShow] = useState(false);
 
-    const handleModalClose = () => setModalShow(false);
+  const handleModalClose = () => setModalShow(false);
 
     //Hàm xử lý để biết xem là thêm mới hay update
     const handleModalShow = (e, dataId) => {
@@ -62,13 +67,12 @@ export default function StudentTable({ color }) {
             stdType: "",
             stdGPA: "",
             stdWorkStatus: "",
-            stdNote: ""
+            stdNote: "",
             //Nếu có thêm nhiều trường khác
         },
         validationSchema: Yup.object({
-            stdCode: Yup.string().required("Required").min(4, "Must be 4 characters or more"),
-            stdName: Yup.string().required("Required"),
-            stdEmail: Yup.string().email(),
+          stdCode: Yup.string().required("Required").min(4, "Must be 4 characters or more"),
+          stdName: Yup.string().required("Required")           
         }),
         onSubmit: (values) => {
             // console.log(values);
@@ -82,13 +86,31 @@ export default function StudentTable({ color }) {
 
         if (studentId === 0) {//add
             studentService.add(data).then((res) => {
-                loadData();
-                handleModalClose();
+                // loadData();
+                // handleModalClose();
+                if (res.errorCode !== 0) {
+                  // Thông báo kết quả 
+                  Alert('success', 'Đã tạo thành công')   
+                  loadData();
+                  console.log(res);
+                } else {
+                  // Alert('success', 'Không tạo được')   
+                  // loadData();
+                }
             })
         } else {//update
             studentService.update(studentId, data).then(res => {
-                loadData()
-                handleModalClose();
+                // loadData()
+                // handleModalClose();
+                if (res.errorCode !== 0) {
+                  // Thông báo kết quả 
+                  Alert('success', 'Đã chỉnh thành công')   
+                  loadData();
+                  console.log(res);
+                } else {
+                  // Alert('success', 'Chỉnh không được')   
+                  // loadData();
+                }
                 // if(res.errorCode===0){
 
                 // }else{
@@ -102,18 +124,22 @@ export default function StudentTable({ color }) {
     //Delete 1 dòng dữ liệu
     const deleteRow = (e, dataId) => {
         e.preventDefault();
-        studentService.delete(dataId).then(res => {
-        loadData();
-        console.log(res);
-            // if (res.errorCode === 0) {
-
-            // } else {
-
-            // }
+        //TODO: Hiện notification
+        //TODO: Xóa dữ liệu
+        studentService.delete(dataId).then((res) => {
+        // loadData();
+        // console.log(res);   
+          if (res.errorCode !== 0) {
+            // Thông báo kết quả
+            Alert('success', 'Đã xóa thành công')   
+            loadData();
+            console.log(res);
+          } else {
+            toast.error("Phòng học không xóa được");
+          }
         });
-        console.log(dataId);
-    }
-  
+        // console.log(dataId);
+    }  
   return (
     <Fragment>
         {/* Colors */}
@@ -170,9 +196,7 @@ export default function StudentTable({ color }) {
                                   errMessage={formik.errors.stdGender}
                                   />
                         
-                            <Input id="txtstdBirthday" type="date" className="inputClass form-control" label="Ngày sinh" labelSize="4" maxLength="100"
-                                
-                                data-format="DD-MM-YYYY"
+                            <Input id="txtstdBirthday" type="date"  className="inputClass form-control" label="Ngày sinh" labelSize="4" maxLength="100"
                                 
                                 frmField={formik.getFieldProps("stdBirthday")}
                                 err={formik.touched.stdBirthday && formik.errors.stdBirthday}
