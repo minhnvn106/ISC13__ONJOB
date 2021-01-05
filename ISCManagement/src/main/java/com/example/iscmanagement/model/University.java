@@ -20,7 +20,7 @@ public class University {
 	private String universityPhone;
 	private String universityUrl;
 	@OneToMany(mappedBy = "university")
-	@JsonBackReference	
+	@JsonManagedReference(value = "university")
 	private List<Student> students;
 	public University() {
 		super();

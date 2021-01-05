@@ -27,11 +27,11 @@ public class Student {
 	@Column(length = 2000)
 	private String stdNote;
 	@ManyToOne
-	@JsonManagedReference
+	@JsonBackReference(value = "students")
 	@JoinColumn(name = "company_fk")
 	private Company company;
 	@ManyToOne
-	@JsonManagedReference
+	@JsonBackReference(value = "university")
 	@JoinColumn(name = "university_fk")
 	private University university;
 	public Student() {

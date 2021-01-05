@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Company {
@@ -22,7 +23,7 @@ public class Company {
 	private EnumStatus companyStatus;
 	
 	@OneToMany(mappedBy = "company")
-	@JsonBackReference	
+	@JsonManagedReference(value = "students")	
 	private List<Student> students;
 	public Company() {
 		super();
