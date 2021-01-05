@@ -7,17 +7,7 @@ import { useFormik } from 'formik';
 import * as Yup from "yup";
 import Input from '../../assets/services/input';
 import Moment from 'react-moment';
-// import moment from './../utils/moment'
-
-//Toast
-import Alert from './../../utils/toaster'
-import 'react-toastify/dist/ReactToastify.css';
-
-
-// Confirmation
-import { confirmAlert } from 'react-confirm-alert'; // Import
-import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
-
+import moment from 'moment' 
 
 export default function InstructorTable({ color }) {
   const [instructors, setInstructors] = useState([]);
@@ -53,8 +43,19 @@ export default function InstructorTable({ color }) {
 
         if (dataId > 0) {//edit 
             instructorService.get(dataId).then(res => {
-                formik.setValues(res);
-                // formik.setValues({...res, insGender : res.insGender.toString(),insWorkStatus:res.insWorkStatus.toString()});
+                formik.setValues({
+                  ...res, 
+                  insCode:res.insCode.toString(),
+                  insName:res.insName.toString(),
+                  insGender : res.insGender.toString(),
+                  insBirthday : res.insBirthday.toString(),
+                  insEmail : res.insEmail.toString(),
+                  insPhone : res.insPhone.toString(),
+                  insImg : res.insImg.toString(),
+                  insCertification : res.insCertification.toString(),
+                  insWorkStatus:res.insWorkStatus.toString(),
+                  insNote:res.insNote.toString(),
+                });
                 setModalShow(true);
             })
         } else {//add
@@ -106,89 +107,43 @@ export default function InstructorTable({ color }) {
         console.log(data)
         if (instructorId === 0) {//add
             instructorService.add(data).then((res) => {
-              // loadData();
-              // handleModalClose();
-              if (res.errorCode !== 0) {
-                // Thông báo kết quả 
-                Alert('success', 'Đã tạo thành công')   
-                loadData();
-                console.log(res);
-              } else {
-                // Alert('success', 'Không tạo được')   
-                // loadData();
-              }
-          })
+              loadData();
+              handleModalClose();
+              // alert("Thêm Dữ Liệu Thành Công");
+              
+            })
         } else {//update
             instructorService.update(instructorId, data).then(res => {
-              // loadData()
-              // handleModalClose();
-              if (res.errorCode !== 0) {
-                // Thông báo kết quả 
-                Alert('success', 'Đã chỉnh thành công')   
-                loadData();
-                console.log(res);
-              } else {
-                // Alert('success', 'Chỉnh không được')   
-                // loadData();
-              }
+                loadData()
+                handleModalClose();
+                // alert("Cập Nhật Dữ Liệu Thành Công");
+                // if(res.errorCode===0){
+
+                // }else{
+
+                // }
             })
         }
     }
 
-    // Hien CONFIRM cho Delete
-    const deleteRow = (e, dataId) => {
-      e.preventDefault();
-      confirmAlert({
-        title: 'Cảnh báo',
-        message: 'Bạn có chắc muốn xóa không?',
-        buttons: [
-          {
-            label: 'Xóa',
-            onClick: () => 
-            {
-                
-                //TODO: Hiện notification
-                //TODO: Xóa dữ liệu
-                instructorService.delete(dataId).then((res) => {
-                // loadData();
-                // console.log(res);   
-                  if (res.errorCode !== 0) {
-                    // Thông báo kết quả
-                    Alert('success', 'Đã xóa thành công')   
-                    loadData();
-                    console.log(res);
-                  } else {
-                    
-                  }
-                });
-                // console.log(dataId);
-              }
-            },
-          {
-            label: 'Không',
-            onClick: () => alert('Click No')
-          }
-        ]
-      });
-    };
 
     //Delete 1 dòng dữ liệu
-    // const deleteRow = (e, dataId) => {
-    //     e.preventDefault();
+    const deleteRow = (e, dataId) => {
+        e.preventDefault();
         
-    //     instructorService.delete(dataId).then(res => {
+        instructorService.delete(dataId).then(res => {
           
-    //       loadData();
-    //       alert("Delete Thành Công!");
-    //       // console.log(res);
-    //         // if (res.errorCode === 0) {
+          loadData();
+          alert("Delete Thành Công!");
+          // console.log(res);
+            // if (res.errorCode === 0) {
 
-    //         // } else {
+            // } else {
 
-    //         // }
-    //     });
-    //     // console.log(dataId);
-    // }
+            // }
+        });
+        // console.log(dataId);
+    }
   
   return (
     <Fragment>
@@ -335,9 +290,6 @@ export default function InstructorTable({ color }) {
                       <a href="/#" onClick={(e) => deleteRow(e, instructor.insId)}>
                         <i className="fas fa-trash-alt text-danger"></i>
                       </a>
-                      {/* <a href="/#" onClick={(e) => deleteRow(e, instructor.insId)}>
-                        <i className="fas fa-trash-alt text-danger"></i>
-                      </a> */}
                       {/* <TableDropdown /> */}
                     </td>
                   </tr>
@@ -354,7 +306,7 @@ export default function InstructorTable({ color }) {
                     <Modal.Header closeButton>
                         <Modal.Title>Giảng Viên</Modal.Title>
                     </Modal.Header>
-                    <form autoComplete="on" onSubmit={formik.handleSubmit}>
+                    <form autoComplete="on" encType='multipart/form-data' onSubmit={formik.handleSubmit}>
                         <Modal.Body>
                                   
                             <Input id="txtInsCode" type="text" className="inputClass form-control" label="Mã giảng viên" span=" (*)" required labelSize="4" maxLength="100"
@@ -400,13 +352,13 @@ export default function InstructorTable({ color }) {
                             </div>
                             {/* End Gender */}
                             
-                            
                             <Input id="txtInsBirthday" type="date" className="inputClass form-control" label="Ngày sinh" labelSize="4" maxLength="100"
-                
-                            frmField={formik.getFieldProps("insBirthday")}
-                            err={formik.touched.insBirthday && formik.errors.insBirthday}
-                            errMessage={formik.errors.insBirthday}
-                            />                            
+                                
+                                frmField={formik.getFieldProps("insBirthday")}
+                                err={formik.touched.insBirthday && formik.errors.insBirthday}
+                                errMessage={formik.errors.insBirthday}
+                            />
+                            
                             <Input id="txtInsEmail" type="email" className="inputClass form-control" label="Email" labelSize="4" maxLength="100"
                                 frmField={formik.getFieldProps("insEmail")}
                                 err={formik.touched.insEmail && formik.errors.insEmail}
@@ -419,10 +371,11 @@ export default function InstructorTable({ color }) {
                                 errMessage={formik.errors.insPhone}
                             />
                             
-                            <Input id="txtInsImg" type="file" className="inputClass form-control" label="Hình Ảnh" labelSize="4" maxLength="100"
+                            <Input id="txtInsImg" type="file" name="file" className="inputClass form-control" label="Hình Ảnh" labelSize="4" maxLength="100"
                                 frmField={formik.getFieldProps("insImg")}
                                 err={formik.touched.insImg && formik.errors.insImg}
                                 errMessage={formik.errors.insImg}
+                                
                             />
                             
                             <Input id="txtInsCertification" type="text" className="inputClass form-control" label="Chứng Chỉ" labelSize="4" maxLength="100"

@@ -23,7 +23,7 @@ class Input extends Component {
                         // <radio></radio>
                         )
                     }
-                    {err?<div className="invalid-feedback">{errMessage}</div>:null}
+                    {err?<div className="invalid-feedback text-danger">{errMessage}</div>:null}
                     {/* <input type={this.props.type} className="form-control" id="inputEmail3" /> */}
                 </div>
             </div>

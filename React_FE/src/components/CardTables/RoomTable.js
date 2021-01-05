@@ -48,7 +48,7 @@ export default function RoomTable({ color }) {
             roomCode: "",
             roomName: "",
             roomType: "",
-            roomStatus: "1",
+            roomStatus: "KHONGHOATDONG",
            
             //Nếu có thêm nhiều trường khác
         },
@@ -69,10 +69,13 @@ export default function RoomTable({ color }) {
       setRoomId(dataId);
       if (dataId > 0) {//edit
           roomService.get(dataId).then(res => {
+            console.log(res)
               formik.setValues({
                 ...res,
-                roomType: res.roomStatus === "LYTHUYET"?"0":"1",
-                roomStatus: res.roomType === "HOATDONG"?"0":"1",
+                // roomType: res.roomType.toString(),
+                // roomStatus: res.roomStatus.toString(),
+                roomType: res.roomType === "LYTHUYET" ? "0" : "1",
+                roomStatus: res.roomStatus === "HOATDONG"? "0" : "1",
                 // ...res, roomStatus : String(res.roomStatus), roomType: String(res.roomType)
                 
               });
@@ -216,7 +219,7 @@ export default function RoomTable({ color }) {
                               <div className=" col-sm-8">
                                 <select className="custom-select form-control" id="selectRoomType" name="roomType" onChange={formik.handleChange}>
                                   <option value="0" selected={formik.values.roomType ==='0'}>Lý thuyết</option>
-                                  <option value="1"selected={formik.values.roomType ==='1'}>Thực hành</option>
+                                  <option value="1" selected={formik.values.roomType ==='1'}>Thực hành</option>
                                 </select>
                               </div>
                             </div>
