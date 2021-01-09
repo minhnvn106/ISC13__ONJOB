@@ -1,10 +1,15 @@
 package com.example.iscmanagement.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Subject {
@@ -17,16 +22,22 @@ public class Subject {
 	private double subCredit;
 	private double subPassScore;
 	private EnumStatus subStatus;
-	public Subject() {
+	@OneToMany(mappedBy = "subject")
+	@JsonManagedReference(value = "subject")
+	private List<Classes> classes;
+	public Subject(Long subID, String subCode, String subName, double subCredit, double subPassScore,
+			EnumStatus subStatus, List<Classes> classes) {
 		super();
-	}
-	public Subject(String subCode, String subName, double subCredit, double subPassScore, EnumStatus subStatus) {
-		super();
+		this.subID = subID;
 		this.subCode = subCode;
 		this.subName = subName;
 		this.subCredit = subCredit;
 		this.subPassScore = subPassScore;
 		this.subStatus = subStatus;
+		this.classes = classes;
+	}
+	public Subject() {
+		super();
 	}
 	public Long getSubID() {
 		return subID;
@@ -64,10 +75,16 @@ public class Subject {
 	public void setSubStatus(EnumStatus subStatus) {
 		this.subStatus = subStatus;
 	}
+	public List<Classes> getClasses() {
+		return classes;
+	}
+	public void setClasses(List<Classes> classes) {
+		this.classes = classes;
+	}
 	@Override
 	public String toString() {
 		return "Subject [subID=" + subID + ", subCode=" + subCode + ", subName=" + subName + ", subCredit=" + subCredit
-				+ ", subPassScore=" + subPassScore + ", subStatus=" + subStatus + "]";
+				+ ", subPassScore=" + subPassScore + ", subStatus=" + subStatus + ", classes=" + classes + "]";
 	}
 	
 	

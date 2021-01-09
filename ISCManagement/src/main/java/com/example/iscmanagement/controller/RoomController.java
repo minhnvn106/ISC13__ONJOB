@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -44,12 +42,12 @@ public class RoomController {
 	
 	//insert room
 	@PostMapping("")
-	public Room createRoom(@Valid @RequestBody Room room) {
+	public Room createRoom(@RequestBody Room room) {
 		return roomService.insertRoom(room);
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity updateRoom( @PathVariable(value = "id") Long id,@Valid @RequestBody Room roomDetails) throws ResourceNotFoundException{
+	public ResponseEntity updateRoom(@PathVariable(value = "id") Long id, @RequestBody Room roomDetails) throws ResourceNotFoundException{
 		Room room = roomService.getRoom(id);
 		String oldRoomCode = room.getRoomCode();
 		String newRoomCode = roomDetails.getRoomCode();

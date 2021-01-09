@@ -32,7 +32,6 @@ public class InstructorController {
 		List<Instructor> insList = instructorService.getAllList();
 		return new ResponseEntity<List<Instructor>>(insList,HttpStatus.OK);
 	}
-	
 	//tìm một Instructor theo Id
 	@GetMapping(path="/{id}")
 	public ResponseEntity<Instructor> getInstructor(@PathVariable("id") Long id){
@@ -45,8 +44,6 @@ public class InstructorController {
 		//Tìm thấy
 		return new ResponseEntity<Instructor>(instructor,HttpStatus.OK);
 	}
-	
-	
 	//create a new Instructor
 	@PostMapping(path = "")
 	public  ResponseEntity<Instructor> insertIns(@RequestBody Instructor instructorForm){
@@ -60,11 +57,7 @@ public class InstructorController {
 			return new ResponseEntity<Instructor>(HttpStatus.CONFLICT);
 			
 		}
-
-
 	}
-	
-	
 	//update a Instructor
 	@PutMapping(path = "/{id}") 
 	public ResponseEntity<Instructor> updateIns(@PathVariable("id") Long id,@RequestBody Instructor instructorForm){

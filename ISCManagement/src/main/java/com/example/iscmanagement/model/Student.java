@@ -1,6 +1,8 @@
 package com.example.iscmanagement.model;
 
 import java.util.Date;
+import java.util.List;
+
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -27,20 +29,21 @@ public class Student {
 	@Column(length = 2000)
 	private String stdNote;
 	@ManyToOne
-	@JsonManagedReference
+	@JsonBackReference(value = "students")
 	@JoinColumn(name = "company_fk")
 	private Company company;
 	@ManyToOne
-	@JsonManagedReference
+	@JsonBackReference(value = "university")
 	@JoinColumn(name = "university_fk")
 	private University university;
-	public Student() {
-		super();
-	}
-	public Student(String stdCode, String stdName, EnumGender stdGender, Date stdBirthday, String stdEmail,
+	@OneToMany
+	@JoinColumn(name = "account_student_fk")
+	private List<ISCAccount> listAccount;
+	public Student(Long stdId, String stdCode, String stdName, EnumGender stdGender, Date stdBirthday, String stdEmail,
 			String stdPhone, String stdImg, EnumStdType stdType, Double stdGPA, EnumWorkStatus stdWorkStatus,
-			String stdNote, Company company, University university) {
+			String stdNote, Company company, University university, List<ISCAccount> listAccount) {
 		super();
+		this.stdId = stdId;
 		this.stdCode = stdCode;
 		this.stdName = stdName;
 		this.stdGender = stdGender;
@@ -54,6 +57,10 @@ public class Student {
 		this.stdNote = stdNote;
 		this.company = company;
 		this.university = university;
+		this.listAccount = listAccount;
+	}
+	public Student() {
+		super();
 	}
 	public Long getStdId() {
 		return stdId;
@@ -139,13 +146,20 @@ public class Student {
 	public void setUniversity(University university) {
 		this.university = university;
 	}
+	public List<ISCAccount> getListAccount() {
+		return listAccount;
+	}
+	public void setListAccount(List<ISCAccount> listAccount) {
+		this.listAccount = listAccount;
+	}
 	@Override
 	public String toString() {
 		return "Student [stdId=" + stdId + ", stdCode=" + stdCode + ", stdName=" + stdName + ", stdGender=" + stdGender
 				+ ", stdBirthday=" + stdBirthday + ", stdEmail=" + stdEmail + ", stdPhone=" + stdPhone + ", stdImg="
 				+ stdImg + ", stdType=" + stdType + ", stdGPA=" + stdGPA + ", stdWorkStatus=" + stdWorkStatus
-				+ ", stdNote=" + stdNote + ", company=" + company + ", university=" + university + "]";
+				+ ", stdNote=" + stdNote + ", company=" + company + ", university=" + university + ", listAccount="
+				+ listAccount + "]";
 	}
-
+	
 
 }

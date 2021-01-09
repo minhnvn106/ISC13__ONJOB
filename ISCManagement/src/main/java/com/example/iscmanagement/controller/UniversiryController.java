@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.hibernate.annotations.MetaValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -46,7 +45,6 @@ public class UniversiryController {
 
 	// insert university
 	@PostMapping("")
-	
 	public University createUniversity(@RequestBody University university) {
 		return universityService.insertUniversity(university);
 	}

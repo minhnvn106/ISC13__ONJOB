@@ -14,13 +14,14 @@ public class Major {
 	@Column(unique = true, nullable = false, length = 20)
 	private String majorCode;
 	private String majorName;
-	public Major() {
+	public Major(Long majorID, String majorCode, String majorName) {
 		super();
-	}
-	public Major(String majorCode, String majorName) {
-		super();
+		this.majorID = majorID;
 		this.majorCode = majorCode;
 		this.majorName = majorName;
+	}
+	public Major() {
+		super();
 	}
 	public Long getMajorID() {
 		return majorID;
@@ -44,7 +45,6 @@ public class Major {
 	public String toString() {
 		return "Major [majorID=" + majorID + ", majorCode=" + majorCode + ", majorName=" + majorName + "]";
 	}
-	
 	
 
 }

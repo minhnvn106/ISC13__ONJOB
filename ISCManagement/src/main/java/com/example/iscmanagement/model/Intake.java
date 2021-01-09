@@ -24,21 +24,15 @@ public class Intake {
 	@JoinColumn(name = "major_fk")
 	private Major major;
 	@ManyToMany
-	@JoinTable(name = "join_intake_std",
-	joinColumns = @JoinColumn(name ="intake_fk"),
-	inverseJoinColumns =@JoinColumn(name="student_fk"))
+	@JoinTable(name = "join_intake_std", joinColumns = @JoinColumn(name = "intake_fk"), inverseJoinColumns = @JoinColumn(name = "student_fk"))
 	private List<Student> students;
 	@ManyToMany
-	@JoinTable(name = "join_intake_sub",
-	joinColumns = @JoinColumn(name ="intake_fk"),
-	inverseJoinColumns =@JoinColumn(name="sub_fk"))
+	@JoinTable(name = "join_intake_sub", joinColumns = @JoinColumn(name = "intake_fk"), inverseJoinColumns = @JoinColumn(name = "sub_fk"))
 	private List<Subject> subjects;
-	public Intake() {
+	public Intake(Long intakeId, String intakeCode, String intakeName, Date intakeBeginDay, Date intakeEndDay,
+			EnumStatus intakeStatus, String note, Major major, List<Student> students, List<Subject> subjects) {
 		super();
-	}
-	public Intake(String intakeCode, String intakeName, Date intakeBeginDay, Date intakeEndDay, EnumStatus intakeStatus,
-			String note, Major major, List<Student> students, List<Subject> subjects) {
-		super();
+		this.intakeId = intakeId;
 		this.intakeCode = intakeCode;
 		this.intakeName = intakeName;
 		this.intakeBeginDay = intakeBeginDay;
@@ -48,6 +42,9 @@ public class Intake {
 		this.major = major;
 		this.students = students;
 		this.subjects = subjects;
+	}
+	public Intake() {
+		super();
 	}
 	public Long getIntakeId() {
 		return intakeId;
@@ -118,5 +115,4 @@ public class Intake {
 	}
 	
 	
-
 }
