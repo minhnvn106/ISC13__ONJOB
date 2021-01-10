@@ -1,5 +1,7 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
+import routes from "./routes";
+import { connect } from "react-redux";
 
 // components
 
@@ -13,21 +15,26 @@ import FooterAdmin from "components/Footers/FooterAdmin.js";
 
 // views
 
-import Dashboard from "views/admin/Dashboard.js";
-import Maps from "views/admin/Maps.js";
-import Settings from "views/admin/Settings.js";
-import Tables from "views/admin/Tables.js";
-import Rooms from "views/admin/Rooms.js";
-import Students from "views/admin/Students.js";
-import Instructors from "views/admin/Instructors.js";
-import Intakes from "views/admin/Intakes.js";
-import Majors from "views/admin/Majors.js";
-import Companies from "views/admin/Companies";
-import Subjects from "views/admin/Subjects";
-import Universities from "views/admin/Universities";
+// import Dashboard from "views/admin/Dashboard.js";
+// import Maps from "views/admin/Maps.js";
+// import Settings from "views/admin/Settings.js";
+// import Tables from "views/admin/Tables.js";
+// import Rooms from "views/admin/Rooms.js";
+// import Students from "views/admin/Students.js";
+// import Instructors from "views/admin/Instructors.js";
+// import Intakes from "views/admin/Intakes.js";
+// import Majors from "views/admin/Majors.js";
+// import Companies from "views/admin/Companies";
+// import Subjects from "views/admin/Subjects";
+// import Universities from "views/admin/Universities";
 
+const mapStateToProps = (state) => ({
+  isLoggedIn: state.auth.isLoggedIn,
+});
 
-export default function Admin() {
+const Admin=(props)=> {
+// export default function Admin(props) {
+  const {isLoggedIn} = props;
   return (
     <>
       <Sidebar />
@@ -37,7 +44,15 @@ export default function Admin() {
         <HeaderStats />
         <div className="px-4 md:px-10 mx-auto w-full -m-24">
           <Switch>
-            <Route path="/admin/dashboard" exact component={Dashboard} />
+            {!isLoggedIn? <Redirect to = "/auth/login"/>:(
+              routes.map((route,idx)=>{
+                return route.component ? (
+                  <Route key={idx} path={route.path} exact={route.exact} 
+                  name={route.name} component={route.component}/>
+                ): null;
+              })
+            )}
+            {/* <Route path="/admin/dashboard" exact component={Dashboard} />
             <Route path="/admin/maps" exact component={Maps} />
             <Route path="/admin/settings" exact component={Settings} />
             <Route path="/admin/tables" exact component={Tables} />
@@ -51,7 +66,7 @@ export default function Admin() {
 
             <Route path="/admin/subjects" exact component={Subjects} />
             <Route path="/admin/universities" exact component={Universities} />
-            <Redirect from="/admin" to="/admin/students" />
+            <Redirect from="/admin" to="/admin/students" /> */}
           </Switch>
           <FooterAdmin />
         </div>
@@ -59,3 +74,4 @@ export default function Admin() {
     </>
   );
 }
+export default connect(mapStateToProps)(Admin)

@@ -7,22 +7,29 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 // import "assets/styles/tailwind.css";
 import "assets/styles/minhvp.css";
 
-// layouts
+// LAYOUTS
 
 import Admin from "layouts/Admin.js";
 import Auth from "layouts/Auth.js";
 
-// views without layouts
+// VIEWS WITHOUT LAYOUTS
 
 import Landing from "views/Landing.js";
 import Profile from "views/Profile.js";
 // import Index from "views/Index.js";
 
-// dependancys
+// LOGIN - LOGOUT
+// import Login from 'views/auth/Login';
+import {Provider} from 'react-redux';
+import store from './login/store/index';
 
-//Bootstrap
+// dependancy
+
+// BOOTSTRAP
 // import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
+
+import Index from './views/Index';
 
 toast.configure({
   autoClose:3000,
@@ -37,8 +44,10 @@ toast.configure({
 })
 
 ReactDOM.render(
+<Provider store= {store}>
   <BrowserRouter>
     <Switch>
+      {/* <Route path="/auth/login" component={Login} /> */}
       <Route path="/admin" component={Admin} />
       <Route path="/auth" component={Auth} />
       {/* add routes without layouts */}
@@ -46,10 +55,10 @@ ReactDOM.render(
       <Route path="/profile" exact component={Profile} />
       {/* <Route path="/" exact component={Admin} /> */}
       {/* add redirect for first page */}
-      <Redirect from="*" to="/admin" />
+      <Redirect from="*" to="/auth/login" />
     </Switch>
     
   </BrowserRouter>,
-  
+</Provider>,
   document.getElementById("root")
 );

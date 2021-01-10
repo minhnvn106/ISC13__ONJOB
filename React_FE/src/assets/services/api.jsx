@@ -1,18 +1,21 @@
 import axios from 'axios';
+import store from './../../login/store/index';
 
 const url = {
     //có thể thay thế bằng url bên backend
-    baseUrl:'http://localhost:8081/api',
-    login:'/login', //đường dẫn sẽ gọi đến controller api backend
-    majors: '/majors',
-    intakes: '/intakes',
-    companies: '/companies',
-    students: './students',
+    baseUrl:'http://localhost:8081',
+    login:'/api/login', //đường dẫn sẽ gọi đến controller api backend
+    majors: '/api/majors',
+    intakes: '/api/intakes',
+    companies: '/api/companies',
+    students: '/api/students',
 
-    instructors: '/instructors',
-    rooms: '/rooms',
-    subjects: '/subjects',
-    universities: '/universities'
+    instructors: '/api/instructors',
+    rooms: '/api/rooms',
+    subjects: '/api/subjects',
+    universities: '/api/universities',
+
+    signin:'/signin'
 }
 
 const instance = axios.create({
@@ -22,6 +25,15 @@ const instance = axios.create({
         "Content-Type":"application/json",
         "Accept":"application/json"
     }
+});
+
+instance.interceptors.request.use((request)=>{
+    // grab current state
+    const state = store.getState();
+    if (state.auth.token){
+        request.headers.Authorization = 'Bearer ${state.auth.token}';
+    }
+    return request;
 });
 
 const api = {

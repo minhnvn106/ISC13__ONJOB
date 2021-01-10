@@ -219,6 +219,7 @@ export default function StudentTable({ color }) {
                                 frmField={formik.getFieldProps("stdImg")}
                                 err={formik.touched.stdImg && formik.errors.stdImg}
                                 errMessage={formik.errors.stdImg}
+                                enctype="multipart/form-data"
                             />
                             
                             <Input id="txtStdType" type="text" className="inputClass form-control" label="Loại" labelSize="4" maxLength="100"
