@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import PropTypes from "prop-types";
 import { Button, Modal } from 'react-bootstrap';
-import roomService from './../../assets/services/roomService';
+import classService from './../../assets/services/classService';
 
 // import { Pnotify } from '../../utils/pnotify';
 // import Input from './../controls/input';
@@ -22,18 +22,18 @@ import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
 export default function RoomTable({ color }) {
   // state = { }
-  const[rooms,setRooms] = useState([]);
-  const[roomId,setRoomId] = useState(0);
+  const[classes,setClasses] = useState([]);
+  const[classId,setClassId] = useState(0);
   
   const loadData = ()=>{
-    roomService.getAll().then(res=>{
-      setRooms(res);
+    classService.getAll().then(res=>{
+      setClasses(res);
     })
   }
 
   useEffect(()=>{
     loadData();
-  },[roomId]);
+  },[classId]);
 
   const [modalShow, setModalShow] = useState(false);
 
@@ -45,16 +45,17 @@ export default function RoomTable({ color }) {
     // Phần III: Formik và Function Xử lý handleFormSubmit 
     const formik = useFormik({
         initialValues: {
-            roomCode: "",
-            roomName: "",
-            roomType: "",
-            roomStatus: "1",
+            classCode: "",
+            className: "",
+            maxStudent: "",
+            quantity: "",
+            subject: "",
            
             //Nếu có thêm nhiều trường khác
         },
         validationSchema: Yup.object({
-          roomCode: Yup.string().required("Phải nhập").min(2, "Phải 2 kí tự trở lên"),
-          roomName: Yup.string().required("Phải nhập")           
+          classCode: Yup.string().required("Phải nhập").min(2, "Phải 2 kí tự trở lên"),
+          className: Yup.string().required("Phải nhập")           
         }),
         onSubmit: (values) => {
             console.log(values);
@@ -66,19 +67,11 @@ export default function RoomTable({ color }) {
     const handleModalShow = (e, dataId) => {
       if (e) e.preventDefault();
 
-      setRoomId(dataId);
+      setClassId(dataId);
       if (dataId > 0) {//edit
-          roomService.get(dataId).then(res => {
+          classService.get(dataId).then(res => {
             console.log(res)
-              formik.setValues({
-                ...res,
-                // roomType: res.roomType.toString(),
-                // roomStatus: res.roomStatus.toString(),
-                roomType: res.roomType === "LYTHUYET" ? "0" : "1",
-                roomStatus: res.roomStatus === "HOATDONG"? "0" : "1",
-                // ...res, roomStatus : String(res.roomStatus), roomType: String(res.roomType)
-                
-              });
+              formik.setValues(res);
               setModalShow(true);
               console.log(res);
           })
@@ -91,8 +84,8 @@ export default function RoomTable({ color }) {
     //Function xử lý khi người dùng nhập dữ liệu và thêm dữ liệu thành công 
     const handleFormSubmit = (data) => {
         console.log(data)
-        if (roomId === 0) {//add
-            roomService.add(data).then((res) => {
+        if (classId === 0) {//add
+            classService.add(data).then((res) => {
                 // loadData();
                 // handleModalClose();
                 if (res.errorCode !== 0) {
@@ -106,7 +99,7 @@ export default function RoomTable({ color }) {
                 }
             })
         } else {//update
-            roomService.update(roomId, data).then(res => {
+            classService.update(classId, data).then(res => {
                 if (res.errorCode !== 0) {
                   // Thông báo kết quả 
                   Alert('success', 'Đã chỉnh thành công')   
@@ -138,7 +131,7 @@ export default function RoomTable({ color }) {
                 
                 //TODO: Hiện notification
                 //TODO: Xóa dữ liệu
-                roomService.delete(dataId).then((res) => {
+                classService.delete(dataId).then((res) => {
                 // loadData();
                 // console.log(res);   
                   if (res.errorCode !== 0) {
@@ -179,7 +172,7 @@ export default function RoomTable({ color }) {
                 }
               >
                 {/* Table Title */}
-                DANH SÁCH PHÒNG HỌC
+                DANH SÁCH LỚP HỌC
               </h3>
             </div>
             
@@ -201,58 +194,32 @@ export default function RoomTable({ color }) {
                     </Modal.Header>
                     <form autoComplete="on" onSubmit={formik.handleSubmit}>
                         <Modal.Body>        
-                            <Input id="txtRoomCode" type="text" className="inputClass form-control" label="Mã Phòng" labelSize="4" maxLength="100"
-                                frmField={formik.getFieldProps("roomCode")}
-                                err={formik.touched.roomCode && formik.errors.roomCode}
-                                errMessage={formik.errors.roomCode}
+                            <Input id="txtClassCode" type="text" className="inputClass form-control" label="Mã Lớp" labelSize="4" maxLength="100"
+                                frmField={formik.getFieldProps("classCode")}
+                                err={formik.touched.classCode && formik.errors.classCode}
+                                errMessage={formik.errors.classCode}
                             />
-                            <Input id="txtRoomName" type="text" className="inputClass form-control" label="Tên phòng" labelSize="4" maxLength="100"
-                                frmField={formik.getFieldProps("roomName")}
-                                err={formik.touched.roomName && formik.errors.roomName}
-                                errMessage={formik.errors.roomName}
+                            <Input id="txtClassName" type="text" className="inputClass form-control" label="Tên Lớp" labelSize="4" maxLength="100"
+                                frmField={formik.getFieldProps("className")}
+                                err={formik.touched.className && formik.errors.className}
+                                errMessage={formik.errors.className}
                             />
 
-                            {/* Loại phòng */}
-
-                            <div className="form-group row">
-                              <label className="col-sm-4 col-form-label"  htmlFor="selectRoomType">Loại phòng</label>
-                              <div className=" col-sm-8">
-                                <select className="custom-select form-control" id="selectRoomType" name="roomType" onChange={formik.handleChange}>
-                                  <option value="0" selected={formik.values.roomType ==='0'}>Lý thuyết</option>
-                                  <option value="1" selected={formik.values.roomType ==='1'}>Thực hành</option>
-                                </select>
-                              </div>
-                            </div>
-
-                            {/* Tình trạng */}
-
-                            <div className="formGroup row">
-                                <label className="col-sm-4 col-form-label">Tình trạng</label>
-                                <div className="col-sm-8">
-                                  <div className="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" checked={formik.values.roomStatus === '1'} 
-                                     onChange={formik.handleChange}
-                                     id="customRadStatus1"  
-                                     value="1" className="custom-control-input"
-                                     name="roomStatus"
-                                     />
-                                    
-                                    <label className="custom-control-label" htmlFor="customRadStatus1">Không dùng</label>
-                                  </div>
-
-                                  <div className="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" checked={formik.values.roomStatus === '0'} 
-                                    onChange={formik.handleChange}
-                                    id="customRadStatus2"
-                                    value="0" className="custom-control-input"  
-                                    name="roomStatus"/>
-                                    
-                                    <label className="custom-control-label" htmlFor="customRadStatus2">Đang dùng</label>
-                                  </div>
-                                </div>
-                                
-                            </div>
-                          
+                            <Input id="txtMaxStudent" type="text" className="inputClass form-control" label="Tối đa" labelSize="4" maxLength="100"
+                                frmField={formik.getFieldProps("maxStudent")}
+                                err={formik.touched.maxStudent && formik.errors.maxStudent}
+                                errMessage={formik.errors.maxStudent}
+                            />
+                            <Input id="txtQuantity" type="text" className="inputClass form-control" label="Sỉ số" labelSize="4" maxLength="100"
+                                frmField={formik.getFieldProps("quantity")}
+                                err={formik.touched.quantity && formik.errors.quantity}
+                                errMessage={formik.errors.quantity}
+                            />
+                            <Input id="txtSubject" type="text" className="inputClass form-control" label="Dạy môn" labelSize="4" maxLength="100"
+                                frmField={formik.getFieldProps("subject")}
+                                err={formik.touched.subject && formik.errors.subject}
+                                errMessage={formik.errors.subject}
+                            />
                         </Modal.Body>
 
                         <Modal.Footer>
@@ -278,20 +245,20 @@ export default function RoomTable({ color }) {
                   STT
                 </th>
                 <th className={"px-3 w-5 text-center align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold " + (color === "light"? "bg-gray-100 text-gray-600 border-gray-200": "bg-blue-800 text-blue-300 border-blue-700")}>
-                  Mã phòng
+                  Mã lớp
                 </th>
 
                 <th className={"px-3 w-5 text-center align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold " + (color === "light"? "bg-gray-100 text-gray-600 border-gray-200": "bg-blue-800 text-blue-300 border-blue-700")}>
-                  Phòng học
+                Tên lớp
                 </th>
                 
                 
                 <th className={"px-3 w-5 text-center align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold " + (color === "light"? "bg-gray-100 text-gray-600 border-gray-200": "bg-blue-800 text-blue-300 border-blue-700")}>
-                  Loại phòng
+                  Tối đa
                 </th>
                 
                 <th className={"px-3 w-5 text-center align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold " + (color === "light"? "bg-gray-100 text-gray-600 border-gray-200": "bg-blue-800 text-blue-300 border-blue-700")}>
-                  Tình trạng
+                  Sỉ s
                 </th>
 
                 <th className={"px-3 w-5 text-center align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold " + (color === "light"? "bg-gray-100 text-gray-600 border-gray-200": "bg-blue-800 text-blue-300 border-blue-700")}>
@@ -299,38 +266,7 @@ export default function RoomTable({ color }) {
                 </th>
               </tr>
             </thead>
-            <tbody>
-              {/* Render table */}
-              {
-                rooms.map((room,idx)=>{
-                  return(
-                    <tr key={room.roomId}>
-                      <th className="text-center align-middle text-xs whitespace-no-wrap p-4" >{idx + 1}</th>
-                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
-                      {room.roomCode}</td>
-                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
-                      {room.roomName}</td>
-                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
-                      {room.roomType==="LYTHUYET"?
-                      <p><i class="fas fa-book text-green-500"></i> &nbsp;Phòng lý thuyết</p>:
-                      <p><i class="fas fa-tools text-gray-500"></i>&nbsp;Phòng thực hành</p>}</td>
-                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
-                      {room.roomStatus==="KHONGHOATDONG"?
-                      <p><i className="fas fa-circle text-orange-500 mr-2"></i>Không dùng</p>:
-                      <p><i className="fas fa-circle text-teal-500 mr-2"></i>Đang dùng</p>}</td>
-                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xm whitespace-no-wrap p-4 text-center">
-                        <a href="/#" onClick={(e) => handleModalShow(e, room.roomId)}>
-                          <i className="fas fa-edit text-primary px-2"></i>
-                        </a>
-                        <a href="/#" onClick={(e) => deleteRow(e, room.roomId)}>
-                          <i className="fas fa-trash-alt text-danger px-2"></i>
-                        </a>
-                      </td>
-                    </tr>
-                  )
-                })
-              }
-            </tbody>
+            
           </table>
           
         </div>

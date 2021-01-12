@@ -13,61 +13,81 @@ import * as Yup from "yup";
 
 //Toast
 import Alert from './../../utils/toaster'
-import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+// Confirmation
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+
+// DD/MM/YYYY
+import Moment from 'react-moment';
+import moment from 'moment' 
 
 // import TableDropdown from "components/Dropdowns/TableDropdown.js";
 import studentService from './../../assets/services/studentService';
+import companyService from './../../assets/services/companyService';
+import universityService from './../../assets/services/universityService';
 
 export default function StudentTable({ color }) {
   // state = { }
-  const[students,setStudents] = useState([]);
-  const[studentId,setStudentId] = useState(0);
+  const [students, setStudents] = useState([]);
+
+  const [studentId, setStudentId] = useState(0);
+  const [companySelection,setCompanySelection] = useState([]);
+  const [universitySelection, setUniversitySelection] = useState([]);
   
-  const loadData = ()=>{
-    studentService.getAll().then(res=>{
-      setStudents(res);
+    /* ************************* */
+  const loadDataCompany = ()=>{
+    companyService.getAll().then(res=>{
+      setCompanySelection(res);
     })
   }
 
-  useEffect(()=>{
-    loadData();
-  },[studentId]);
+  const loadDataUniversity = ()=>{
+    universityService.getAll().then(res=>{
+      setUniversitySelection(res);
+    })
+  }
+
+    const loadData = () => {
+      studentService.getAll().then(res => {
+          setStudents(res);
+      })
+  }
+  //B9 Remove Thay componentDidMount thành useEffect mngu
+  useEffect(() => {
+      
+      loadData();
+      loadDataCompany();
+      loadDataUniversity();
+
+     
+  }, [studentId]); //[] Bắt buộc phải có nếu không nó sẽ load lại nhiều lần
+  //Set instructors vào để khi thay đổi update or delete thì nó sẽ set lại giá trị của instructors để nó gọi function loadData()
 
   const [modalShow, setModalShow] = useState(false);
 
   const handleModalClose = () => setModalShow(false);
 
     //Hàm xử lý để biết xem là thêm mới hay update
-    const handleModalShow = (e, dataId) => {
-        if (e) e.preventDefault();
-
-        setStudentId(dataId);
-        if (dataId > 0) {//edit
-            studentService.get(dataId).then(res => {
-                formik.setValues(res);
-                setModalShow(true);
-            })
-        } else {//add
-            formik.resetForm();
-            setModalShow(true);
-        }
-    }
+    
     /* ************************* */
     // Phần III: Formik và Function Xử lý handleFormSubmit 
     const formik = useFormik({
         initialValues: {
             stdCode: "",
             stdName: "",
-            stdGender: "",
+            stdGender: "0",
             stdBirthday: "",
             stdEmail: "",
             stdPhone: "",
             stdImg: "",
-            stdType: "",
+            stdType: "0",
             stdGPA: "",
-            stdWorkStatus: "",
+            stdWorkStatus: "1",
             stdNote: "",
+            stdCompany:"",
+            stdUniversity:""
             //Nếu có thêm nhiều trường khác
         },
         validationSchema: Yup.object({
@@ -80,6 +100,31 @@ export default function StudentTable({ color }) {
             handleFormSubmit(values);
         }
     });
+
+    const handleModalShow = (e, dataId) => {
+      if (e) e.preventDefault();
+
+      setStudentId(dataId);
+      if (dataId > 0) {//edit
+          studentService.get(dataId).then(res => {
+            console.log(res)
+            formik.setValues({
+              ...res,
+              stdGender: res.stdGender === "Male" ? "0" : "1",
+              stdType: res.stdType === "DANGHOC"  ? "0" : 
+                       res.stdType === "TOTNGHIEP"? "1":
+                       res.stdType === "BAOLUU"   ? "2":" ",              
+              stdWorkStatus: res.stdWorkStatus === "DALAM"  ? "0":
+                             res.stdWorkStatus === "CHUALAM"? "1":
+                             res.stdWorkStatus === "NGHIHUU"? "2":" ",
+            });
+            setModalShow(true);
+          })
+      } else {//add
+          formik.resetForm();
+          setModalShow(true);
+      }
+    }
 
     //Function xử lý khi người dùng nhập dữ liệu và thêm dữ liệu thành công 
     const handleFormSubmit = (data) => {
@@ -123,23 +168,43 @@ export default function StudentTable({ color }) {
 
     //Delete 1 dòng dữ liệu
     const deleteRow = (e, dataId) => {
-        e.preventDefault();
-        //TODO: Hiện notification
-        //TODO: Xóa dữ liệu
-        studentService.delete(dataId).then((res) => {
-        // loadData();
-        // console.log(res);   
-          if (res.errorCode !== 0) {
-            // Thông báo kết quả
-            Alert('success', 'Đã xóa thành công')   
-            loadData();
-            console.log(res);
-          } else {
-            toast.error("Phòng học không xóa được");
+      
+      // Ngưng vòng lặp map
+      e.preventDefault();
+      
+      // Thông báo người dùng trước khi xóa
+      confirmAlert({
+        title: 'Thông báo',
+        message: 'Bạn có chắc muốn xóa không?',
+        buttons: [
+          {
+            label: 'Xóa',
+            onClick: () => 
+            {
+                
+                //TODO: Hiện notification
+                //TODO: Xóa dữ liệu
+                studentService.delete(dataId).then((res) => {
+                // loadData();
+                // console.log(res);   
+                  if (res.errorCode !== 0) {
+                    // Thông báo kết quả
+                    Alert('success', 'Đã xóa thành công')   
+                    loadData();
+                    console.log(res);
+                  } else {
+                    
+                  }
+                });
+                // console.log(dataId);
+              }
+            },
+          {
+            label: 'Không',
           }
-        });
-        // console.log(dataId);
-    }  
+        ]
+      });
+    };  
   return (
     <Fragment>
         {/* Colors */}
@@ -175,33 +240,97 @@ export default function StudentTable({ color }) {
                 </button>
                 <Modal show={modalShow} onHide={handleModalClose} backdrop="static" keyboard={false}>
                     <Modal.Header closeButton>
-                    <Modal.Title> Học viên mới </Modal.Title>
+                    <Modal.Title><h3> Học viên mới </h3></Modal.Title>
                     </Modal.Header>
                     <form autoComplete="on" onSubmit={formik.handleSubmit}>
-                        <Modal.Body>        
+                        <Modal.Body>
                             <Input id="txtStdCode" type="text" className="inputClass form-control" label="Mã học viên" labelSize="4" maxLength="100"
                                 frmField={formik.getFieldProps("stdCode")}
                                 err={formik.touched.stdCode && formik.errors.stdCode}
                                 errMessage={formik.errors.stdCode}
                             />
+                          
                             <Input id="txtStdName" type="text" className="inputClass form-control" label="Họ tên" labelSize="4" maxLength="100"
                                 frmField={formik.getFieldProps("stdName")}
                                 err={formik.touched.stdName && formik.errors.stdName}
                                 errMessage={formik.errors.stdName}
                             />
+                            {/* <div className="formGroup mb-5 row">
+                              <label className="col-sm-1 col-form-label">Mã</label>
+                              <div className="col-sm-4">
+                                <input id="txtStdCode" type="text" className="inputClass form-control" maxLength="100"
+                                frmField={formik.getFieldProps("stdCode")}
+                                err={formik.touched.stdCode && formik.errors.stdCode}
+                                errMessage={formik.errors.stdCode}
+                                />
+                              </div>
+                              <label className="col-sm-2 col-form-label">Họ tên</label>
+                              <div className="col-sm-5">
+                                <input id="txtStdName" type="text" className="inputClass form-control" maxLength="100"
+                                frmField={formik.getFieldProps("stdName")}
+                                err={formik.touched.stdName && formik.errors.stdName}
+                                errMessage={formik.errors.stdName}
+                                />
+                              </div>   
+                            </div> */}
                             
-                            <Input id="txtStdGender" type="text" name="stdGender"  label="Giới tính"   className="inputClass form-control" 
-                                  frmField={formik.getFieldProps("stdGender")}
-                                  err={formik.touched.stdGender && formik.errors.stdGender}
-                                  errMessage={formik.errors.stdGender}
-                                  />
-                        
+                            {/* Loại */}
+
+                            {/* <div className="form-group row">
+                              <label className="col-sm-1 col-form-label"  htmlFor="selectStudentType">Loại</label>
+                              <div className=" col-sm-4">
+                                <select className="custom-select form-control" id="selectStudentType" name="stdType" onChange={formik.handleChange}>
+                                  <option value="0" selected={formik.values.stdType ==='0'}>Đang học</option>
+                                  <option value="2" selected={formik.values.stdType ==='2'}>Bảo lưu</option>
+                                  <option value="1" selected={formik.values.stdType ==='1'}>Đã tốt nghiệp</option>
+                                </select>
+                              </div>
+                              <label className="col-sm-2 col-form-label"  htmlFor="selectstdWorkStatus">Hiện</label>
+                              <div className=" col-sm-5">
+                                <select className="custom-select form-control" id="selectstdWorkStatus" name="stdWorkStatus" onChange={formik.handleChange}>
+                                  <option value="0" selected={formik.values.stdWorkStatus ==='0'}>Đã đi làm</option>
+                                  <option value="1" selected={formik.values.stdWorkStatus ==='1'}>Chưa đi làm</option>
+                                  <option value="2" selected={formik.values.stdWorkStatus ==='2'}>Nghỉ hưu</option>
+                                </select>
+                              </div>
+                            </div> */}
                             <Input id="txtstdBirthday" type="date"  className="inputClass form-control" label="Ngày sinh" labelSize="4" maxLength="100"
                                 
                                 frmField={formik.getFieldProps("stdBirthday")}
                                 err={formik.touched.stdBirthday && formik.errors.stdBirthday}
                                 errMessage={formik.errors.stdBirthday}
                             />
+                            
+                            {/* Giới tính */}
+
+                            <div className="formGroup mb-3 row">
+                                <label className="col-sm-4 col-form-label">Giới tính</label>
+                                <div className="col-sm-8 pt-2">
+                                  <div className="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" checked={formik.values.stdGender === '0'} 
+                                     onChange={formik.handleChange}
+                                     id="customRadStatus1"  
+                                     value="0" className="custom-control-input"
+                                     name="stdGender"
+                                     />
+                                    
+                                    <label className="custom-control-label" htmlFor="customRadStatus1"> Nam <i class="fas fa-mars text-blue-500"></i></label>
+                                  </div>
+
+                                  <div className="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" checked={formik.values.stdGender === '1'} 
+                                    onChange={formik.handleChange}
+                                    id="customRadStatus2"
+                                    value="1" className="custom-control-input"  
+                                    name="stdGender"/>
+                                    
+                                    <label className="custom-control-label" htmlFor="customRadStatus2"> Nữ <i class="fas fa-venus text-red-500"></i></label>
+                                  </div>
+                                </div>
+                                
+                            </div>
+                        
+                            
                             
                             <Input id="txtstdEmail" type="email" className="inputClass form-control" label="Email" labelSize="4" maxLength="100"
                                 frmField={formik.getFieldProps("stdEmail")}
@@ -215,31 +344,80 @@ export default function StudentTable({ color }) {
                                 errMessage={formik.errors.stdPhone}
                             />
                             
-                            <Input id="txtstdImg" type="text" className="inputClass form-control" label="Ảnh" labelSize="4" maxLength="100"
-                                frmField={formik.getFieldProps("stdImg")}
-                                err={formik.touched.stdImg && formik.errors.stdImg}
-                                errMessage={formik.errors.stdImg}
-                                enctype="multipart/form-data"
+                            <Input id="txtInsImg" type="file"  className="inputClass form-control" label="Hình Ảnh" labelSize="4" maxLength="100"
+                                frmField={formik.getFieldProps("insImg")}
+                                err={formik.touched.insImg && formik.errors.insImg}
+                                errMessage={formik.errors.insImg}
+                                
                             />
                             
-                            <Input id="txtStdType" type="text" className="inputClass form-control" label="Loại" labelSize="4" maxLength="100"
+                            <div className="form-group row">
+                              <label className="col-sm-4 col-form-label"  htmlFor="selectstdWorkStatus">Loại</label>
+                              <div className=" col-sm-8">
+                                <select className="custom-select form-control" id="selectStudentType" name="stdType" onChange={formik.handleChange}>
+                                  <option value="0" selected={formik.values.stdType ==='0'}>Đang học</option>
+                                  <option value="2" selected={formik.values.stdType ==='2'}>Bảo lưu</option>
+                                  <option value="1" selected={formik.values.stdType ==='1'}>Đã tốt nghiệp</option>
+                                </select>
+                              </div>
+                            </div>
+
+                            {/* <Input id="txtStdType" type="text" className="inputClass form-control" label="Loại" labelSize="4" maxLength="100"
                                 frmField={formik.getFieldProps("stdType")}
                                 err={formik.touched.stdType && formik.errors.stdType}
                                 errMessage={formik.errors.stdType}
-                            />
+                            /> */}
+                            
+                            {/* Tình trạng */}
 
+                            <div className="form-group row">
+                              <label className="col-sm-4 col-form-label"  htmlFor="selectstdWorkStatus">Tình trạng</label>
+                              <div className=" col-sm-8">
+                                <select className="custom-select form-control" id="selectstdWorkStatus" name="stdWorkStatus" onChange={formik.handleChange}>
+                                  <option value="0" selected={formik.values.stdWorkStatus ==='0'}>Đã đi làm</option>
+                                  <option value="1" selected={formik.values.stdWorkStatus ==='1'}>Chưa đi làm</option>
+                                  <option value="2" selected={formik.values.stdWorkStatus ==='2'}>Nghỉ hưu</option>
+                                </select>
+                              </div>
+                            </div>
+                            
                             <Input id="txtStdGPA" type="text" className="inputClass form-control" label="Điểm GPA" labelSize="4" maxLength="100"
                                 frmField={formik.getFieldProps("stdGPA")}
                                 err={formik.touched.stdGPA && formik.errors.stdGPA}
                                 errMessage={formik.errors.stdGPA}
                             />
-                            
-                            <Input id="txtStdStatus" type="text" className="inputClass form-control" label="Tình trạng đi làm" labelSize="4" maxLength="100"
-                                frmField={formik.getFieldProps("stdWorkStatus")}
-                                err={formik.touched.stdWorkStatus && formik.errors.stdWorkStatus}
-                                errMessage={formik.errors.stdWorkStatus}
-                            />
-                            
+                            <div class="form-group row">
+                                <label for="" className="col-sm-4 col-form-label" >Công ty</label>
+                                <div className="col-sm-8">
+
+                                  <select class="form-control form-control-sm" name="stdCompany" id="">
+                                      {
+                                          companySelection.map((company, idx) => {
+                                              return (
+
+                                                  <option value={company.companyId}>{company.companyName}</option>
+                                              )
+                                          })
+                                      }
+                                  </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="" className="col-sm-4 col-form-label">Trường Học</label>
+                                <div className="col-sm-8">
+                                  
+                                  <select class="form-control form-control-sm" name="stdUniversity" id="">
+                                      {
+                                          universitySelection.map((university, idx) => {
+                                              return (
+
+                                                  <option value={university.universityId}>{university.universityName}</option>
+                                              )
+                                          })
+                                      }
+                                  </select>
+                                </div>
+                            </div>
                             <Input id="txtStdNote" type="text" className="inputClass form-control" label="Ghi chú" labelSize="4" maxLength="100"
                                 frmField={formik.getFieldProps("stdNote")}
                                 err={formik.touched.stdNote && formik.errors.stdNote}
@@ -381,7 +559,26 @@ export default function StudentTable({ color }) {
                 >
                   Tình trạng
                 </th>
-
+                <th
+                  className={
+                    "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left " +
+                    (color === "light"
+                      ? "bg-gray-100 text-gray-600 border-gray-200"
+                      : "bg-blue-800 text-blue-300 border-blue-700")
+                  }
+                >
+                  Công ty
+                </th>
+                <th
+                  className={
+                    "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left " +
+                    (color === "light"
+                      ? "bg-gray-100 text-gray-600 border-gray-200"
+                      : "bg-blue-800 text-blue-300 border-blue-700")
+                  }
+                >
+                  Trường học
+                </th>
                 <th
                   className={
                     "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left " +
@@ -400,7 +597,9 @@ export default function StudentTable({ color }) {
                       ? "bg-gray-100 text-gray-600 border-gray-200"
                       : "bg-blue-800 text-blue-300 border-blue-700")
                   }
-                ></th>
+                >
+                  Thao tác
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -427,12 +626,17 @@ export default function StudentTable({ color }) {
                   </th>
 
                   <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
-                  {student.stdBirthday}
+                    <Moment format="DD/MM/YYYY">
+                      {student.stdBirthday}
+                    </Moment>
                   </td>
 
                   <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
-                  {student.stdGender}
+                  {student.stdGender==="Male"?
+                    <p><i class="fas fa-mars text-blue-500"></i> Nam</p>:
+                    <p><i class="fas fa-venus text-red-500"></i>&nbsp;Nữ</p>}
                   </td>
+                  
 
                   <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
                   {student.stdEmail}
@@ -443,8 +647,9 @@ export default function StudentTable({ color }) {
                   </td>
 
                   <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
-                  {student.stdType}
-              
+                    { student.stdType==="DANGHOC"?<p>Đang học</p>:
+                      student.stdType==="TOTNGHIEP"?<p>Đã tốt nghiệp</p>:
+                      student.stdType==="BAOLUU"?<p>Bảo lưu</p>:" "}
                   </td>
 
                   <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
@@ -452,22 +657,28 @@ export default function StudentTable({ color }) {
                   </td>
 
                   <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
-                  {student.stdWorkStatus}
+                    { student.stdWorkStatus==="CHUALAM"?<p>Chưa đi làm</p>:
+                      student.stdWorkStatus==="DALAM"?<p>Đã đi làm</p>:
+                      student.stdWorkStatus==="NGHIHUU"?<p>Nghỉ hưu</p>:" "}
                   </td>
-
+                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
+                  {student.company.companyName}
+                  </td>
+                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
+                  {student.university.universityName}
+                  </td>
                   <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
                   {student.stdNote}
                   </td>
                   
-                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 text-right">
-                    <a href="/#" onClick={(e) => handleModalShow(e, student.stdId)}>
-                      <i className="fas fa-edit text-primary"></i>
-                    </a>
-                    <a href="/#" onClick={(e) => deleteRow(e, student.stdId)}>
-                      <i className="fas fa-trash-alt text-danger"></i>
-                    </a>
-                    {/* <TableDropdown /> */}
-                  </td>
+                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xm whitespace-no-wrap p-4 text-center">
+                        <a href="/#" onClick={(e) => handleModalShow(e, student.stdId)}>
+                          <i className="fas fa-edit text-primary px-2"></i>
+                        </a>
+                        <a href="/#" onClick={(e) => deleteRow(e, student.stdId)}>
+                          <i className="fas fa-trash-alt text-danger px-2"></i>
+                        </a>
+                      </td>
                 </tr>
                   )
               })}             

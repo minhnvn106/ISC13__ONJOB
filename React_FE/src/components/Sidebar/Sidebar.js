@@ -192,7 +192,7 @@ export default function Sidebar() {
                         : "text-gray-500")
                     }
                   ></i>{" "}
-                  Khóa học+
+                  &nbsp; Khóa học
                 </Link>
               </li>
 
@@ -214,7 +214,7 @@ export default function Sidebar() {
                         : "text-gray-500")
                     }
                   ></i>{" "}
-                  Ngành học
+                  &nbsp;Ngành học
                 </Link>
               </li>
 
@@ -258,7 +258,28 @@ export default function Sidebar() {
                         : "text-gray-500")
                     }
                   ></i>{" "}
-                  Phòng học
+                  &nbsp;Phòng học
+                </Link>
+              </li>
+              <li className="items-center">
+                <Link
+                  className={
+                    "text-xs uppercase py-3 font-bold block " +
+                    (window.location.href.indexOf("/admin/classes") !== -1
+                      ? "text-blue-500 hover:text-blue-600"
+                      : "text-gray-800 hover:text-gray-600")
+                  }
+                  to="/admin/classes"
+                >
+                  <i
+                    className={
+                      "fab fa-adn mr-2 text-sm " +
+                      (window.location.href.indexOf("/admin/classes") !== -1
+                        ? "opacity-75"
+                        : "text-gray-500")
+                    }
+                  ></i>{" "}
+                  &nbsp;Lớp học
                 </Link>
               </li>              
             </ul>
@@ -288,7 +309,7 @@ export default function Sidebar() {
                         : "text-gray-500")
                     }
                   ></i>{" "}
-                  Sinh viên
+                  &nbsp; Sinh viên
                 </Link>
               </li>
               <li className="items-center">
@@ -310,6 +331,27 @@ export default function Sidebar() {
                     }
                   ></i>{" "}
                   Giảng viên
+                </Link>
+              </li>
+              <li className="items-center">
+                <Link
+                  className={
+                    "text-xs uppercase py-3 font-bold block " +
+                    (window.location.href.indexOf("/admin/jobtitles") !== -1
+                      ? "text-blue-500 hover:text-blue-600"
+                      : "text-gray-800 hover:text-gray-600")
+                  }
+                  to="/admin/jobtitles"
+                >
+                  <i
+                    className={
+                      "fas fa-atlas mr-2 text-sm " +
+                      (window.location.href.indexOf("/admin/jobtitles") !== -1
+                        ? "opacity-75"
+                        : "text-gray-500")
+                    }
+                  ></i>{" "}
+                  &nbsp;Ngành nghề
                 </Link>
               </li>
             </ul>
@@ -359,7 +401,7 @@ export default function Sidebar() {
                         : "text-gray-500")
                     }
                   ></i>{" "}
-                  Công ty
+                  &nbsp;Công ty
                 </Link>
               </li>
             </ul>

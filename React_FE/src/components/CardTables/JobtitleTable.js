@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import PropTypes from "prop-types";
 import { Button, Modal } from 'react-bootstrap';
-import roomService from './../../assets/services/roomService';
+import jobtitleService from './../../assets/services/jobtitleService';
 
 // import { Pnotify } from '../../utils/pnotify';
 // import Input from './../controls/input';
@@ -20,20 +20,20 @@ import 'react-toastify/dist/ReactToastify.css';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
-export default function RoomTable({ color }) {
+export default function JobtitleTable({ color }) {
   // state = { }
-  const[rooms,setRooms] = useState([]);
-  const[roomId,setRoomId] = useState(0);
+  const[jobtitles,setJobtitles] = useState([]);
+  const[jobtitleId,setJobtitleId] = useState(0);
   
   const loadData = ()=>{
-    roomService.getAll().then(res=>{
-      setRooms(res);
+    jobtitleService.getAll().then(res=>{
+      setJobtitles(res);
     })
   }
 
   useEffect(()=>{
     loadData();
-  },[roomId]);
+  },[jobtitleId]);
 
   const [modalShow, setModalShow] = useState(false);
 
@@ -45,16 +45,14 @@ export default function RoomTable({ color }) {
     // Phần III: Formik và Function Xử lý handleFormSubmit 
     const formik = useFormik({
         initialValues: {
-            roomCode: "",
-            roomName: "",
-            roomType: "",
-            roomStatus: "1",
+            jtName: "",
+            jtStatus: "0",
            
             //Nếu có thêm nhiều trường khác
         },
         validationSchema: Yup.object({
-          roomCode: Yup.string().required("Phải nhập").min(2, "Phải 2 kí tự trở lên"),
-          roomName: Yup.string().required("Phải nhập")           
+          jtName: Yup.string().required("Phải nhập"),
+          jtStatus: Yup.string().required("Phải nhập")           
         }),
         onSubmit: (values) => {
             console.log(values);
@@ -66,18 +64,13 @@ export default function RoomTable({ color }) {
     const handleModalShow = (e, dataId) => {
       if (e) e.preventDefault();
 
-      setRoomId(dataId);
+      setJobtitleId(dataId);
       if (dataId > 0) {//edit
-          roomService.get(dataId).then(res => {
+          jobtitleService.get(dataId).then(res => {
             console.log(res)
               formik.setValues({
                 ...res,
-                // roomType: res.roomType.toString(),
-                // roomStatus: res.roomStatus.toString(),
-                roomType: res.roomType === "LYTHUYET" ? "0" : "1",
-                roomStatus: res.roomStatus === "HOATDONG"? "0" : "1",
-                // ...res, roomStatus : String(res.roomStatus), roomType: String(res.roomType)
-                
+                jtStatus: res.jtStatus === "KHONGCHINHTHUC"? "0" : "1",
               });
               setModalShow(true);
               console.log(res);
@@ -91,8 +84,8 @@ export default function RoomTable({ color }) {
     //Function xử lý khi người dùng nhập dữ liệu và thêm dữ liệu thành công 
     const handleFormSubmit = (data) => {
         console.log(data)
-        if (roomId === 0) {//add
-            roomService.add(data).then((res) => {
+        if (jobtitleId === 0) {//add
+            jobtitleService.add(data).then((res) => {
                 // loadData();
                 // handleModalClose();
                 if (res.errorCode !== 0) {
@@ -106,7 +99,7 @@ export default function RoomTable({ color }) {
                 }
             })
         } else {//update
-            roomService.update(roomId, data).then(res => {
+            jobtitleService.update(jobtitleId, data).then(res => {
                 if (res.errorCode !== 0) {
                   // Thông báo kết quả 
                   Alert('success', 'Đã chỉnh thành công')   
@@ -138,7 +131,7 @@ export default function RoomTable({ color }) {
                 
                 //TODO: Hiện notification
                 //TODO: Xóa dữ liệu
-                roomService.delete(dataId).then((res) => {
+                jobtitleService.delete(dataId).then((res) => {
                 // loadData();
                 // console.log(res);   
                   if (res.errorCode !== 0) {
@@ -179,7 +172,7 @@ export default function RoomTable({ color }) {
                 }
               >
                 {/* Table Title */}
-                DANH SÁCH PHÒNG HỌC
+                DANH SÁCH NGÀNH
               </h3>
             </div>
             
@@ -197,32 +190,15 @@ export default function RoomTable({ color }) {
               {/* Start Modal */}
               <Modal show={modalShow} onHide={handleModalClose} backdrop="static" keyboard={false}>
                     <Modal.Header closeButton>
-                        <Modal.Title><h3>Phòng mới</h3></Modal.Title>
+                        <Modal.Title><h3>NGÀNH NGHỀ</h3></Modal.Title>
                     </Modal.Header>
                     <form autoComplete="on" onSubmit={formik.handleSubmit}>
                         <Modal.Body>        
-                            <Input id="txtRoomCode" type="text" className="inputClass form-control" label="Mã Phòng" labelSize="4" maxLength="100"
-                                frmField={formik.getFieldProps("roomCode")}
-                                err={formik.touched.roomCode && formik.errors.roomCode}
-                                errMessage={formik.errors.roomCode}
+                            <Input id="txtJobtitleName" type="text" className="inputClass form-control" label="Nghề nghiệp" labelSize="4" maxLength="100"
+                                frmField={formik.getFieldProps("jtName")}
+                                err={formik.touched.jtName && formik.errors.jtName}
+                                errMessage={formik.errors.jtName}
                             />
-                            <Input id="txtRoomName" type="text" className="inputClass form-control" label="Tên phòng" labelSize="4" maxLength="100"
-                                frmField={formik.getFieldProps("roomName")}
-                                err={formik.touched.roomName && formik.errors.roomName}
-                                errMessage={formik.errors.roomName}
-                            />
-
-                            {/* Loại phòng */}
-
-                            <div className="form-group row">
-                              <label className="col-sm-4 col-form-label"  htmlFor="selectRoomType">Loại phòng</label>
-                              <div className=" col-sm-8">
-                                <select className="custom-select form-control" id="selectRoomType" name="roomType" onChange={formik.handleChange}>
-                                  <option value="0" selected={formik.values.roomType ==='0'}>Lý thuyết</option>
-                                  <option value="1" selected={formik.values.roomType ==='1'}>Thực hành</option>
-                                </select>
-                              </div>
-                            </div>
 
                             {/* Tình trạng */}
 
@@ -230,24 +206,23 @@ export default function RoomTable({ color }) {
                                 <label className="col-sm-4 col-form-label">Tình trạng</label>
                                 <div className="col-sm-8">
                                   <div className="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" checked={formik.values.roomStatus === '1'} 
+                                    <input type="radio" checked={formik.values.jtStatus === '1'} 
                                      onChange={formik.handleChange}
                                      id="customRadStatus1"  
                                      value="1" className="custom-control-input"
-                                     name="roomStatus"
-                                     />
-                                    
-                                    <label className="custom-control-label" htmlFor="customRadStatus1">Không dùng</label>
+                                     name="jtStatus"
+                                     />                                    
+                                    <label className="custom-control-label" htmlFor="customRadStatus1">Chính thức</label>
                                   </div>
 
                                   <div className="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" checked={formik.values.roomStatus === '0'} 
+                                    <input type="radio" checked={formik.values.jtStatus === '0'} 
                                     onChange={formik.handleChange}
                                     id="customRadStatus2"
                                     value="0" className="custom-control-input"  
-                                    name="roomStatus"/>
+                                    name="jtStatus"/>
                                     
-                                    <label className="custom-control-label" htmlFor="customRadStatus2">Đang dùng</label>
+                                    <label className="custom-control-label" htmlFor="customRadStatus2">Không chính thức</label>
                                   </div>
                                 </div>
                                 
@@ -277,17 +252,9 @@ export default function RoomTable({ color }) {
                 <th className={"px-3 w-5 text-center align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold " + (color === "light"? "bg-gray-100 text-gray-600 border-gray-200": "bg-blue-800 text-blue-300 border-blue-700")}>
                   STT
                 </th>
-                <th className={"px-3 w-5 text-center align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold " + (color === "light"? "bg-gray-100 text-gray-600 border-gray-200": "bg-blue-800 text-blue-300 border-blue-700")}>
-                  Mã phòng
-                </th>
 
                 <th className={"px-3 w-5 text-center align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold " + (color === "light"? "bg-gray-100 text-gray-600 border-gray-200": "bg-blue-800 text-blue-300 border-blue-700")}>
-                  Phòng học
-                </th>
-                
-                
-                <th className={"px-3 w-5 text-center align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold " + (color === "light"? "bg-gray-100 text-gray-600 border-gray-200": "bg-blue-800 text-blue-300 border-blue-700")}>
-                  Loại phòng
+                  Nghề nghiệp
                 </th>
                 
                 <th className={"px-3 w-5 text-center align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold " + (color === "light"? "bg-gray-100 text-gray-600 border-gray-200": "bg-blue-800 text-blue-300 border-blue-700")}>
@@ -302,27 +269,21 @@ export default function RoomTable({ color }) {
             <tbody>
               {/* Render table */}
               {
-                rooms.map((room,idx)=>{
+                jobtitles.map((jobtitle,idx)=>{
                   return(
-                    <tr key={room.roomId}>
+                    <tr key={jobtitle.jtId}>
                       <th className="text-center align-middle text-xs whitespace-no-wrap p-4" >{idx + 1}</th>
                       <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
-                      {room.roomCode}</td>
+                      {jobtitle.jtName}</td>
                       <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
-                      {room.roomName}</td>
-                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
-                      {room.roomType==="LYTHUYET"?
-                      <p><i class="fas fa-book text-green-500"></i> &nbsp;Phòng lý thuyết</p>:
-                      <p><i class="fas fa-tools text-gray-500"></i>&nbsp;Phòng thực hành</p>}</td>
-                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
-                      {room.roomStatus==="KHONGHOATDONG"?
-                      <p><i className="fas fa-circle text-orange-500 mr-2"></i>Không dùng</p>:
-                      <p><i className="fas fa-circle text-teal-500 mr-2"></i>Đang dùng</p>}</td>
+                      {jobtitle.jtStatus==="KHONGCHINHTHUC"?
+                      <p><i className="fas fa-circle text-orange-500 mr-2"></i>Nhân viên không chính thức</p>:
+                      <p><i className="fas fa-circle text-green-500 mr-2"></i>Nhân viên chính thức</p>}</td>
                       <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xm whitespace-no-wrap p-4 text-center">
-                        <a href="/#" onClick={(e) => handleModalShow(e, room.roomId)}>
+                        <a href="/#" onClick={(e) => handleModalShow(e, jobtitle.jtId)}>
                           <i className="fas fa-edit text-primary px-2"></i>
                         </a>
-                        <a href="/#" onClick={(e) => deleteRow(e, room.roomId)}>
+                        <a href="/#" onClick={(e) => deleteRow(e, jobtitle.jtId)}>
                           <i className="fas fa-trash-alt text-danger px-2"></i>
                         </a>
                       </td>
@@ -340,10 +301,10 @@ export default function RoomTable({ color }) {
   );
 }
 
-RoomTable.defaultProps = {
+JobtitleTable.defaultProps = {
   color: "light",
 };
 
-RoomTable.propTypes = {
+JobtitleTable.propTypes = {
   color: PropTypes.oneOf(["light", "dark"]),
 };

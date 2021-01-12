@@ -7,6 +7,14 @@ import * as Yup from "yup";
 
 import Input from './../../assets/services/input';
 
+//Toast
+import Alert from './../../utils/toaster'
+import 'react-toastify/dist/ReactToastify.css';
+
+// Confirmation
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+
 import subjectService from './../../assets/services/subjectService';
 export default function SubjectTable({ color }){
     const[subjects,setSubjects] = useState([]);
@@ -68,13 +76,15 @@ export default function SubjectTable({ color }){
 
         if (subjectId === 0) {//add
             subjectService.add(data).then((res) => {
+                Alert('success', 'Đã tạo thành công')   
                 loadData();
-                handleModalClose();
+                console.log(res);
             })
         } else {//update
             subjectService.update(subjectId, data).then(res => {
-                loadData()
-                handleModalClose();
+                Alert('success', 'Đã chỉnh thành công')   
+                loadData();
+                console.log(res);
                 // if(res.errorCode===0){
 
                 // }else{

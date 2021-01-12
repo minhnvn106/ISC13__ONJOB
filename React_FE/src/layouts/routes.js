@@ -12,6 +12,7 @@ import Majors from "views/admin/Majors.js";
 import Companies from "views/admin/Companies";
 import Subjects from "views/admin/Subjects";
 import Universities from "views/admin/Universities";
+import Jobtitles from './../views/admin/Jobtitles';
 
 const routes = [
 // Template
@@ -28,5 +29,6 @@ const routes = [
 {path:"/admin/majors", exact:true, name:"Ngành học", component: Majors},
 {path:"/admin/subjects", exact:true, name:"Môn học", component: Subjects},
 {path:"/admin/universities", exact:true, name:"Đại học", component: Universities},
+{path:"/admin/jobtitles", exact:true, name:"Nghề", component: Jobtitles},
 ];
 export default routes;

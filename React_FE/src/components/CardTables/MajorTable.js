@@ -77,37 +77,67 @@ export default function MajorTable({ color }) {
 
         if (majorID === 0) {//add
             majorService.add(data).then((res) => {
+              if (res.errorCode !== 0) {
+                // Thông báo kết quả 
+                Alert('success', 'Đã tạo thành công')   
                 loadData();
-                handleModalClose();
-            })
-        } else {//update
+                console.log(res);
+              } else {
+                // Alert('error', 'Không tạo được')   
+                // loadData();
+              }
+          })
+      } else {//update
             majorService.update(majorID, data).then(res => {
-                loadData()
-                handleModalClose();
-                // if(res.errorCode===0){
-
-                // }else{
-
-                // }
-            })
-        }
-    }
+              if (res.errorCode !== 0) {
+                // Thông báo kết quả 
+                Alert('success', 'Đã chỉnh thành công')   
+                loadData();
+                console.log(res);
+              } else {
+                // Alert('success', 'Chỉnh không được')   
+                // loadData();
+              }
+          })
+      }
+  }
 
     //Delete 1 dòng dữ liệu
     const deleteRow = (e, dataId) => {
         e.preventDefault();
-        majorService.delete(dataId).then(res => {
-          loadData();
-          console.log(res);
-              // if (res.errorCode === 0) {
-  
-              // } else {
-  
-              // }
-          });
-          console.log(dataId);
-    }
-  
+        // Thông báo người dùng trước khi xóa
+      confirmAlert({
+        title: 'Thông báo',
+        message: 'Bạn có chắc muốn xóa không?',
+        buttons: [
+          {
+            label: 'Xóa',
+            onClick: () => 
+            {
+                
+                //TODO: Hiện notification
+                //TODO: Xóa dữ liệu
+                majorService.delete(dataId).then((res) => {
+                // loadData();
+                // console.log(res);   
+                  if (res.errorCode !== 0) {
+                    // Thông báo kết quả
+                    Alert('success', 'Đã xóa thành công')   
+                    loadData();
+                    console.log(res);
+                  } else {
+                    
+                  }
+                });
+                // console.log(dataId);
+              }
+            },
+          {
+            label: 'Không',
+          }
+        ]
+      });
+    };  
   return (
     <Fragment>
         {/* Colors */}
@@ -143,7 +173,7 @@ export default function MajorTable({ color }) {
                 </button>
                 <Modal show={modalShow} onHide={handleModalClose} backdrop="static" keyboard={false}>
                     <Modal.Header closeButton>
-                    <Modal.Title> Ngành mới </Modal.Title>
+                    <Modal.Title><h3> Ngành mới </h3></Modal.Title>
                     </Modal.Header>
                     <form autoComplete="on" onSubmit={formik.handleSubmit}>
                         <Modal.Body>        
@@ -185,35 +215,16 @@ export default function MajorTable({ color }) {
                   STT
                 </th>
 
-                <td
-                  className={
-                    "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left " +
-                    (color === "light"
-                      ? "bg-gray-100 text-gray-600 border-gray-200"
-                      : "bg-blue-800 text-blue-300 border-blue-700")
-                  }
-                >
+                <th className={"px-3 w-5 text-center align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold " + (color === "light"? "bg-gray-100 text-gray-600 border-gray-200": "bg-blue-800 text-blue-300 border-blue-700")}>
                   Mã ngành
-                </td>
+                </th>
                 
-                <th
-                  className={
-                    "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left " +
-                    (color === "light"
-                      ? "bg-gray-100 text-gray-600 border-gray-200"
-                      : "bg-blue-800 text-blue-300 border-blue-700")
-                  }
-                >
+                <th className={"px-3 w-5 text-center align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold " + (color === "light"? "bg-gray-100 text-gray-600 border-gray-200": "bg-blue-800 text-blue-300 border-blue-700")}>
                   Ngành học
                 </th>
                 
-                <th
-                  className={
-                    "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left " +
-                    (color === "light"
-                      ? "bg-gray-100 text-gray-600 border-gray-200"
-                      : "bg-blue-800 text-blue-300 border-blue-700")
-                  }>
+                <th className={"px-3 w-5 text-center align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold " + (color === "light"? "bg-gray-100 text-gray-600 border-gray-200": "bg-blue-800 text-blue-300 border-blue-700")}>
+                    Thao tác
                 </th>
               </tr>
             </thead>
@@ -223,25 +234,24 @@ export default function MajorTable({ color }) {
                 return (
                 <tr key={major.majorID}>
                   <th className="text-center " >{idx + 1}</th>
-                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 text-left flex items-center">
+                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 text-center flex items-center">
                   <span>
                     {major.majorCode}
                   </span>
                   {/* {idx + 1} */}
                   </td>
-                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
+                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 text-center">
                   {major.majorName}
                   </td>
                   
-                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 text-right">
-                    <a href="/#" onClick={(e) => handleModalShow(e, major.majorID)}>
-                      <i className="fas fa-edit text-primary"></i>
-                    </a>
-                    <a href="/#" onClick={(e) => deleteRow(e, major.majorID)}>
-                      <i className="fas fa-trash-alt text-danger"></i>
-                    </a>
-                    {/* <TableDropdown /> */}
-                  </td>
+                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xm whitespace-no-wrap p-4 text-center">
+                        <a href="/#" onClick={(e) => handleModalShow(e, major.majorID)}>
+                          <i className="fas fa-edit text-primary px-2"></i>
+                        </a>
+                        <a href="/#" onClick={(e) => deleteRow(e, major.majorID)}>
+                          <i className="fas fa-trash-alt text-danger px-2"></i>
+                        </a>
+                      </td>
                 </tr>
                 )
               })}             

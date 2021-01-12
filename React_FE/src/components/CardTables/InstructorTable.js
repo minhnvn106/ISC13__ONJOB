@@ -45,16 +45,16 @@ export default function InstructorTable({ color }) {
             instructorService.get(dataId).then(res => {
                 formik.setValues({
                   ...res, 
-                  insCode:res.insCode.toString(),
-                  insName:res.insName.toString(),
+                  // insCode:res.insCode,
+                  // insName:res.insName,
                   insGender : res.insGender.toString(),
-                  insBirthday : res.insBirthday.toString(),
-                  insEmail : res.insEmail.toString(),
-                  insPhone : res.insPhone.toString(),
-                  insImg : res.insImg.toString(),
-                  insCertification : res.insCertification.toString(),
+                  // insBirthday : res.insBirthday,
+                  // insEmail : res.insEmail,
+                  // insPhone : res.insPhone,
+                  // insImg : res.insImg,
+                  // insCertification : res.insCertification,
                   insWorkStatus:res.insWorkStatus.toString(),
-                  insNote:res.insNote.toString(),
+                  // insNote:res.insNote,
                 });
                 setModalShow(true);
             })
@@ -306,7 +306,7 @@ export default function InstructorTable({ color }) {
                     <Modal.Header closeButton>
                         <Modal.Title>Giảng Viên</Modal.Title>
                     </Modal.Header>
-                    <form autoComplete="on" encType='multipart/form-data' onSubmit={formik.handleSubmit}>
+                    <form autoComplete="on" onSubmit={formik.handleSubmit}  enctype="multipart/form-data">
                         <Modal.Body>
                                   
                             <Input id="txtInsCode" type="text" className="inputClass form-control" label="Mã giảng viên" span=" (*)" required labelSize="4" maxLength="100"
@@ -371,7 +371,7 @@ export default function InstructorTable({ color }) {
                                 errMessage={formik.errors.insPhone}
                             />
                             
-                            <Input id="txtInsImg" type="file" name="file" className="inputClass form-control" label="Hình Ảnh" labelSize="4" maxLength="100"
+                            <Input id="txtInsImg" type="file" className="inputClass form-control" label="Hình Ảnh" labelSize="4" maxLength="100"
                                 frmField={formik.getFieldProps("insImg")}
                                 err={formik.touched.insImg && formik.errors.insImg}
                                 errMessage={formik.errors.insImg}

@@ -30,6 +30,7 @@ import store from './login/store/index';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 import Index from './views/Index';
+import routes from './layouts/routes';
 
 toast.configure({
   autoClose:3000,
@@ -44,7 +45,7 @@ toast.configure({
 })
 
 ReactDOM.render(
-<Provider store= {store}>
+<Provider store={store}>
   <BrowserRouter>
     <Switch>
       {/* <Route path="/auth/login" component={Login} /> */}
@@ -55,7 +56,7 @@ ReactDOM.render(
       <Route path="/profile" exact component={Profile} />
       {/* <Route path="/" exact component={Admin} /> */}
       {/* add redirect for first page */}
-      <Redirect from="*" to="/auth/login" />
+      <Redirect from="*" to="/admin" />
     </Switch>
     
   </BrowserRouter>,

@@ -16,6 +16,7 @@ import Input from './../../assets/services/input';
 
 import { Formik } from "formik";
 
+// export default function Login(){
 const Login = (props)=> {
   const { onUserLogin } = props;
   const [message, setMessage] = useState('');
@@ -25,7 +26,7 @@ const Login = (props)=> {
 
 	const submitHander = (e) => {
 		e.preventDefault();
-		const userName = userNameRef.current.value;
+    const userName = userNameRef.current.value;
 		const passWord = passWordRef.current.value;
 		//call api
 		userService.login(userName, passWord).then(
@@ -33,7 +34,8 @@ const Login = (props)=> {
 				//success
 				if (res.errorCode > 0) {
 					//error
-					setMessage(res.message);
+          setMessage(res.message);
+          Alert('error','Đăng nhập sai')
 				} else {
 					//success
 					setMessage('');
@@ -49,62 +51,6 @@ const Login = (props)=> {
 			}
 		);
 	};
-  // return (
-	// 	<div className="container">
-	// 		<div className="contai">
-	// 			<div className="card m-2 ">
-	// 				<div className="card-header bg-info">
-	// 					<h2>
-	// 						<i className="fab fa-buromobelexperte mr-2"></i>Login
-	// 					</h2>
-	// 				</div>
-	// 				<div className="card-body">
-	// 					<form action="" method="post" onSubmit={submitHander} autoComplete="on" encType='multipart/form-data'>
-	// 						<div className="row">
-	// 							<div className="col">
-	// 								<p className="text-danger text-center">{message}</p>
-	// 							</div>
-	// 						</div>
-	// 						{/* <div className="form-group row">
-  //                               <label htmlFor="username" className="col-xl-3 col-form-label">User name:</label>
-  //                               <div className="col-xl-9">
-  //                                   <input type="text" className="form-control" id="username" placeholder="Enter your username"/>
-  //                               </div>
-  //                           </div>
-  //                           <div className="form-group row">
-  //                               <label htmlFor="password" className="col-xl-3 col-form-label">User name:</label>
-  //                               <div className="col-xl-9">
-  //                                   <input type="password" className="form-control" id="password" placeholder="Enter your password"/>
-  //                               </div>
-  //                           </div> */}
-	// 						<Input
-	// 							inputRef={userNameRef}
-	// 							label="User Name"
-	// 							type="text"
-	// 							id="userName"
-	// 							placeHolder="Enter user name"
-	// 						/>
-	// 						<Input
-	// 							inputRef={passWordRef}
-	// 							label="Pass Word"
-	// 							type="password"
-	// 							id="password"
-	// 							placeHolder="Enter pass word"
-	// 						/>
-	// 						<div className="form-group row mt-3">
-	// 							<div className="col-12 text-center">
-	// 								{/* <Link to="/" className="btn btn-info">Login</Link> */}
-	// 								<button type="submit" className="btn btn-info">
-	// 									Login
-	// 								</button>
-	// 							</div>
-	// 						</div>
-	// 					</form>
-	// 				</div>
-	// 			</div>
-	// 		</div>
-	// 	</div>
-	// );
 	return (
     <>
       <div className="container mx-auto px-4 h-full">
@@ -117,30 +63,6 @@ const Login = (props)=> {
                     ĐĂNG NHẬP
                   </h6>
                 </div>
-                {/* <div className="btn-wrapper text-center">
-                  <button
-                    className="bg-white active:bg-gray-100 text-gray-800 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                    type="button"
-                  >
-                    <img
-                      alt="..."
-                      className="w-5 mr-1"
-                      src={require("assets/img/github.svg")}
-                    />
-                    Github
-                  </button>
-                  <button
-                    className="bg-white active:bg-gray-100 text-gray-800 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                    type="button"
-                  >
-                    <img
-                      alt="..."
-                      className="w-5 mr-1"
-                      src={require("assets/img/google.svg")}
-                    />
-                    Google
-                  </button>
-                </div> */}
                 <hr className="mt-6 border-b-1 border-gray-400" />
               </div>
               <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
@@ -148,6 +70,7 @@ const Login = (props)=> {
                   <small>Or sign in with credentials</small>
                 </div> */}
                 <form action="" method="post" onSubmit={submitHander} autoComplete="on" encType='multipart/form-data'>
+                {/* <form action="" method="post"> */}
                   <div className="relative w-full mb-3">
                     <label
                       className="block uppercase text-gray-700 text-xs font-bold mb-2"
@@ -163,14 +86,14 @@ const Login = (props)=> {
                       placeHolder="Nhập tên người dùng"
                     />
                     <div className="col">
-									    <p className="text-danger text-center">{message}</p>
+									    {/* <p className="text-danger text-center">{message}</p> */}
 								    </div>
                     {/* <input
                       type="email"
                       className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
                       placeholder="User name"
-                    /> */}
-                  </div>
+                    />*/}
+                  </div> 
 
                   <div className="relative w-full mb-3">
                     <label
@@ -192,7 +115,7 @@ const Login = (props)=> {
                       placeholder="Password"
                     /> */}
                     <div className="col">
-									    <p className="text-danger text-center">{message}</p>
+									    {/* <p className="text-danger text-center">{message}</p> */}
 								    </div>
                   </div>
 

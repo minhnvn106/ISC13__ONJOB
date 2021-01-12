@@ -5,11 +5,11 @@ class Input extends Component {
     render() { 
         //Dùng kiến thức phân rã this.props thì khi dùng code sẽ gọn hơn
         const {id, input, name,label,labelSize,inputRef,frmField,frmForm,placeholder,err,errMessage,...others} = this.props;//props la nhung properties co sẵn của reactJS
-        const size = labelSize ? labelSize : 0;
+        const size = labelSize ? labelSize : 3;
         const classLeft=`col-sm-${size} col-form-label`;
         const classRight=`col-sm-${12 - size}`;
         
-        const inputClass = `form-control ${err? "is-invalid":" "}`;
+        const inputClass = `form-control ${err? "is-invalid":"Dữ liệu sai "}`;
         
         return ( 
             <div className="form-group row">
