@@ -19,7 +19,9 @@ const url = {
     subjects: '/api/subjects',
     universities: '/api/universities',
 
-    signin:'/signin'
+    signin:'/signin',
+    signup: '/signup',
+    signout:'/signout'
 }
 
 const instance = axios.create({
@@ -39,8 +41,7 @@ instance.interceptors.request.use((request)=>{
     // grab current state
     const state = store.getState();
     if (state.auth.token){
-        request.headers.Authorization = `Bearer ${state.auth.token}`;
-    
+        request.headers.Authorization = `Bearer ${state.auth.token}`;    
     }
     console.log(request)
     return request;

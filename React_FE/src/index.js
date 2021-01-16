@@ -19,9 +19,10 @@ import Profile from "views/Profile.js";
 // import Index from "views/Index.js";
 
 // LOGIN - LOGOUT
+
 // import Login from 'views/auth/Login';
-import {Provider} from 'react-redux';
-import store from './login/store/index';
+// import {Provider} from 'react-redux';
+// import store from './login/store/index';
 
 // dependancy
 
@@ -41,11 +42,11 @@ toast.configure({
   closeOnClick:true,
   rlt:false,
   pauseOnVisibilityChange: true,
-  pauseOnHover: true
+  // pauseOnHover: true
 })
 
 ReactDOM.render(
-<Provider store={store}>
+/* <Provider store={store}> */
   <BrowserRouter>
     <Switch>
       {/* <Route path="/auth/login" component={Login} /> */}
@@ -56,10 +57,10 @@ ReactDOM.render(
       <Route path="/profile" exact component={Profile} />
       {/* <Route path="/" exact component={Admin} /> */}
       {/* add redirect for first page */}
-      <Redirect from="*" to="/admin" />
+      <Redirect from="*" to="/auth" />
     </Switch>
     
   </BrowserRouter>,
-</Provider>,
+// </Provider>,
   document.getElementById("root")
 );
