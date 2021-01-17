@@ -1,9 +1,9 @@
 import axios from 'axios';
-import store from './../../login/store/index';
+// import store from './../../login/store/index';
 
 const url = {
     //có thể thay thế bằng url bên backend
-    baseUrl:'http://localhost:8081',
+    baseUrl:'http://localhost:8085',
     majors: '/api/majors',
     intakes: '/api/intakes',
     companies: '/api/companies',
@@ -28,8 +28,11 @@ const instance = axios.create({
     baseURL:url.baseUrl,
     headers:{
         // Content-Type  - chỉ truyền và nhận dữ liệu bằng json
-        "Content-Type":"multipart/form-data",
-        "Accept":"multipart/form-data",
+        "Content-Type":"application/json",
+        "Accept":"application/json",
+        
+        // "Content-Type":"multipart/form-data",
+        // "Accept":"multipart/form-data",
         "Access-Control-Allow-Origin":"*", 
         'Access-Control-Allow-Headers': '*',
         'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS'
@@ -37,15 +40,15 @@ const instance = axios.create({
     }
 });
 
-instance.interceptors.request.use((request)=>{
-    // grab current state
-    const state = store.getState();
-    if (state.auth.token){
-        request.headers.Authorization = `Bearer ${state.auth.token}`;    
-    }
-    console.log(request)
-    return request;
-});
+// instance.interceptors.request.use((request)=>{
+//     // grab current state
+//     const state = store.getState();
+//     if (state.auth.token){
+//         request.headers.Authorization = `Bearer ${state.auth.token}`;    
+//     }
+//     console.log(request)
+//     return request;
+// });
 
 const api = {
     url,

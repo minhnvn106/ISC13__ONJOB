@@ -7,6 +7,7 @@ import com.example.iscmanagement.model.Company;
 import com.example.iscmanagement.model.JobTitle;
 import com.example.iscmanagement.service.JobTitleService;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-//@CrossOrigin
+@CrossOrigin
 @RestController
 @RequestMapping("/api/jobtitles")
 public class JobTitleController {
@@ -51,7 +52,7 @@ public class JobTitleController {
 			throws ResourceNotFoundException {
 		JobTitle jobTitle = jobTitleService.getJobTitle(id);
 		jobTitle.setJtName(jobTitleDetails.getJtName());
-		jobTitle.setJtStatus(jobTitleDetails.isJtStatus());
+		jobTitle.setJtStatus(jobTitleDetails.getJtStatus());
 		jobTitleService.inserJobTitle(jobTitle);
 		return ResponseEntity.ok(jobTitle);
 	}

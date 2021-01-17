@@ -7,6 +7,14 @@ import * as Yup from "yup";
 
 import Input from './../../assets/services/input';
 
+//Toast
+import Alert from './../../utils/toaster'
+import 'react-toastify/dist/ReactToastify.css';
+
+// Confirmation
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+
 import universityService from './../../assets/services/universityService';
 export default function UniversityTable({ color }){
     const[universities,setUniversities] = useState([]);
@@ -68,35 +76,69 @@ export default function UniversityTable({ color }){
 
         if (universityId === 0) {//add
             universityService.add(data).then((res) => {
-                loadData();
-                handleModalClose();
-            })
+                if (res.errorCode !== 0) {
+                    // Thông báo kết quả 
+                    Alert('success', 'Đã tạo thành công')   
+                    loadData();
+                    console.log(res);
+                  } else {
+                    // Alert('error', 'Không tạo được')   
+                    // loadData();
+                  }
+              })
         } else {//update
             universityService.update(universityId, data).then(res => {
-                loadData()
-                handleModalClose();
-                // if(res.errorCode===0){
-
-                // }else{
-
-                // }
-            })
+                if (res.errorCode !== 0) {
+                    // Thông báo kết quả 
+                    Alert('success', 'Đã chỉnh thành công')   
+                    loadData();
+                    console.log(res);
+                  } else {
+                    // Alert('success', 'Chỉnh không được')   
+                    // loadData();
+                  }
+              })
         }
     }
     //Delete 1 dòng dữ liệu
     const deleteRow = (e, dataId) => {
+      
+        // Ngưng vòng lặp map
         e.preventDefault();
-        universityService.delete(dataId).then(res => {
-        loadData();
-        console.log(res);
-            // if (res.errorCode === 0) {
-
-            // } else {
-
-            // }
+        
+        // Thông báo người dùng trước khi xóa
+        confirmAlert({
+          title: 'Thông báo',
+          message: 'Bạn có chắc muốn xóa không?',
+          buttons: [
+            {
+              label: 'Xóa',
+              onClick: () => 
+              {
+                  
+                  //TODO: Hiện notification
+                  //TODO: Xóa dữ liệu
+                  universityService.delete(dataId).then((res) => {
+                  // loadData();
+                  // console.log(res);   
+                    if (res.errorCode !== 0) {
+                      // Thông báo kết quả
+                      Alert('success', 'Đã xóa thành công')   
+                      loadData();
+                      console.log(res);
+                    } else {
+                      
+                    }
+                  });
+                  // console.log(dataId);
+                }
+              },
+            {
+              label: 'Không',
+            }
+          ]
         });
-        console.log(dataId);
-    }
+      };
     return(
         <Fragment>
             {/* Colors */}
@@ -207,7 +249,7 @@ export default function UniversityTable({ color }){
                         </th>
 
                         <th className={"px-3 w-5 text-center align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold " + (color === "light"? "bg-gray-100 text-gray-600 border-gray-200": "bg-blue-800 text-blue-300 border-blue-700")}>
-                        Active
+                        Thao tác
                         </th>
                     </tr>
                     </thead>

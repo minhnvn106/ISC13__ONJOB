@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,10 +20,7 @@ import com.example.iscmanagement.exception.ResourceNotFoundException;
 import com.example.iscmanagement.model.Classes;
 import com.example.iscmanagement.service.ClassService;
 
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-
-//@CrossOrigin
+@CrossOrigin
 @RestController
 @RequestMapping("/api/classes")
 public class ClassesController {

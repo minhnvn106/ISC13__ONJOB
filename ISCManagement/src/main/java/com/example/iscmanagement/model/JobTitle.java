@@ -33,7 +33,7 @@ public class JobTitle {
 	public void setJtName(String jtName) {
 		this.jtName = jtName;
 	}
-	public EnumJobStatus isJtStatus() {
+	public EnumJobStatus getJtStatus() {
 		return jtStatus;
 	}
 	public void setJtStatus(EnumJobStatus jtStatus) {
@@ -42,7 +42,5 @@ public class JobTitle {
 	@Override
 	public String toString() {
 		return "JobTitle [jtId=" + jtId + ", jtName=" + jtName + ", jtStatus=" + jtStatus + "]";
-	}
-
-	
+	}	
 }

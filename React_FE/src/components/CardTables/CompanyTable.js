@@ -317,6 +317,7 @@ export default function CompanyTable({ color }) {
                       ? "bg-gray-100 text-gray-600 border-gray-200"
                       : "bg-blue-800 text-blue-300 border-blue-700")
                   }>
+                    Thao tác
                 </th>
               </tr>
             </thead>

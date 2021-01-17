@@ -45,12 +45,12 @@ public class CompanyController {
 
 	// insert company
 	@PostMapping("")
-	public Company createCompany(@RequestBody Company company) {
+	public Company createRoom(@RequestBody Company company) {
 		return companyService.insertCompany(company);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity updateCompany(@PathVariable(value = "id") Long id, @RequestBody Company companyDetails)
+	public ResponseEntity updateRoom(@PathVariable(value = "id") Long id, @RequestBody Company companyDetails)
 			throws ResourceNotFoundException {
 		Company company = companyService.getCompany(id);
 		company.setCompanyAddress(companyDetails.getCompanyAddress());

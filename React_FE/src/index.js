@@ -20,7 +20,7 @@ import Profile from "views/Profile.js";
 
 // LOGIN - LOGOUT
 
-// import Login from 'views/auth/Login';
+import Login from 'views/auth/Login';
 // import {Provider} from 'react-redux';
 // import store from './login/store/index';
 
@@ -42,7 +42,7 @@ toast.configure({
   closeOnClick:true,
   rlt:false,
   pauseOnVisibilityChange: true,
-  // pauseOnHover: true
+  pauseOnHover: true
 })
 
 ReactDOM.render(
@@ -57,7 +57,7 @@ ReactDOM.render(
       <Route path="/profile" exact component={Profile} />
       {/* <Route path="/" exact component={Admin} /> */}
       {/* add redirect for first page */}
-      <Redirect from="*" to="/auth" />
+      <Redirect from="*" to="/admin" />
     </Switch>
     
   </BrowserRouter>,

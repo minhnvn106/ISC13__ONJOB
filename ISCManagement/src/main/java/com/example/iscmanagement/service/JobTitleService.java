@@ -17,24 +17,24 @@ public class JobTitleService {
 	@Autowired
 	JobTitleRepo repo;
 
-	// get all Classes
+	// get all JobTitles
 	public List<JobTitle> getAllJobTitle() {
 		return repo.findAll();
 	}
 
-	// get Classes by id
+	// get JobTitles by id
 	public JobTitle getJobTitle(long id) throws ResourceNotFoundException {
 		JobTitle jobTitle = repo.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Mã Job này không tồn tại" + id));
 		return jobTitle;
 	}
 
-	// insert Classes
+	// insert JobTitles
 	public JobTitle inserJobTitle(JobTitle jobTitle) {
 		return repo.save(jobTitle);
 	}
 
-	// delete Classes by id
+	// delete JobTitles by id
 	public void deleteJobTitle(long id) {
 		repo.deleteById(id);
 	}

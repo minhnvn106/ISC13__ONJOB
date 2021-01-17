@@ -3,9 +3,23 @@ package com.example.iscmanagement.model;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -16,7 +30,12 @@ public class Instructor {
 	@Column(unique = true, nullable = false, length = 20)
 	private String insCode;
 	private String insName;
+
+//	@Enumerated(EnumType.ORDINAL)
+//	private EnumGender insGender;
+	
 	private EnumGender insGender = EnumGender.Male;
+	
 	@Temporal(TemporalType.DATE)
 	private Date insBirthday;
 	private String insEmail;
@@ -24,18 +43,29 @@ public class Instructor {
 	private String insPhone;
 	private String insImg;
 	private String insCertification;
+	
+//	private EnumWorkStatus insWorkStatus;
+//	@Enumerated(EnumType.ORDINAL)
+	@Enumerated()
 	private EnumWorkStatus insWorkStatus;
+	
 	@Column(length = 2000)
 	private String insNote;
-	@ManyToOne
+	
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "jobtitle_fk")
 	private JobTitle jobTitle;
-	@OneToMany
-	@JoinColumn(name = "account_instructor_fk")
-	private List<ISCAccount> listAccount;
+	
+//	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+//	@OneToMany(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "account_student_fk")
+//	private List<ISCAccount> listAccount;
+	
+	
 	public Instructor(Long insId, String insCode, String insName, EnumGender insGender, Date insBirthday,
 			String insEmail, String insPhone, String insImg, String insCertification, EnumWorkStatus insWorkStatus,
-			String insNote, JobTitle jobTitle, List<ISCAccount> listAccount) {
+			String insNote, JobTitle jobTitle) {
 		super();
 		this.insId = insId;
 		this.insCode = insCode;
@@ -49,7 +79,7 @@ public class Instructor {
 		this.insWorkStatus = insWorkStatus;
 		this.insNote = insNote;
 		this.jobTitle = jobTitle;
-		this.listAccount = listAccount;
+		
 	}
 	public Instructor() {
 		super();
@@ -126,18 +156,13 @@ public class Instructor {
 	public void setJobTitle(JobTitle jobTitle) {
 		this.jobTitle = jobTitle;
 	}
-	public List<ISCAccount> getListAccount() {
-		return listAccount;
-	}
-	public void setListAccount(List<ISCAccount> listAccount) {
-		this.listAccount = listAccount;
-	}
+	
 	@Override
 	public String toString() {
 		return "Instructor [insId=" + insId + ", insCode=" + insCode + ", insName=" + insName + ", insGender="
 				+ insGender + ", insBirthday=" + insBirthday + ", insEmail=" + insEmail + ", insPhone=" + insPhone
 				+ ", insImg=" + insImg + ", insCertification=" + insCertification + ", insWorkStatus=" + insWorkStatus
-				+ ", insNote=" + insNote + ", jobTitle=" + jobTitle + ", listAccount=" + listAccount + "]";
+				+ ", insNote=" + insNote + ", jobTitle=" + jobTitle + "]";
 	}
 	
 

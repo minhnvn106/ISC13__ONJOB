@@ -238,11 +238,11 @@ export default function StudentTable({ color }) {
                   <i className="fas fa-plus"></i> 
                   &nbsp; Thêm
                 </button>
-                <Modal show={modalShow} onHide={handleModalClose} backdrop="static" keyboard={false}>
+                <Modal show={modalShow} onHide={handleModalClose} backdrop="static" keyboard={false} >
                     <Modal.Header closeButton>
                     <Modal.Title><h3> Học viên mới </h3></Modal.Title>
                     </Modal.Header>
-                    <form autoComplete="on" onSubmit={formik.handleSubmit}>
+                    <form autoComplete="on" onSubmit={formik.handleSubmit} action="/" method="post" enctype="multipart/form-data">
                         <Modal.Body>
                             <Input id="txtStdCode" type="text" className="inputClass form-control" label="Mã học viên" labelSize="4" maxLength="100"
                                 frmField={formik.getFieldProps("stdCode")}

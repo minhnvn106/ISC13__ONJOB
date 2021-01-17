@@ -15,7 +15,7 @@ const login=(username,password)=>{
     return api.post(api.url.signin,data).then(res =>
         res.header('Access-Control-Allow-Origin', '*').data)
     }
-const userService2={
+const userService={
     login:login
 };
-export default userService2;
+export default userService;

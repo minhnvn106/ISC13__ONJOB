@@ -6,13 +6,32 @@ import { Button, Modal } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as Yup from "yup";
 
+import majorService from './../../assets/services/majorService';
+//Toast
+import Alert from './../../utils/toaster'
+import 'react-toastify/dist/ReactToastify.css';
+
+// Confirmation
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+
+// DD/MM/YYYY
+import Moment from 'react-moment';
+
 import Input from './../../assets/services/input';
 export default function IntakeTable({ color }) {
   const [intakes, setIntakes] = useState([]);
 
   const [intakeId, setIntakeId] = useState(0);
+  const [majorSelection,setMajorSelection] = useState([]);
+  
+      /* ************************* */
+  const loadDataMajor = ()=>{
+    majorService.getAll().then(res=>{
+      setMajorSelection(res);
+    })
+  }
 
-    /* ************************* */
   const loadData = () => {
         intakeService.getAll().then(res => {
             setIntakes(res);
@@ -22,7 +41,7 @@ export default function IntakeTable({ color }) {
     useEffect(() => {
         
         loadData();
-       
+        loadDataMajor();
     }, [intakeId]); 
 
     const [modalShow, setModalShow] = useState(false);
@@ -36,7 +55,10 @@ export default function IntakeTable({ color }) {
         setIntakeId(dataId);
         if (dataId > 0) {//edit
             intakeService.get(dataId).then(res => {
-                formik.setValues(res);
+              formik.setValues({
+                ...res,
+                intakeStatus: res.intakeStatus === "HOATDONG"? "0" : "1",               
+              });
                 setModalShow(true);
             })
         } else {//add
@@ -52,12 +74,13 @@ export default function IntakeTable({ color }) {
             intakeName: "",
             intakeBeginDay: "",
             intakeEndDay: "",
-            intakeStatus: "",
-            note: ""
+            intakeStatus: "1",
+            note: "",
+            major:""
             //Nếu có thêm nhiều trường khác
         },
         validationSchema: Yup.object({
-            intakeCode: Yup.string().required("Required").min(4, "Must be 4 characters or more"),
+            intakeCode: Yup.string().required("Required").min(2, "Từ 2 kí tự trở lên"),
             intakeName: Yup.string().required("Required"),
         }),
         onSubmit: (values) => {
@@ -72,18 +95,27 @@ export default function IntakeTable({ color }) {
 
         if (intakeId === 0) {//add
             intakeService.add(data).then((res) => {
+              if (res.errorCode !== 0) {
+                // Thông báo kết quả 
+                Alert('success', 'Đã tạo thành công')   
                 loadData();
-                handleModalClose();
+                console.log(res);
+              } else {
+                // Alert('error', 'Không tạo được')   
+                // loadData();
+              }
             })
         } else {//update
             intakeService.update(intakeId, data).then(res => {
-                loadData()
-                handleModalClose();
-                // if(res.errorCode===0){
-
-                // }else{
-
-                // }
+              if (res.errorCode !== 0) {
+                // Thông báo kết quả 
+                Alert('success', 'Đã chỉnh thành công')   
+                loadData();
+                console.log(res);
+              } else {
+                // Alert('success', 'Chỉnh không được')   
+                // loadData();
+              }
             })
         }
     }
@@ -91,18 +123,43 @@ export default function IntakeTable({ color }) {
 
     //Delete 1 dòng dữ liệu
     const deleteRow = (e, dataId) => {
-        e.preventDefault();
-        intakeService.delete(dataId).then(res => {
-          loadData();
-          console.log(res);
-              // if (res.errorCode === 0) {
-  
-              // } else {
-  
-              // }
-          });
-          console.log(dataId);
-    }
+      
+      // Ngưng vòng lặp map
+      e.preventDefault();
+      
+      // Thông báo người dùng trước khi xóa
+      confirmAlert({
+        title: 'Thông báo',
+        message: 'Bạn có chắc muốn xóa không?',
+        buttons: [
+          {
+            label: 'Xóa',
+            onClick: () => 
+            {
+                
+                //TODO: Hiện notification
+                //TODO: Xóa dữ liệu
+                intakeService.delete(dataId).then((res) => {
+                // loadData();
+                // console.log(res);   
+                  if (res.errorCode !== 0) {
+                    // Thông báo kết quả
+                    Alert('success', 'Đã xóa thành công')   
+                    loadData();
+                    console.log(res);
+                  } else {
+                    
+                  }
+                });
+                // console.log(dataId);
+              }
+            },
+          {
+            label: 'Không',
+          }
+        ]
+      });
+    };
   
   return (
     <Fragment>
@@ -172,17 +229,55 @@ export default function IntakeTable({ color }) {
                       errMessage={formik.errors.intakeEndDay}
                     />
 
-                    <Input id="txtIntakeStatus" type="text" className="inputClass form-control" label="Trạng thái" labelSize="4" maxLength="100"
-                      frmField={formik.getFieldProps("intakeStatus")}
-                      err={formik.touched.intakeStatus && formik.errors.intakeStatus}
-                      errMessage={formik.errors.intakeStatus}
-                    />
+                    {/* Tinh trang */}
+                    <div className="formGroup row">
+                      <label className="col-sm-4 col-form-label">Tình trạng</label>
+                      <div className="col-sm-8">
+                        <div className="custom-control custom-radio custom-control-inline">
+                          <input type="radio" checked={formik.values.intakeStatus === '1'} 
+                            onChange={formik.handleChange}
+                            id="customRadStatus1"  
+                            value="1" className="custom-control-input"
+                            name="intakeStatus"
+                            />
+                          
+                          <label className="custom-control-label" htmlFor="customRadStatus1">Không dạy</label>
+                        </div>
+
+                        <div className="custom-control custom-radio custom-control-inline">
+                          <input type="radio" checked={formik.values.intakeStatus === '0'} 
+                          onChange={formik.handleChange}
+                          id="customRadStatus2"
+                          value="0" className="custom-control-input"  
+                          name="intakeStatus"/>
+                          
+                          <label className="custom-control-label" htmlFor="customRadStatus2">Đang dạy</label>
+                        </div>
+                      </div>
+                      
+                    </div>
 
                     <Input id="txtIntakeNote" type="text" className="inputClass form-control" label="Ghi chú" labelSize="4" maxLength="100"
                       frmField={formik.getFieldProps("note")}
                       err={formik.touched.note && formik.errors.note}
                       errMessage={formik.errors.note}
                     />
+
+                    <div class="form-group row">
+                      <label for="" className="col-sm-4 col-form-label" >Ngành học</label>
+                      <div className="col-sm-8">
+
+                        <select class="form-control form-control-sm" name="major" id="">
+                            {
+                              majorSelection.map((major, idx) => {
+                                return (
+                                  <option value={major.majorID}>{major.majorName}</option>
+                                )
+                              })
+                            }
+                        </select>
+                      </div>
+                    </div>
                   </Modal.Body>
 
                   <Modal.Footer>
@@ -260,6 +355,7 @@ export default function IntakeTable({ color }) {
                 >
                   Trạng thái
                 </th>
+
                 <th
                   className={
                     "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left " +
@@ -268,7 +364,18 @@ export default function IntakeTable({ color }) {
                       : "bg-blue-800 text-blue-300 border-blue-700")
                   }
                 >
-                  Chú thích
+                  Ngành
+                </th>
+
+                <th
+                  className={
+                    "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left " +
+                    (color === "light"
+                      ? "bg-gray-100 text-gray-600 border-gray-200"
+                      : "bg-blue-800 text-blue-300 border-blue-700")
+                  }
+                >
+                  Ghi chú
                 </th>
                 <th
                   className={
@@ -277,6 +384,7 @@ export default function IntakeTable({ color }) {
                       ? "bg-gray-100 text-gray-600 border-gray-200"
                       : "bg-blue-800 text-blue-300 border-blue-700")
                   }>
+                  Thao tác
                 </th>
               </tr>
             </thead>
@@ -296,25 +404,32 @@ export default function IntakeTable({ color }) {
                   {intake.intakeName}
                   </td>
                   <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
-                  {intake.intakeBeginDay}
+                    <Moment format="DD/MM/YYYY">
+                      {intake.intakeBeginDay}
+                    </Moment>
                   </td>
                   <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
-                  {intake.intakeEndDay}
+                    <Moment format="DD/MM/YYYY">
+                      {intake.intakeEndDay}
+                    </Moment>
                   </td>
                   <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
-                  {intake.intakeStatus}
+                      {intake.intakeStatus==="KHONGHOATDONG"?
+                      <p><i className="fas fa-circle text-orange-500 mr-2"></i>Không dạy</p>:
+                      <p><i className="fas fa-circle text-teal-500 mr-2"></i>Đang dạy</p>}</td>
+                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
+                    {intake.major.majorName}
                   </td>
                   <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
                   {intake.note}
                   </td>
-                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 text-right">
+                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xm whitespace-no-wrap p-4 text-center">
                     <a href="/#" onClick={(e) => handleModalShow(e, intake.intakeId)}>
-                      <i className="fas fa-edit text-primary"></i>
+                      <i className="fas fa-edit text-primary px-2"></i>
                     </a>
                     <a href="/#" onClick={(e) => deleteRow(e, intake.intakeId)}>
-                      <i className="fas fa-trash-alt text-danger"></i>
+                      <i className="fas fa-trash-alt text-danger px-2"></i>
                     </a>
-                    {/* <TableDropdown /> */}
                   </td>
                 </tr>
                 )

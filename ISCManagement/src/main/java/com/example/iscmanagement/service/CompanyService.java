@@ -24,7 +24,7 @@ public class CompanyService {
 //get Company by id
 	public Company getCompany(long id) throws ResourceNotFoundException {
 		Company company = repo.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Mã công này không tồn tại" + id));
+				.orElseThrow(() -> new ResourceNotFoundException("Mã công ty này không tồn tại" + id));
 		return company;
 	}
 

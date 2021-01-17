@@ -2,6 +2,7 @@ package com.example.iscmanagement.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -9,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 public class Classes {
 	@Id
@@ -19,10 +21,18 @@ public class Classes {
 	private String className;
 	private int maxStudent;
 	private int quantity;
-	@ManyToOne
-	@JsonBackReference(value = "subject")
+	
+//	@ManyToOne
+//	@JsonBackReference(value = "subject")
+//	@JoinColumn(name = "subject_fk")
+//	private Subject subject;
+	
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "subject_fk")
 	private Subject subject;
+	
+	
 	public Classes(Long classId, String classCode, String className, int maxStudent, int quantity, Subject subject) {
 		super();
 		this.classId = classId;

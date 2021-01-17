@@ -40,7 +40,10 @@ export default function SubjectTable({ color }){
         setSubjectId(dataId);
         if (dataId > 0) {//edit
             subjectService.get(dataId).then(res => {
-                formik.setValues(res);
+                formik.setValues({
+                    ...res,
+                    subjectStatus: res.roomStatus === "HOATDONG"? "0" : "1",
+                  });
                 setModalShow(true);
             })
         } else {//add
@@ -55,12 +58,12 @@ export default function SubjectTable({ color }){
             subName: "",
             subCredit: "",
             subPassScore: "",
-            subStatus: "",
+            subStatus: "1",
            
             //Nếu có thêm nhiều trường khác
         },
         validationSchema: Yup.object({
-            subCode: Yup.string().required("Required").min(4, "Must be 4 characters or more"),
+            subCode: Yup.string().required("Required").min(2, "Phải 2 kí tự trở lên"),
             subName: Yup.string().required("Required")
             
         }),
@@ -95,18 +98,43 @@ export default function SubjectTable({ color }){
     }
     //Delete 1 dòng dữ liệu
     const deleteRow = (e, dataId) => {
+      
+        // Ngưng vòng lặp map
         e.preventDefault();
-        subjectService.delete(dataId).then(res => {
-        loadData();
-        console.log(res);
-            // if (res.errorCode === 0) {
-
-            // } else {
-
-            // }
+        
+        // Thông báo người dùng trước khi xóa
+        confirmAlert({
+          title: 'Thông báo',
+          message: 'Bạn có chắc muốn xóa không?',
+          buttons: [
+            {
+              label: 'Xóa',
+              onClick: () => 
+              {
+                  
+                  //TODO: Hiện notification
+                  //TODO: Xóa dữ liệu
+                  subjectService.delete(dataId).then((res) => {
+                  // loadData();
+                  // console.log(res);   
+                    if (res.errorCode !== 0) {
+                      // Thông báo kết quả
+                      Alert('success', 'Đã xóa thành công')   
+                      loadData();
+                      console.log(res);
+                    } else {
+                      
+                    }
+                  });
+                  // console.log(dataId);
+                }
+              },
+            {
+              label: 'Không',
+            }
+          ]
         });
-        console.log(dataId);
-    }
+      };
     return(
         <Fragment>
             {/* Colors */}
@@ -167,11 +195,33 @@ export default function SubjectTable({ color }){
                                         err={formik.touched.subPassScore && formik.errors.subPassScore}
                                         errMessage={formik.errors.subPassScore}
                                     />
-                                    <Input id="txtSubStatus" type="text" className="inputClass form-control" label="Tình trạng" labelSize="4" maxLength="100"
-                                        frmField={formik.getFieldProps("subStatus")}
-                                        err={formik.touched.subStatus && formik.errors.subStatus}
-                                        errMessage={formik.errors.subStatus}
-                                    />
+
+                                    {/* Trạng thái */}
+                                    <div className="formGroup row">
+                                        <label className="col-sm-4 col-form-label">Tình trạng</label>
+                                        <div className="col-sm-8">
+                                        <div className="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" checked={formik.values.subStatus === '1'} 
+                                            onChange={formik.handleChange}
+                                            id="customRadStatus1"  
+                                            value="1" className="custom-control-input"
+                                            name="subjectStatus"
+                                            />
+                                            
+                                        <label className="custom-control-label" htmlFor="customRadStatus1">Không dạy</label>
+                                        </div>
+
+                                        <div className="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" checked={formik.values.subStatus === '0'} 
+                                            onChange={formik.handleChange}
+                                            id="customRadStatus2"
+                                            value="0" className="custom-control-input"  
+                                            name="subjectStatus"/>
+                                            <label className="custom-control-label" htmlFor="customRadStatus2">Đang dạy</label>
+                                        </div>
+                                        </div>
+                                        
+                                    </div>
                                 </Modal.Body>
 
                                 <Modal.Footer>
@@ -216,7 +266,7 @@ export default function SubjectTable({ color }){
                         </th>
 
                         <th className={"px-3 w-5 text-center align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold " + (color === "light"? "bg-gray-100 text-gray-600 border-gray-200": "bg-blue-800 text-blue-300 border-blue-700")}>
-                        Active
+                        Thao tác
                         </th>
                     </tr>
                     </thead>
@@ -238,9 +288,12 @@ export default function SubjectTable({ color }){
                             <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
                             {subject.subPassScore}
                             </td>
+                            
                             <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
-                            {subject.subStatus}
-                            </td>
+                            {subject.subStatus==="KHONGHOATDONG"?
+                            <p><i className="fas fa-circle text-orange-500 mr-2"></i>Không dạy</p>:
+                            <p><i className="fas fa-circle text-teal-500 mr-2"></i>Đang dạy</p>}</td>
+                            
                             <td className="border-t-0 px-6 align-middle text-center border-l-0 border-r-0 whitespace-no-wrap p-4">
                             <a href="/#" onClick={(e) => handleModalShow(e, subject.subID)}>
                             <i className="fas fa-edit text-primary mr-4"></i>

@@ -46,8 +46,7 @@ export default function JobtitleTable({ color }) {
     const formik = useFormik({
         initialValues: {
             jtName: "",
-            jtStatus: "0",
-           
+            jtStatus: "0",           
             //Nếu có thêm nhiều trường khác
         },
         validationSchema: Yup.object({

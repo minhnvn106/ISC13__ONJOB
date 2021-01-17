@@ -33,18 +33,18 @@ public class ISCAccount {
 	  @Size(min = 8, message = "Minimum password length: 8 characters")
 	  private String password;
 
-	  @ElementCollection(fetch = FetchType.EAGER)
-	  List<Role> roles;
+//	  @ElementCollection(fetch = FetchType.EAGER)
+//	  List<Role> roles;
 
 	public ISCAccount(Integer id,
 			@Size(min = 4, max = 255, message = "Minimum username length: 4 characters") String username, String email,
-			@Size(min = 8, message = "Minimum password length: 8 characters") String password, List<Role> roles) {
+			@Size(min = 8, message = "Minimum password length: 8 characters") String password) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.email = email;
 		this.password = password;
-		this.roles = roles;
+//		this.roles = roles;
 	}
 
 	public ISCAccount() {
@@ -83,19 +83,19 @@ public class ISCAccount {
 		this.password = password;
 	}
 
-	public List<Role> getRoles() {
-		return roles;
-	}
+//	public List<Role> getRoles() {
+//		return roles;
+//	}
+//
+//	public void setRoles(List<Role> roles) {
+//		this.roles = roles;
+//	}
 
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
-	}
-
-	@Override
-	public String toString() {
-		return "ISCAccount [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password
-				+ ", roles=" + roles + "]";
-	}
+//	@Override
+//	public String toString() {
+//		return "ISCAccount [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password
+//				+ ", roles=" + roles + "]";
+//	}
 
 
 

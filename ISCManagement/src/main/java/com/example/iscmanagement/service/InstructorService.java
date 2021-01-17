@@ -16,33 +16,59 @@ public class InstructorService {
 	private InstructorRepo instructorRepository;
 	
 	//getAllList
-	public List<Instructor> getAllList(){
-		return instructorRepository.findAll();
-	}
-	
-	//findByID
-	public Instructor getOneInstructorById(Long id){
-		return instructorRepository.findById(id).get();
-	}
-	
-	
-	public Instructor findInstructorByInsCode( String insCode) {
-		return instructorRepository.findByInsCode(insCode);
-	}
-	
-	//find Instructor By insCode có tồn tại hay chưa để check nó là duy nhất
-		public List<String> findInstructorByInsCodeUpdate( String insCode) {
-			return instructorRepository.findByInsCodeUpdate(insCode);
+		public List<Instructor> getAllInstructor(){
+			return instructorRepository.findAll();
 		}
 	
-	//save update or insert
-	public Instructor saveInstructor(Instructor instructor) {
-		return instructorRepository.save(instructor);
-	}
+//	//getAllList
+//	public List<Instructor> getAllList(){
+//		return instructorRepository.findAll();
+//	}
 	
-	//delete
-	public void deleteById(Long id) {
-		instructorRepository.deleteById(id);
-
+	public Instructor getInstructor(long id) {
+		return instructorRepository.findById(id).get();
 	}
+		
+	// insert Instructor
+	public Instructor insertInstructor(Instructor Instructor) {
+		return instructorRepository.save(Instructor);
+	}
+
+	// delete Instructor by id
+	public void deleteInstructor(long id) {
+		instructorRepository.deleteById(id);
+	}
+	// check student code update, true is OK we can update
+	public boolean checkInsCodeUpdate(String oldInsCode, String newInsCode) {
+		if(instructorRepository.checkInsCodeUpdate(oldInsCode, newInsCode).size()!= 0) {
+			return false;
+		}
+		return true;
+		
+	}	
+	//findByID
+//	public Instructor getOneInstructorById(Long id){
+//		return instructorRepository.findById(id).get();
+//	}
+//	
+//	
+//	public Instructor findInstructorByInsCode( String insCode) {
+//		return instructorRepository.findByInsCode(insCode);
+//	}
+//	
+//	//find Instructor By insCode có tồn tại hay chưa để check nó là duy nhất
+//		public List<String> findInstructorByInsCodeUpdate( String insCode) {
+//			return instructorRepository.findByInsCodeUpdate(insCode);
+//		}
+//	
+//	//save update or insert
+//	public Instructor saveInstructor(Instructor instructor) {
+//		return instructorRepository.save(instructor);
+//	}
+//	
+//	//delete
+//	public void deleteById(Long id) {
+//		instructorRepository.deleteById(id);
+//
+//	}
 }

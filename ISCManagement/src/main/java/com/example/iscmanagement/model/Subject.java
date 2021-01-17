@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -22,9 +23,15 @@ public class Subject {
 	private double subCredit;
 	private double subPassScore;
 	private EnumStatus subStatus;
+//	@OneToMany(mappedBy = "subject")
+//	@JsonManagedReference(value = "subject")
+//	private List<Classes> classes;
+	
 	@OneToMany(mappedBy = "subject")
-	@JsonManagedReference(value = "subject")
+	@JsonBackReference	
 	private List<Classes> classes;
+	
+	
 	public Subject(Long subID, String subCode, String subName, double subCredit, double subPassScore,
 			EnumStatus subStatus, List<Classes> classes) {
 		super();

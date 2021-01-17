@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 public class Intake {
 	@Id
@@ -20,9 +22,15 @@ public class Intake {
 	private EnumStatus intakeStatus;
 	@Column(length = 2000)
 	private String note;
-	@ManyToOne
+	
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "major_fk")
 	private Major major;
+
+	//	@ManyToOne
+//	@JoinColumn(name = "major_fk")
+//	private Major major;
 	@ManyToMany
 	@JoinTable(name = "join_intake_std", joinColumns = @JoinColumn(name = "intake_fk"), inverseJoinColumns = @JoinColumn(name = "student_fk"))
 	private List<Student> students;
